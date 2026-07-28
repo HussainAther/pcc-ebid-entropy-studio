@@ -67,3 +67,7 @@ Every stochastic demo uses a visible fixed seed. API inputs are validated. The U
 ## License
 
 No license was present in the supplied source repository. Choose an open-source license before public distribution; Apache-2.0 or MIT are reasonable candidates, but this project does not presume ownership rights over archived manuscripts or third-party PDFs.
+
+## Current milestone: executable experiment runs
+
+Entropy Studio now separates experiment definitions from immutable run records. The Simulation Bench can execute the registered E-007 cyclic-replicator toy protocol, capture measurement series, compute registered observables, preserve a reproducibility manifest, and derive result-backed Evidence Graph relations. See `EXPERIMENT-RUNNER.md`.

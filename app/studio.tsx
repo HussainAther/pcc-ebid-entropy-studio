@@ -2,10 +2,13 @@
 
 import { ChangeEvent, createContext, useContext, useMemo, useState } from "react";
 
-import type { EvidenceLevel, ResearchSource, ResearchView, ResearchWorkspace } from "./models/research";
+import type { EvidenceLevel, ExperimentRun, ResearchSource, ResearchView, ResearchWorkspace } from "./models/research";
 import { defaultWorkspaceId, getWorkspace, workspaceRegistry } from "./data/workspaces";
+import { extendEvidenceGraphWithRuns } from "./data/runEvidence";
+import { executeExperimentRun } from "./lib/experimentRunner";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
+const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void }>({ runs: [], addRun: () => undefined });
 
 function useWorkspace(): ResearchWorkspace {
   const workspace = useContext(WorkspaceContext);
@@ -51,11 +54,102 @@ function Corpus() {
   </div>;
 }
 
+function Observables() {
+  const workspace = useWorkspace();
+  const { observables, sources } = workspace;
+  const [selectedId, setSelectedId] = useState(observables[0]?.id ?? "");
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("all");
+
+  const categories = useMemo(() => Array.from(new Set(observables.map(item => item.category))), [observables]);
+  const filtered = observables.filter(item => {
+    const matchesCategory = category === "all" || item.category === category;
+    const haystack = `${item.id} ${item.name} ${item.symbol} ${item.description} ${item.tags.join(" ")}`.toLowerCase();
+    return matchesCategory && haystack.includes(query.toLowerCase());
+  });
+  const selected = observables.find(item => item.id === selectedId) ?? filtered[0] ?? observables[0];
+  const sourceNames = selected?.sourceIds.map(id => sources.find(source => source.id === id)?.name ?? id) ?? [];
+  const implemented = observables.filter(item => item.implementationStatus === "implemented").length;
+  const experimentReady = observables.filter(item => item.validWhen.length > 0 && item.failureModes.length > 0).length;
+
+  if (!selected) return <div className="view"><Notice title="Registry empty">No observable definitions have been registered for this workspace.</Notice></div>;
+
+  return <div className="view">
+    <SectionHead eyebrow="02 · Observable registry" title="Measurable quantities, estimators, and validity bounds"/>
+    <p className="lede">Every EBID experiment should reference a registered observable by ID. Definitions record the equation, estimator, assumptions, failure modes, provenance, and implementation state in one auditable place.</p>
+    <div className="stats compact"><Stat label="Registered" value={String(observables.length).padStart(2,"0")} foot="workspace definitions"/><Stat label="Implemented" value={String(implemented).padStart(2,"0")} foot="code path recorded"/><Stat label="Experiment-ready" value={String(experimentReady).padStart(2,"0")} foot="validity + failures declared"/><Stat label="Categories" value={String(categories.length).padStart(2,"0")} foot="comparison dimensions"/></div>
+    <div className="observable-toolbar"><input aria-label="Search observables" placeholder="Search name, symbol, ID, or tag" value={query} onChange={event=>setQuery(event.target.value)}/><select aria-label="Filter observable category" value={category} onChange={event=>setCategory(event.target.value)}><option value="all">All categories</option>{categories.map(item=><option key={item} value={item}>{item}</option>)}</select></div>
+    <div className="observable-layout">
+      <div className="observable-list">{filtered.map(item=><button key={item.id} className={selected.id===item.id?'active':''} onClick={()=>setSelectedId(item.id)}><div><code>{item.id}</code><span className={`implementation ${item.implementationStatus}`}>{item.implementationStatus}</span></div><b>{item.name}</b><small>{item.symbol} · {item.category}</small><p>{item.description}</p></button>)}{filtered.length===0&&<Notice title="No matches">Adjust the search text or category filter.</Notice>}</div>
+      <section className="paper observable-detail">
+        <div className="observable-title"><div><code>{selected.id}</code><span>{selected.category}</span></div><span className={`implementation ${selected.implementationStatus}`}>{selected.implementationStatus}</span></div>
+        <h2>{selected.name}</h2><p className="observable-description">{selected.description}</p>
+        <div className="equation">{selected.formula}</div>
+        <div className="observable-grid"><div><label>Interpretation</label><p>{selected.interpretation}</p></div><div><label>Output</label><p>{selected.output}</p></div></div>
+        <label>Required inputs</label><ul>{selected.requiredInputs.map(item=><li key={item}>{item}</li>)}</ul>
+        <label>Reference estimator</label><pre className="estimator">{selected.estimator}</pre>
+        <div className="observable-grid validity"><div><label>Valid when</label><ul>{selected.validWhen.map(item=><li key={item}>{item}</li>)}</ul></div><div><label>Known failure modes</label><ul>{selected.failureModes.map(item=><li key={item}>{item}</li>)}</ul></div></div>
+        <div className="registry-links"><div><span>Sources</span><b>{sourceNames.join(" · ") || "No source linked"}</b></div><div><span>Claims</span><b>{selected.relatedClaimIds.join(" · ") || "None"}</b></div><div><span>Hypotheses</span><b>{selected.relatedHypothesisIds.join(" · ") || "None"}</b></div>{selected.implementationPath&&<div><span>Implementation</span><b>{selected.implementationPath}</b></div>}</div>
+        <div className="observable-tags">{selected.tags.map(tag=><span key={tag}>{tag}</span>)}</div>
+      </section>
+    </div>
+  </div>;
+}
+
 function Graph() {
   const workspace = useWorkspace();
-  const { graph, claims } = workspace;
-  const graphNodes = graph.nodes;
-  return <div className="view"><SectionHead eyebrow="02 · Scientific knowledge graph" title="Claims, concepts, and evidence"/><p className="lede">The graph distinguishes conceptual mappings from mathematical relations. An edge is not evidence unless it links to a derivation, dataset, or experiment.</p><div className="graph-layout"><section className="paper graph"><div className="edges"><i/><i/><i/><i/><i/></div>{graphNodes.map(node=><button key={node.id} className={`node ${node.kind}`} style={{left:`${node.x}%`,top:`${node.y}%`}}><b>{node.label}</b><span>{node.kind}</span></button>)}</section><section className="paper claim-ledger"><SectionHead eyebrow="Claim ledger" title="Evidence states"/>{claims.map(c=><article className="claim" key={c.id}><div><code>{c.id}</code><Tag level={c.evidence}/></div><p>{c.text}</p><small>{c.relation}</small></article>)}</section></div><Notice title="Graph interpretation">Conceptual edges encode the research program’s current vocabulary. They should not be read as causal, biological, or universal claims without independent evidence.</Notice></div>;
+  const { runs } = useContext(RunContext);
+  const evidenceGraph = useMemo(() => extendEvidenceGraphWithRuns(workspace.evidenceGraph, runs), [workspace.evidenceGraph, runs]);
+  const [kind, setKind] = useState("all");
+  const [selectedNodeId, setSelectedNodeId] = useState(evidenceGraph.nodes[0]?.id ?? "");
+  const [selectedRelationId, setSelectedRelationId] = useState(evidenceGraph.relations[0]?.id ?? "");
+
+  const visibleNodes = kind === "all" ? evidenceGraph.nodes : evidenceGraph.nodes.filter(node => node.kind === kind);
+  const visibleNodeIds = new Set(visibleNodes.map(node => node.id));
+  const visibleRelations = evidenceGraph.relations.filter(relation => visibleNodeIds.has(relation.sourceId) && visibleNodeIds.has(relation.targetId));
+  const nodeById = new Map(evidenceGraph.nodes.map(node => [node.id, node]));
+  const selectedNode = nodeById.get(selectedNodeId) ?? visibleNodes[0] ?? evidenceGraph.nodes[0];
+  const selectedRelation = evidenceGraph.relations.find(relation => relation.id === selectedRelationId) ?? visibleRelations[0];
+  const connectedRelations = selectedNode
+    ? evidenceGraph.relations.filter(relation => relation.sourceId === selectedNode.id || relation.targetId === selectedNode.id)
+    : [];
+  const kinds = ["all", ...Array.from(new Set(evidenceGraph.nodes.map(node => node.kind)))];
+
+  return <div className="view">
+    <SectionHead eyebrow="03 · Evidence graph" title="Trace claims to sources, tests, and measurements"/>
+    <p className="lede">Every displayed edge is a typed research relation with a rationale and evidence state. Select a node to inspect its neighborhood, or select an edge to audit why the connection exists.</p>
+    <div className="evidence-toolbar">
+      <label>Entity layer<select value={kind} onChange={event => setKind(event.target.value)}>{kinds.map(value => <option key={value} value={value}>{value === "all" ? "All research entities" : value}</option>)}</select></label>
+      <div><span>{visibleNodes.length} nodes</span><span>{visibleRelations.length} visible relations</span><span>{evidenceGraph.relations.length} total relations</span></div>
+    </div>
+    <div className="evidence-layout">
+      <section className="paper evidence-canvas" aria-label="Evidence graph">
+        <div className="evidence-columns">{["Sources", "Methods", "Observables", "Claims", "Hypotheses", "Experiments"].map(label => <span key={label}>{label}</span>)}</div>
+        <svg className="evidence-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {visibleRelations.map(relation => {
+            const source = nodeById.get(relation.sourceId);
+            const target = nodeById.get(relation.targetId);
+            if (!source || !target) return null;
+            const active = selectedRelation?.id === relation.id || selectedNode?.id === source.id || selectedNode?.id === target.id;
+            return <line key={relation.id} x1={source.x} y1={source.y} x2={target.x} y2={target.y} className={`${relation.evidence} ${active ? "active" : ""}`} onClick={() => setSelectedRelationId(relation.id)}/>;
+          })}
+        </svg>
+        {visibleNodes.map(node => <button key={node.id} className={`evidence-node ${node.kind} ${selectedNode?.id === node.id ? "active" : ""}`} style={{left:`${node.x}%`,top:`${node.y}%`}} onClick={() => setSelectedNodeId(node.id)}><code>{node.entityId}</code><b>{node.label}</b><span>{node.kind}</span></button>)}
+      </section>
+      <aside className="evidence-inspector">
+        <section className="paper">
+          <span className="inspector-kicker">Selected entity</span>
+          {selectedNode ? <><div className="inspector-title"><div><code>{selectedNode.entityId}</code><h3>{selectedNode.label}</h3></div>{selectedNode.evidence && <Tag level={selectedNode.evidence}/>}</div><p>{selectedNode.summary}</p><dl><div><dt>Kind</dt><dd>{selectedNode.kind}</dd></div>{selectedNode.status && <div><dt>Status</dt><dd>{selectedNode.status}</dd></div>}<div><dt>Connections</dt><dd>{connectedRelations.length}</dd></div></dl></> : <p>No entity selected.</p>}
+        </section>
+        <section className="paper relation-audit">
+          <span className="inspector-kicker">Relation audit</span>
+          {selectedRelation ? <><div className="relation-route"><b>{nodeById.get(selectedRelation.sourceId)?.label}</b><span>{selectedRelation.label}</span><b>{nodeById.get(selectedRelation.targetId)?.label}</b></div><Tag level={selectedRelation.evidence}/><p>{selectedRelation.rationale}</p><code>{selectedRelation.id} · {selectedRelation.type}</code></> : <p>Select a visible relation.</p>}
+        </section>
+      </aside>
+    </div>
+    <section className="paper relation-ledger"><SectionHead eyebrow="Queryable relations" title="Evidence neighborhood"/><div className="relation-table"><div className="relation-table-head"><span>From</span><span>Relation</span><span>To</span><span>Evidence</span></div>{(connectedRelations.length ? connectedRelations : visibleRelations).map(relation => <button key={relation.id} className={selectedRelation?.id === relation.id ? "active" : ""} onClick={() => setSelectedRelationId(relation.id)}><b>{nodeById.get(relation.sourceId)?.label}</b><span>{relation.label}</span><b>{nodeById.get(relation.targetId)?.label}</b><Tag level={relation.evidence}/></button>)}</div></section>
+    <Notice title="Interpretation rule">A graph edge records a declared relationship, not automatic proof. Its rationale and evidence state must remain auditable, and unsupported links should be challenged or removed.</Notice>
+  </div>;
 }
 
 function Hypotheses() {
@@ -70,15 +164,85 @@ function Experiments() {
   const experimentDefinition = experiments[0];
   const [seed,setSeed]=useState(42),[epsilon,setEpsilon]=useState(.05),[window,setWindow]=useState(8);
   if (!experimentDefinition) return <div className="view"><Notice title="No experiment configured">This workspace does not yet contain an experiment definition.</Notice></div>;
-  const manifest={experiment_id:experimentDefinition.id,hypothesis_id:experimentDefinition.hypothesisId,model:experimentDefinition.model,seed,epsilon,fit_window:[0,window],observables:experimentDefinition.observables,controls:experimentDefinition.controls,primary_metric:experimentDefinition.primaryMetric};
+  const manifest={experiment_id:experimentDefinition.id,hypothesis_id:experimentDefinition.hypothesisId,model:experimentDefinition.model,seed,epsilon,fit_window:[0,window],observable_ids:experimentDefinition.observableIds,controls:experimentDefinition.controls,primary_metric:experimentDefinition.primaryMetric};
   return <div className="view"><SectionHead eyebrow="04 · Experiment planner" title="Pre-execution protocol E-007"/><p className="lede">Parameters, controls, analysis windows, and failure criteria are fixed before a result is generated.</p><div className="experiment-layout"><section className="paper form"><h3>Design variables</h3><label><span>Random seed <b>{seed}</b></span><input type="range" min="1" max="99" value={seed} onChange={e=>setSeed(+e.target.value)}/></label><label><span>Instability ε <b>{epsilon.toFixed(3)}</b></span><input type="range" min=".005" max=".15" step=".005" value={epsilon} onChange={e=>setEpsilon(+e.target.value)}/></label><label><span>Fit-window end <b>t = {window}</b></span><input type="range" min="2" max="20" value={window} onChange={e=>setWindow(+e.target.value)}/></label><h3>Required comparisons</h3>{manifest.controls.map(c=><label className="check" key={c}><input type="checkbox" defaultChecked/><span>{c}</span></label>)}<Notice title="No result yet">This is a protocol, not an outcome. Expected behavior is not recorded as observed behavior.</Notice></section><section className="paper manifest"><div className="manifest-head"><span>Reproducibility manifest</span><code>YAML / JSON ready</code></div><pre>{JSON.stringify(manifest,null,2)}</pre></section></div></div>;
 }
 
-function caStep(row:number[],rule:number){return row.map((_,i)=>{const code=(row[(i-1+row.length)%row.length]<<2)|(row[i]<<1)|row[(i+1)%row.length];return(rule>>code)&1})}
+function MiniSeries({ values }: { values: number[] }) {
+  const sample = values.filter(Number.isFinite);
+  if (!sample.length) return <div className="series empty">No numeric series</div>;
+  const min = Math.min(...sample), max = Math.max(...sample), span = Math.max(max - min, 1e-12);
+  const points = sample.map((value, index) => `${(index / Math.max(sample.length - 1, 1)) * 100},${36 - ((value - min) / span) * 32}`).join(" ");
+  return <svg className="series" viewBox="0 0 100 40" preserveAspectRatio="none" role="img" aria-label="Measurement time series"><polyline points={points} fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>;
+}
+
 function Simulation() {
-  const [rule,setRule]=useState(110),[time,setTime]=useState(8),[run,setRun]=useState(1);
-  const result=useMemo(()=>{const w=96,steps=64;let a=Array(w).fill(0),b=Array(w).fill(0);a[48]=1;b[48]=1;const diff:number[][]=[];const h:number[]=[];for(let t=0;t<steps;t++){if(t===time)b[43]^=1;const d=a.map((v,i)=>v^b[i]);diff.push(d);h.push(d.reduce((x,y)=>x+y,0)/w);a=caStep(a,rule);b=caStep(b,rule)}return{diff,h,final:h.at(-1)??0,max:Math.max(...h)}},[rule,time]);
-  return <div className="view"><SectionHead eyebrow="05 · Scientific simulation library" title="Perturbation experiment" action={<button className="button" onClick={()=>setRun(r=>r+1)}>Execute deterministic run</button>}/><p className="lede">A transparent cellular-automata benchmark for exact trajectory divergence. This formal system is a methods testbed, not evidence for a cognitive or biological claim.</p><div className="sim-controls"><label>Wolfram rule <input type="number" min="0" max="255" value={rule} onChange={e=>setRule(Math.max(0,Math.min(255,+e.target.value)))}/></label><label>Perturbation time <input type="number" min="1" max="50" value={time} onChange={e=>setTime(Math.max(1,Math.min(50,+e.target.value)))}/></label><span>Run ID <b>CA-{rule}-{time}-{run}</b></span></div><div className="stats compact"><Stat label="Final Hamming" value={result.final.toFixed(3)} foot="exact difference"/><Stat label="Maximum Hamming" value={result.max.toFixed(3)} foot="over 64 steps"/><Stat label="Restoration" value={(1-result.final).toFixed(3)} foot="exact coefficient"/><Stat label="Seed" value="single center" foot="periodic boundary"/></div><section className="paper"><div className="figure-head"><div><span>Figure E-CA-01</span><h3>XOR difference trajectory</h3></div><small>amber = control ≠ perturbation</small></div><div className="ca">{result.diff.flatMap((row,y)=>row.map((v,x)=><i key={`${x}-${y}`} className={v?'on':''}/>))}</div><div className="caption"><b>Methods.</b> Elementary CA with periodic boundary, one-bit perturbation at the declared step, and cellwise XOR comparison. Normalized Hamming distance is the divergent-cell fraction.</div></section></div>;
+  const workspace = useWorkspace();
+  const { runs, addRun } = useContext(RunContext);
+  const experiment = workspace.experiments[0];
+  const [seed,setSeed]=useState(42),[epsilon,setEpsilon]=useState(.05),[window,setWindow]=useState(8);
+  const [selectedRunId,setSelectedRunId]=useState("");
+  if (!experiment) return <div className="view"><Notice title="No executable experiment">Add an experiment definition before creating runs.</Notice></div>;
+
+  const workspaceRuns = runs.filter(run => run.experimentId === experiment.id);
+  const selectedRun = workspaceRuns.find(run => run.id === selectedRunId) ?? workspaceRuns.at(-1);
+  const slopeResult = selectedRun?.observableResults.find(result => result.observableId === "OBS-LOG-SLOPE");
+
+  function execute() {
+    const run = executeExperimentRun({
+      experiment,
+      observables: workspace.observables,
+      seed,
+      epsilon,
+      fitWindowEnd: window,
+      projectRevision: workspace.project.revision,
+      projectId: workspace.project.id,
+    });
+    addRun(run);
+    setSelectedRunId(run.id);
+  }
+
+  return <div className="view">
+    <SectionHead eyebrow="06 · Experiment runner" title="Execute, measure, and preserve evidence" action={<button className="button" onClick={execute}>Run E-007</button>}/>
+    <p className="lede">This deterministic local runner executes the registered cyclic-replicator protocol, records measurements, computes registered observables, freezes provenance, and adds result-backed relations to the Evidence Graph.</p>
+    <div className="experiment-layout">
+      <section className="paper form">
+        <h3>Frozen run parameters</h3>
+        <label><span>Random seed <b>{seed}</b></span><input type="range" min="1" max="999" value={seed} onChange={event=>setSeed(+event.target.value)}/></label>
+        <label><span>Instability ε <b>{epsilon.toFixed(3)}</b></span><input type="range" min="-.10" max=".15" step=".005" value={epsilon} onChange={event=>setEpsilon(+event.target.value)}/></label>
+        <label><span>Fit-window end <b>t = {window}</b></span><input type="range" min="1" max="11" step=".5" value={window} onChange={event=>setWindow(+event.target.value)}/></label>
+        <Notice title="Scope of evidence">A completed run evaluates the declared toy model and seed. It does not establish cross-domain universality.</Notice>
+      </section>
+      <section className="paper manifest">
+        <div className="manifest-head"><span>Execution request</span><code>deterministic · local</code></div>
+        <pre>{JSON.stringify({experimentId:experiment.id,hypothesisId:experiment.hypothesisId,seed,epsilon,fitWindowEnd:window,observableIds:experiment.observableIds,engine:"entropy-studio-replicator-runner@0.1.0"},null,2)}</pre>
+      </section>
+    </div>
+
+    <div className="stats compact">
+      <Stat label="Recorded runs" value={String(workspaceRuns.length).padStart(2,"0")} foot="current browser session"/>
+      <Stat label="Latest status" value={selectedRun?.status ?? "none"} foot={selectedRun?.id ?? "execute a run"}/>
+      <Stat label="Conclusion" value={selectedRun?.conclusion ?? "—"} foot="preregistered tolerance"/>
+      <Stat label="β estimate" value={slopeResult && Number.isFinite(slopeResult.value) ? slopeResult.value.toFixed(4) : "—"} foot="OBS-LOG-SLOPE"/>
+    </div>
+
+    {workspaceRuns.length > 0 && <div className="run-layout">
+      <section className="paper run-list">
+        <SectionHead eyebrow="Run ledger" title="Immutable session records"/>
+        {workspaceRuns.slice().reverse().map(run=><button key={run.id} className={selectedRun?.id===run.id?'active':''} onClick={()=>setSelectedRunId(run.id)}><code>{run.id}</code><b>{run.conclusion}</b><small>seed {run.randomSeed} · ε {String(run.parameters.epsilon)}</small></button>)}
+      </section>
+      {selectedRun && <section className="paper run-detail">
+        <div className="protocol-title"><code>{selectedRun.id}</code><Tag level={selectedRun.conclusion === "inconclusive" ? "hypothesis" : "supported"}/></div>
+        <h2>{selectedRun.conclusion.toUpperCase()}</h2>
+        <p>{selectedRun.conclusionRationale}</p>
+        <div className="result-grid">{selectedRun.observableResults.map(result=><article key={result.id}><span>{result.observableId}</span><strong>{Number.isFinite(result.value)?result.value.toPrecision(6):"non-finite"}</strong><small>{result.unit ?? "dimensionless"} · {result.computationTimeMs} ms</small></article>)}</div>
+        <h3>Recorded measurements</h3>
+        {selectedRun.measurements.map(measurement=><article className="measurement" key={measurement.id}><div><b>{measurement.name}</b><small>{measurement.values.length} samples</small></div><MiniSeries values={measurement.values}/></article>)}
+        <h3>Reproducibility provenance</h3>
+        <pre>{JSON.stringify({parameters:selectedRun.parameters,randomSeed:selectedRun.randomSeed,provenance:selectedRun.provenance,observableResultIds:selectedRun.observableResults.map(result=>result.id)},null,2)}</pre>
+      </section>}
+    </div>}
+  </div>;
 }
 
 function Review() {
@@ -90,9 +254,10 @@ function Review() {
 export function Studio() {
   const [view,setView]=useState<ResearchView>("overview");
   const [workspaceId,setWorkspaceId]=useState(defaultWorkspaceId);
+  const [runs,setRuns]=useState<ExperimentRun[]>([]);
   const workspace=getWorkspace(workspaceId);
   const { project, navigation } = workspace;
-  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,review:<Review/>}[view];
+  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,observables:<Observables/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,review:<Review/>}[view];
 
   function selectWorkspace(nextId: string) {
     const entry = workspaceRegistry.find(item => item.id === nextId);
@@ -101,5 +266,5 @@ export function Studio() {
     setView("overview");
   }
 
-  return <WorkspaceContext.Provider key={workspaceId} value={workspace}><main className="shell"><header className="mast"><div className="identity"><span>{workspace.name}</span><b>{project.shortTitle} Research Laboratory</b></div><div className="mission">{workspace.tagline} <i>·</i> evidence over speculation</div><div className="lab-status"><i/> local research state</div></header><aside className="sidebar"><div className="workspace-picker"><span>Workspace</span><select aria-label="Research workspace" value={workspaceId} onChange={event=>selectWorkspace(event.target.value)}>{workspaceRegistry.map(entry=><option key={entry.id} value={entry.id} disabled={!entry.workspace}>{entry.label}{entry.availability === "planned" ? " · planned" : ""}</option>)}</select><small>{workspaceRegistry.find(entry=>entry.id===workspaceId)?.description}</small></div><div className="program"><span>Research program</span><b>{project.title}</b><small>Program revision {project.revision}</small></div><nav>{navigation.map(v=><button key={v.id} className={view===v.id?'active':''} onClick={()=>setView(v.id)}><code>{v.index}</code><span><b>{v.label}</b><small>{v.note}</small></span></button>)}</nav><div className="scope"><span>Epistemic status</span><b>{project.epistemicStatus}</b><small>{project.disclaimer}</small></div></aside><section className="content">{content}<footer><span>{project.shortTitle} is loaded from the Entropy Studio workspace registry.</span><b>All AI contributions require human verification.</b></footer></section></main></WorkspaceContext.Provider>;
+  return <WorkspaceContext.Provider key={workspaceId} value={workspace}><RunContext.Provider value={{runs,addRun:run=>setRuns(current=>[...current,run])}}><main className="shell"><header className="mast"><div className="identity"><span>{workspace.name}</span><b>{project.shortTitle} Research Laboratory</b></div><div className="mission">{workspace.tagline} <i>·</i> evidence over speculation</div><div className="lab-status"><i/> local research state</div></header><aside className="sidebar"><div className="workspace-picker"><span>Workspace</span><select aria-label="Research workspace" value={workspaceId} onChange={event=>selectWorkspace(event.target.value)}>{workspaceRegistry.map(entry=><option key={entry.id} value={entry.id} disabled={!entry.workspace}>{entry.label}{entry.availability === "planned" ? " · planned" : ""}</option>)}</select><small>{workspaceRegistry.find(entry=>entry.id===workspaceId)?.description}</small></div><div className="program"><span>Research program</span><b>{project.title}</b><small>Program revision {project.revision}</small></div><nav>{navigation.map(v=><button key={v.id} className={view===v.id?'active':''} onClick={()=>setView(v.id)}><code>{v.index}</code><span><b>{v.label}</b><small>{v.note}</small></span></button>)}</nav><div className="scope"><span>Epistemic status</span><b>{project.epistemicStatus}</b><small>{project.disclaimer}</small></div></aside><section className="content">{content}<footer><span>{project.shortTitle} is loaded from the Entropy Studio workspace registry.</span><b>All AI contributions require human verification.</b></footer></section></main></RunContext.Provider></WorkspaceContext.Provider>;
 }

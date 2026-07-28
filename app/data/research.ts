@@ -1,8 +1,10 @@
 import type { ResearchWorkspace } from "../models/research";
+import { createPccObservables } from "./observables";
+import { createEvidenceGraph } from "./evidenceGraph";
 
 const projectId = "project-pcc-ebid";
 
-export const pccWorkspace: ResearchWorkspace = {
+const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
   id: "workspace-pcc",
   name: "Entropy Studio",
   tagline: "Evidence-aware computational research",
@@ -32,19 +34,20 @@ export const pccWorkspace: ResearchWorkspace = {
   navigation: [
     { id: "overview", index: "00", label: "Research map", note: "program state" },
     { id: "corpus", index: "01", label: "Literature corpus", note: "sources + methods" },
-    { id: "graph", index: "02", label: "Knowledge graph", note: "claims + relations" },
-    { id: "hypotheses", index: "03", label: "Hypothesis ledger", note: "testable questions" },
-    { id: "experiments", index: "04", label: "Experiment design", note: "controls + metrics" },
-    { id: "simulation", index: "05", label: "Simulation bench", note: "execute + compare" },
-    { id: "review", index: "06", label: "Critical review", note: "claims + limitations" },
+    { id: "observables", index: "02", label: "Observable registry", note: "definitions + estimators" },
+    { id: "graph", index: "03", label: "Knowledge graph", note: "claims + relations" },
+    { id: "hypotheses", index: "04", label: "Hypothesis ledger", note: "testable questions" },
+    { id: "experiments", index: "05", label: "Experiment design", note: "controls + metrics" },
+    { id: "simulation", index: "06", label: "Simulation bench", note: "execute + compare" },
+    { id: "review", index: "07", label: "Critical review", note: "claims + limitations" },
   ],
   lifecycle: [
     { index: "01", title: "Corpus", description: "Extract methods, equations, assumptions", view: "corpus" },
-    { index: "02", title: "Claims", description: "Connect statements to evidence", view: "graph" },
-    { index: "03", title: "Hypotheses", description: "Define falsifiable alternatives", view: "hypotheses" },
-    { index: "04", title: "Experiments", description: "Specify controls and metrics", view: "experiments" },
-    { index: "05", title: "Results", description: "Execute without inventing outcomes", view: "simulation" },
-    { index: "06", title: "Critique", description: "Stress-test interpretation", view: "review" },
+    { index: "02", title: "Observables", description: "Define estimators and validity bounds", view: "observables" },
+    { index: "03", title: "Claims", description: "Connect statements to evidence", view: "graph" },
+    { index: "04", title: "Hypotheses", description: "Define falsifiable alternatives", view: "hypotheses" },
+    { index: "05", title: "Experiments", description: "Specify controls and metrics", view: "experiments" },
+    { index: "06", title: "Results", description: "Execute without inventing outcomes", view: "simulation" },
   ],
   claims: [
     { id: "C-012", text: "Cyclic non-transitive interactions can sustain oscillatory regimes.", evidence: "supported", sourceIds: ["SRC-REPLICATOR"], relation: "supports H-003", projectId },
@@ -67,6 +70,7 @@ export const pccWorkspace: ResearchWorkspace = {
     { id: "M-005", name: "Pitchfork / Ginzburg–Landau system", status: "described-in-notes", projectId },
     { id: "M-006", name: "Log-growth regression", status: "described-in-notes", projectId },
   ],
+  observables: createPccObservables(projectId),
   graph: {
     nodes: [
       { id: "pcc", label: "PCC", kind: "framework", x: 50, y: 50, projectId },
@@ -97,7 +101,7 @@ export const pccWorkspace: ResearchWorkspace = {
     },
   ],
   experiments: [
-    { id: "E-007", title: "Local entropy-growth recovery", hypothesisId: "H-003", model: "cyclic_dissipative_replicator", observables: ["shannon_deficit", "kl_to_equilibrium", "quadratic_distance"], controls: ["stable ε < 0", "neutral ε = 0", "bad observable |x₀|"], primaryMetric: "absolute slope error |β̂ − 2λ|max", status: "active", projectId },
+    { id: "E-007", title: "Local entropy-growth recovery", hypothesisId: "H-003", model: "cyclic_dissipative_replicator", observableIds: ["OBS-DEFICIT", "OBS-KL", "OBS-QUADRATIC", "OBS-LOG-SLOPE"], controls: ["stable ε < 0", "neutral ε = 0", "bad observable |x₀|"], primaryMetric: "absolute slope error |β̂ − 2λ|max", status: "active", projectId },
   ],
   reviewConcerns: [
     { id: "R01", severity: "major", title: "Unsupported universality language", description: "“Domain-independent” is stronger than the current toy-model evidence.", evidence: "speculation", projectId },
@@ -106,4 +110,9 @@ export const pccWorkspace: ResearchWorkspace = {
     { id: "R04", severity: "major", title: "Finite-size and saturation effects", description: "Local slope claims should be separated from nonlinear late-time regimes.", evidence: "hypothesis", projectId },
     { id: "R05", severity: "major", title: "Missing independent reproduction", description: "Most evidence currently originates inside the same research program.", evidence: "speculation", projectId },
   ],
+};
+
+export const pccWorkspace: ResearchWorkspace = {
+  ...pccWorkspaceBase,
+  evidenceGraph: createEvidenceGraph(pccWorkspaceBase),
 };

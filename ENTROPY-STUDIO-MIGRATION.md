@@ -28,3 +28,11 @@ Then route the application by workspace slug, for example `/workspaces/pcc-ebid`
 - STRX, WebAR, and ML Research are represented as disabled planned entries until typed workspace datasets are added.
 - Resetting the active view to the overview on workspace change prevents stale cross-workspace state.
 - Research views now consume the active workspace through a React context rather than module-level globals.
+
+## Observable registry milestone
+
+Entropy Studio now includes a typed observable registry. Observable formulas and estimator assumptions are no longer free-text experiment fields. Experiments reference stable observable IDs, and the UI exposes search, category filtering, validity conditions, failure modes, provenance, and implementation status.
+
+## Evidence Graph milestone
+
+Entropy Studio now derives a typed evidence network from workspace sources, methods, observables, claims, hypotheses, and experiments. The graph UI supports entity-layer filtering, node-neighborhood inspection, relation auditing, and evidence-state display. Relation integrity is validated through `validateEvidenceGraph`.

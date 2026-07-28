@@ -3,6 +3,7 @@ export type EntityId = string;
 export type ResearchView =
   | "overview"
   | "corpus"
+  | "observables"
   | "graph"
   | "hypotheses"
   | "experiments"
@@ -104,6 +105,62 @@ export interface GraphEdge {
   projectId: EntityId;
 }
 
+
+export type EvidenceNodeKind =
+  | "source"
+  | "claim"
+  | "hypothesis"
+  | "experiment"
+  | "run"
+  | "result"
+  | "observable"
+  | "method";
+
+export type EvidenceRelationType =
+  | "documents"
+  | "supports"
+  | "challenges"
+  | "grounds"
+  | "derived-from"
+  | "tested-by"
+  | "measured-by"
+  | "implemented-by"
+  | "uses"
+  | "produces"
+  | "computed-with"
+  | "supports-with-result"
+  | "challenges-with-result"
+  | "reports";
+
+export interface EvidenceNode {
+  id: EntityId;
+  entityId: EntityId;
+  kind: EvidenceNodeKind;
+  label: string;
+  summary: string;
+  evidence?: EvidenceLevel;
+  status?: string;
+  x: number;
+  y: number;
+  projectId: EntityId;
+}
+
+export interface EvidenceRelation {
+  id: EntityId;
+  sourceId: EntityId;
+  targetId: EntityId;
+  type: EvidenceRelationType;
+  label: string;
+  rationale: string;
+  evidence: EvidenceLevel;
+  projectId: EntityId;
+}
+
+export interface EvidenceGraph {
+  nodes: EvidenceNode[];
+  relations: EvidenceRelation[];
+}
+
 export interface Hypothesis {
   id: EntityId;
   title: string;
@@ -116,15 +173,106 @@ export interface Hypothesis {
   projectId: EntityId;
 }
 
+export type ObservableCategory =
+  | "entropy"
+  | "divergence"
+  | "distance"
+  | "rate"
+  | "stability"
+  | "spatial"
+  | "benchmark";
+
+export type ObservableImplementationStatus =
+  | "implemented"
+  | "specified"
+  | "planned"
+  | "reference-only";
+
+export interface ObservableDefinition {
+  id: EntityId;
+  slug: string;
+  name: string;
+  symbol: string;
+  category: ObservableCategory;
+  description: string;
+  formula: string;
+  interpretation: string;
+  requiredInputs: string[];
+  output: string;
+  estimator: string;
+  validWhen: string[];
+  failureModes: string[];
+  implementationStatus: ObservableImplementationStatus;
+  implementationPath?: string;
+  sourceIds: EntityId[];
+  relatedClaimIds: EntityId[];
+  relatedHypothesisIds: EntityId[];
+  tags: string[];
+  projectId: EntityId;
+}
+
 export interface ExperimentDefinition {
   id: EntityId;
   title: string;
   hypothesisId: EntityId;
   model: string;
-  observables: string[];
+  observableIds: EntityId[];
   controls: string[];
   primaryMetric: string;
   status: ResearchStatus;
+  projectId: EntityId;
+}
+
+
+export type ExperimentRunStatus =
+  | "queued"
+  | "running"
+  | "completed"
+  | "failed";
+
+export interface MeasurementSeries {
+  id: EntityId;
+  name: string;
+  unit?: string;
+  values: number[];
+  timestamps?: number[];
+  description?: string;
+}
+
+export interface ObservableResult {
+  id: EntityId;
+  observableId: EntityId;
+  value: number;
+  unit?: string;
+  confidence?: number;
+  computationTimeMs: number;
+  metadata: Record<string, string | number | boolean>;
+}
+
+export interface RunProvenance {
+  engine: string;
+  engineVersion: string;
+  observableRegistryVersion: string;
+  sourceRevision: string;
+  createdAt: string;
+  deterministic: boolean;
+}
+
+export interface ExperimentRun {
+  id: EntityId;
+  experimentId: EntityId;
+  hypothesisId: EntityId;
+  status: ExperimentRunStatus;
+  startedAt: string;
+  completedAt?: string;
+  parameters: Record<string, string | number | boolean>;
+  randomSeed: number;
+  measurements: MeasurementSeries[];
+  observableResults: ObservableResult[];
+  conclusion: "supports" | "challenges" | "inconclusive";
+  conclusionRationale: string;
+  notes: string[];
+  provenance: RunProvenance;
   projectId: EntityId;
 }
 
@@ -148,10 +296,12 @@ export interface ResearchWorkspace {
   claims: ResearchClaim[];
   sources: ResearchSource[];
   methods: ResearchMethod[];
+  observables: ObservableDefinition[];
   graph: {
     nodes: GraphNode[];
     edges: GraphEdge[];
   };
+  evidenceGraph: EvidenceGraph;
   hypotheses: Hypothesis[];
   experiments: ExperimentDefinition[];
   reviewConcerns: ReviewConcern[];
