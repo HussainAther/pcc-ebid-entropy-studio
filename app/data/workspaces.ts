@@ -17,30 +17,9 @@ export const workspaceRegistry: WorkspaceRegistryEntry[] = [
     id: pccWorkspace.id,
     label: "PCC / EBID",
     shortLabel: "PCC",
-    description: "Entropy, instability, and cyclic dynamical systems",
+    description: "Unified EBID research program across theory, simulation, ML, and training repositories",
     availability: "available",
     workspace: pccWorkspace,
-  },
-  {
-    id: "workspace-strx",
-    label: "STRX",
-    shortLabel: "STRX",
-    description: "Steerable ray-by-ray X-ray computed tomography",
-    availability: "planned",
-  },
-  {
-    id: "workspace-webar",
-    label: "WebAR",
-    shortLabel: "WebAR",
-    description: "Browser-based augmented-reality experiments",
-    availability: "planned",
-  },
-  {
-    id: "workspace-ml",
-    label: "ML Research",
-    shortLabel: "ML",
-    description: "Machine-learning experiments and evidence",
-    availability: "planned",
   },
 ];
 

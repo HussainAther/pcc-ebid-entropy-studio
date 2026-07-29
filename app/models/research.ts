@@ -4,6 +4,7 @@ export type ResearchView =
   | "overview"
   | "corpus"
   | "observables"
+  | "engines"
   | "graph"
   | "hypotheses"
   | "experiments"
@@ -213,6 +214,7 @@ export interface ObservableDefinition {
 
 export interface ExperimentDefinition {
   id: EntityId;
+  engineId: EntityId;
   title: string;
   hypothesisId: EntityId;
   model: string;
@@ -223,6 +225,46 @@ export interface ExperimentDefinition {
   projectId: EntityId;
 }
 
+
+export type RepositoryRole = "core" | "simulation" | "analysis" | "training";
+export type EngineStatus = "planned" | "available" | "validated";
+
+export interface RepositoryDefinition {
+  id: EntityId;
+  name: string;
+  fullName: string;
+  role: RepositoryRole;
+  description: string;
+  defaultBranch: string;
+  language: string;
+  visibility: "public" | "private";
+  status: EngineStatus;
+  projectId: EntityId;
+}
+
+export interface EngineEntrypoint {
+  id: EntityId;
+  label: string;
+  command: string;
+  protocol: "local" | "cli" | "python-module" | "artifact-import";
+  description: string;
+}
+
+export interface ResearchEngine {
+  id: EntityId;
+  name: string;
+  repositoryId: EntityId;
+  role: RepositoryRole;
+  description: string;
+  version: string;
+  status: EngineStatus;
+  deterministic: boolean;
+  entrypoints: EngineEntrypoint[];
+  supportedObservableIds: EntityId[];
+  supportedExperimentIds: EntityId[];
+  artifactSchemaVersion: string;
+  projectId: EntityId;
+}
 
 export type ExperimentRunStatus =
   | "queued"
@@ -250,7 +292,8 @@ export interface ObservableResult {
 }
 
 export interface RunProvenance {
-  engine: string;
+  engineId: EntityId;
+  repositoryId: EntityId;
   engineVersion: string;
   observableRegistryVersion: string;
   sourceRevision: string;
@@ -297,6 +340,8 @@ export interface ResearchWorkspace {
   sources: ResearchSource[];
   methods: ResearchMethod[];
   observables: ObservableDefinition[];
+  repositories: RepositoryDefinition[];
+  engines: ResearchEngine[];
   graph: {
     nodes: GraphNode[];
     edges: GraphEdge[];

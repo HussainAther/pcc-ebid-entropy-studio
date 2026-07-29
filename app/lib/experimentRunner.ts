@@ -150,7 +150,8 @@ export function executeExperimentRun(request: RunRequest): ExperimentRun {
       "This run is computational evidence for the declared toy model only.",
     ],
     provenance: {
-      engine: "entropy-studio-replicator-runner",
+      engineId: request.experiment.engineId,
+      repositoryId: "REPO-PCC",
       engineVersion: "0.1.0",
       observableRegistryVersion: "0.1.0",
       sourceRevision: request.projectRevision,

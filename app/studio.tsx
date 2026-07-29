@@ -6,6 +6,7 @@ import type { EvidenceLevel, ExperimentRun, ResearchSource, ResearchView, Resear
 import { defaultWorkspaceId, getWorkspace, workspaceRegistry } from "./data/workspaces";
 import { extendEvidenceGraphWithRuns } from "./data/runEvidence";
 import { executeExperimentRun } from "./lib/experimentRunner";
+import { importRunArtifact, validateRunArtifact } from "./lib/runArtifact";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void }>({ runs: [], addRun: () => undefined });
@@ -96,6 +97,42 @@ function Observables() {
   </div>;
 }
 
+function Engines() {
+  const workspace = useWorkspace();
+  const [selectedId, setSelectedId] = useState(workspace.engines[0]?.id ?? "");
+  const [role, setRole] = useState("all");
+  const filtered = workspace.engines.filter(engine => role === "all" || engine.role === role);
+  const selected = workspace.engines.find(engine => engine.id === selectedId) ?? filtered[0] ?? workspace.engines[0];
+  const repository = selected ? workspace.repositories.find(item => item.id === selected.repositoryId) : undefined;
+  const roles = Array.from(new Set(workspace.engines.map(engine => engine.role)));
+  const validated = workspace.engines.filter(engine => engine.status === "validated").length;
+  const available = workspace.engines.filter(engine => engine.status !== "planned").length;
+
+  if (!selected) return <div className="view"><Notice title="Registry empty">No repositories or engines are registered.</Notice></div>;
+
+  return <div className="view">
+    <SectionHead eyebrow="03 · Repository and engine registry" title="The EBID execution ecosystem"/>
+    <p className="lede">Entropy Studio owns experiment definitions and evidence provenance; registered repositories own theory, simulation, analysis, and model-training implementations. Every run identifies the exact engine and repository that produced it.</p>
+    <div className="stats compact"><Stat label="Repositories" value={String(workspace.repositories.length).padStart(2,"0")} foot="EBID codebases"/><Stat label="Engines" value={String(workspace.engines.length).padStart(2,"0")} foot="registered adapters"/><Stat label="Available" value={String(available).padStart(2,"0")} foot="usable or validated"/><Stat label="Validated" value={String(validated).padStart(2,"0")} foot="executed in studio"/></div>
+    <div className="observable-toolbar"><select aria-label="Filter engine role" value={role} onChange={event=>setRole(event.target.value)}><option value="all">All roles</option>{roles.map(item=><option key={item} value={item}>{item}</option>)}</select></div>
+    <div className="observable-layout">
+      <div className="observable-list">{filtered.map(engine=>{
+        const repo=workspace.repositories.find(item=>item.id===engine.repositoryId);
+        return <button key={engine.id} className={selected.id===engine.id?'active':''} onClick={()=>setSelectedId(engine.id)}><div><code>{engine.id}</code><span className={`implementation ${engine.status}`}>{engine.status}</span></div><b>{engine.name}</b><small>{engine.role} · {repo?.name ?? engine.repositoryId}</small><p>{engine.description}</p></button>;
+      })}</div>
+      <section className="paper observable-detail">
+        <div className="observable-title"><div><code>{selected.id}</code><span>{selected.role}</span></div><span className={`implementation ${selected.status}`}>{selected.status}</span></div>
+        <h2>{selected.name}</h2><p>{selected.description}</p>
+        <div className="two-col"><div><label>Repository</label><p><b>{repository?.fullName ?? selected.repositoryId}</b><br/><small>{repository?.language} · {repository?.defaultBranch} · {repository?.visibility}</small></p></div><div><label>Versioned contract</label><p><b>{selected.version}</b><br/><small>{selected.artifactSchemaVersion} · {selected.deterministic ? "deterministic" : "stochastic/controlled"}</small></p></div></div>
+        <label>Entrypoints</label><div className="method-list">{selected.entrypoints.map(entry=><div key={entry.id}><span>{entry.protocol}</span><b>{entry.label}</b><small><code>{entry.command}</code> · {entry.description}</small></div>)}</div>
+        <label>Supported observables</label><p>{selected.supportedObservableIds.length ? selected.supportedObservableIds.join(" · ") : "No observable contract declared yet."}</p>
+        <label>Supported experiments</label><p>{selected.supportedExperimentIds.length ? selected.supportedExperimentIds.join(" · ") : "No experiment adapter declared yet."}</p>
+      </section>
+    </div>
+    <section className="paper"><SectionHead eyebrow="Repository responsibilities" title="Clear ownership boundaries"/><div className="table-head"><span>Repository</span><span>Role</span><span>Status</span><span>Responsibility</span></div>{workspace.repositories.map(repo=><div className="source-row" key={repo.id}><b>{repo.fullName}</b><code>{repo.role}</code><span>{repo.status}</span><small>{repo.description}</small></div>)}</section>
+  </div>;
+}
+
 function Graph() {
   const workspace = useWorkspace();
   const { runs } = useContext(RunContext);
@@ -180,8 +217,11 @@ function Simulation() {
   const workspace = useWorkspace();
   const { runs, addRun } = useContext(RunContext);
   const experiment = workspace.experiments[0];
+  const engine = workspace.engines.find(item => item.id === experiment?.engineId);
+  const repository = workspace.repositories.find(item => item.id === engine?.repositoryId);
   const [seed,setSeed]=useState(42),[epsilon,setEpsilon]=useState(.05),[window,setWindow]=useState(8);
   const [selectedRunId,setSelectedRunId]=useState("");
+  const [importState,setImportState]=useState<{kind:"idle"|"success"|"error";message:string}>({kind:"idle",message:""});
   if (!experiment) return <div className="view"><Notice title="No executable experiment">Add an experiment definition before creating runs.</Notice></div>;
 
   const workspaceRuns = runs.filter(run => run.experimentId === experiment.id);
@@ -202,9 +242,30 @@ function Simulation() {
     setSelectedRunId(run.id);
   }
 
+  async function importArtifact(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      const parsed: unknown = JSON.parse(await file.text());
+      const validation = validateRunArtifact(parsed);
+      if (!validation.valid) throw new Error(validation.errors.join(" "));
+      const run = importRunArtifact(parsed, workspace.project.id);
+      const knownExperiment = workspace.experiments.some(item => item.id === run.experimentId);
+      const knownEngine = workspace.engines.some(item => item.id === run.provenance.engineId);
+      if (!knownExperiment) throw new Error(`Unknown experimentId ${run.experimentId}.`);
+      if (!knownEngine) throw new Error(`Unknown engineId ${run.provenance.engineId}.`);
+      addRun(run);
+      setSelectedRunId(run.id);
+      setImportState({kind:"success",message:`Imported ${run.id} from ${run.provenance.engineId}.`});
+    } catch (error) {
+      setImportState({kind:"error",message:error instanceof Error ? error.message : "Artifact import failed."});
+    }
+  }
+
   return <div className="view">
-    <SectionHead eyebrow="06 · Experiment runner" title="Execute, measure, and preserve evidence" action={<button className="button" onClick={execute}>Run E-007</button>}/>
-    <p className="lede">This deterministic local runner executes the registered cyclic-replicator protocol, records measurements, computes registered observables, freezes provenance, and adds result-backed relations to the Evidence Graph.</p>
+    <SectionHead eyebrow="07 · Experiment runner" title="Execute, import, and preserve evidence" action={<div className="action-row"><button className="button" onClick={execute}>Run E-007</button><label className="button secondary">Import run.json<input type="file" accept="application/json,.json" onChange={importArtifact}/></label></div>}/>
+    <p className="lede">Execute the browser-local replicator or import a schema-validated <code>entropy-run/1.0.0</code> artifact from PCC-Boids. Imported runs preserve engine, repository revision, measurements, registered observables, and conclusion provenance before entering the evidence workflow.</p>{importState.kind!=="idle" && <Notice title={importState.kind==="success"?"Artifact imported":"Import rejected"}>{importState.message}</Notice>}
     <div className="experiment-layout">
       <section className="paper form">
         <h3>Frozen run parameters</h3>
@@ -215,7 +276,7 @@ function Simulation() {
       </section>
       <section className="paper manifest">
         <div className="manifest-head"><span>Execution request</span><code>deterministic · local</code></div>
-        <pre>{JSON.stringify({experimentId:experiment.id,hypothesisId:experiment.hypothesisId,seed,epsilon,fitWindowEnd:window,observableIds:experiment.observableIds,engine:"entropy-studio-replicator-runner@0.1.0"},null,2)}</pre>
+        <pre>{JSON.stringify({experimentId:experiment.id,hypothesisId:experiment.hypothesisId,seed,epsilon,fitWindowEnd:window,observableIds:experiment.observableIds,engineId:experiment.engineId,engineVersion:engine?.version,repository:repository?.fullName,artifactSchemaVersion:engine?.artifactSchemaVersion},null,2)}</pre>
       </section>
     </div>
 
@@ -257,7 +318,7 @@ export function Studio() {
   const [runs,setRuns]=useState<ExperimentRun[]>([]);
   const workspace=getWorkspace(workspaceId);
   const { project, navigation } = workspace;
-  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,observables:<Observables/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,review:<Review/>}[view];
+  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,observables:<Observables/>,engines:<Engines/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,review:<Review/>}[view];
 
   function selectWorkspace(nextId: string) {
     const entry = workspaceRegistry.find(item => item.id === nextId);

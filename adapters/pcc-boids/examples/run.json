@@ -1,0 +1,194 @@
+{
+  "artifacts": [
+    {
+      "id": "RUN-BOIDS-NOISE-12345-CONFIG",
+      "kind": "configuration",
+      "mediaType": "application/json",
+      "path": "configs/noise-sweep.json"
+    }
+  ],
+  "conclusion": {
+    "hypothesisId": "H-BOIDS-001",
+    "rationale": "At least one preregistered transition threshold was not crossed within the configured chaos sweep; the benchmark is inconclusive and the sweep range or thresholds must be reviewed before interpretation.",
+    "status": "inconclusive"
+  },
+  "measurements": [
+    {
+      "id": "RUN-BOIDS-NOISE-12345-NOISE",
+      "name": "Chaos/noise level",
+      "values": [
+        0.0,
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.18,
+        0.25
+      ]
+    },
+    {
+      "id": "RUN-BOIDS-NOISE-12345-ALIGNMENT",
+      "name": "Mean polarization",
+      "timestamps": [
+        0.0,
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.18,
+        0.25
+      ],
+      "values": [
+        0.9982087882057831,
+        0.9987474935368392,
+        0.9987392537314512,
+        0.9981245866100228,
+        0.9986816375191059,
+        0.9981752100500251,
+        0.9981013540896787
+      ]
+    },
+    {
+      "id": "RUN-BOIDS-NOISE-12345-HEADING-ENTROPY",
+      "name": "Heading entropy",
+      "timestamps": [
+        0.0,
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.18,
+        0.25
+      ],
+      "values": [
+        0.6923339687446111,
+        0.6906216164924381,
+        0.6898830877743397,
+        0.691744126033509,
+        0.6884438023763043,
+        0.6883107160866128,
+        0.6906032976755387
+      ]
+    },
+    {
+      "id": "RUN-BOIDS-NOISE-12345-SPATIAL-ENTROPY",
+      "name": "Spatial entropy",
+      "timestamps": [
+        0.0,
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.18,
+        0.25
+      ],
+      "values": [
+        3.4114142198915616,
+        3.2506920708949796,
+        3.3288642388725935,
+        3.3884594334778697,
+        3.457832751609076,
+        3.3084953322655353,
+        3.2132182895549963
+      ]
+    },
+    {
+      "id": "RUN-BOIDS-NOISE-12345-SPEED-VARIANCE",
+      "name": "Speed variance",
+      "timestamps": [
+        0.0,
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.18,
+        0.25
+      ],
+      "values": [
+        0.00034343246403012434,
+        0.0006297712694351463,
+        0.000453871475414657,
+        0.00044137156920575233,
+        0.0005477250424126312,
+        0.000669706326830509,
+        0.000967843361157457
+      ]
+    }
+  ],
+  "notes": [
+    "Each noise level uses a deterministic derived seed.",
+    "This benchmark tests one implementation and parameterization; it does not establish universal early-warning behavior."
+  ],
+  "observableResults": [
+    {
+      "computationTimeMs": 0.0,
+      "id": "RES-12345-POLARIZATION",
+      "metadata": {
+        "noise": 0.25
+      },
+      "observableId": "OBS-POLARIZATION",
+      "value": 0.9981013540896787
+    },
+    {
+      "computationTimeMs": 0.0,
+      "id": "RES-12345-HEADING-ENTROPY",
+      "metadata": {
+        "noise": 0.25
+      },
+      "observableId": "OBS-HEADING-ENTROPY",
+      "value": 0.6906032976755387
+    },
+    {
+      "computationTimeMs": 0.0,
+      "id": "RES-12345-SPATIAL",
+      "metadata": {
+        "noise": 0.25
+      },
+      "observableId": "OBS-SPATIAL",
+      "value": 3.2132182895549963
+    },
+    {
+      "computationTimeMs": 0.0,
+      "id": "RES-12345-TRANSITION",
+      "metadata": {
+        "alignment_collapse": 0.25,
+        "entropy_rise": 0.25
+      },
+      "observableId": "OBS-TRANSITION-LEAD",
+      "unit": "noise",
+      "value": 0.0
+    }
+  ],
+  "provenance": {
+    "deterministic": true,
+    "engineVersion": "0.2.0",
+    "observableRegistryVersion": "0.2.0",
+    "repository": "HussainAther/pcc-boids",
+    "repositoryId": "REPO-PCC-BOIDS",
+    "revision": "uncommitted-local-adapter"
+  },
+  "run": {
+    "completedAt": "2026-07-29T15:42:51.716087+00:00",
+    "engineId": "ENGINE-PCC-BOIDS",
+    "experimentId": "E-BOIDS-001",
+    "hypothesisId": "H-BOIDS-001",
+    "id": "RUN-BOIDS-NOISE-12345",
+    "parameters": {
+      "control": 1.0,
+      "dt": 0.2,
+      "height": 100.0,
+      "max_speed": 2.5,
+      "n_agents": 80,
+      "neighbor_radius": 12.0,
+      "noise_level_count": 7,
+      "pressure": 0.35,
+      "separation_radius": 3.0,
+      "steps": 240,
+      "width": 100.0
+    },
+    "seed": 12345,
+    "startedAt": "2026-07-29T15:42:42.784007+00:00",
+    "status": "completed"
+  },
+  "schemaVersion": "entropy-run/1.0.0"
+}

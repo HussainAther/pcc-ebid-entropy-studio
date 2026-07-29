@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy-studio.local/schemas/entropy-run-artifact-1.0.0.json",
+  "title": "Entropy Studio Run Artifact",
+  "type": "object",
+  "required": ["schemaVersion", "run", "provenance", "measurements", "observableResults", "artifacts", "conclusion"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-run/1.0.0" },
+    "run": {
+      "type": "object",
+      "required": ["id", "experimentId", "hypothesisId", "engineId", "seed", "parameters", "startedAt", "completedAt", "status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "experimentId": { "type": "string", "minLength": 1 },
+        "hypothesisId": { "type": "string", "minLength": 1 },
+        "engineId": { "type": "string", "minLength": 1 },
+        "seed": { "type": "integer" },
+        "parameters": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } },
+        "startedAt": { "type": "string" },
+        "completedAt": { "type": "string" },
+        "status": { "enum": ["completed", "failed"] }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["repository", "repositoryId", "revision", "engineVersion", "observableRegistryVersion", "deterministic"],
+      "properties": {
+        "repository": { "type": "string" },
+        "repositoryId": { "type": "string" },
+        "revision": { "type": "string" },
+        "engineVersion": { "type": "string" },
+        "observableRegistryVersion": { "type": "string" },
+        "deterministic": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "measurements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "values"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "unit": { "type": "string" },
+          "description": { "type": "string" },
+          "values": { "type": "array", "items": { "type": "number" } },
+          "timestamps": { "type": "array", "items": { "type": "number" } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "observableResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "observableId", "value", "computationTimeMs", "metadata"],
+        "properties": {
+          "id": { "type": "string" },
+          "observableId": { "type": "string" },
+          "value": { "type": "number" },
+          "unit": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "computationTimeMs": { "type": "number", "minimum": 0 },
+          "metadata": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "path"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "enum": ["figure", "table", "trajectory", "log", "configuration"] },
+          "path": { "type": "string" },
+          "mediaType": { "type": "string" },
+          "sha256": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conclusion": {
+      "type": "object",
+      "required": ["status", "hypothesisId", "rationale"],
+      "properties": {
+        "status": { "enum": ["supports", "challenges", "inconclusive"] },
+        "hypothesisId": { "type": "string" },
+        "rationale": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

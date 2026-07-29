@@ -1,6 +1,7 @@
 import type { ResearchWorkspace } from "../models/research";
 import { createPccObservables } from "./observables";
 import { createEvidenceGraph } from "./evidenceGraph";
+import { repositories, researchEngines } from "./engines";
 
 const projectId = "project-pcc-ebid";
 
@@ -35,11 +36,12 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "overview", index: "00", label: "Research map", note: "program state" },
     { id: "corpus", index: "01", label: "Literature corpus", note: "sources + methods" },
     { id: "observables", index: "02", label: "Observable registry", note: "definitions + estimators" },
-    { id: "graph", index: "03", label: "Knowledge graph", note: "claims + relations" },
-    { id: "hypotheses", index: "04", label: "Hypothesis ledger", note: "testable questions" },
-    { id: "experiments", index: "05", label: "Experiment design", note: "controls + metrics" },
-    { id: "simulation", index: "06", label: "Simulation bench", note: "execute + compare" },
-    { id: "review", index: "07", label: "Critical review", note: "claims + limitations" },
+    { id: "engines", index: "03", label: "Repository + engines", note: "execution ecosystem" },
+    { id: "graph", index: "04", label: "Knowledge graph", note: "claims + relations" },
+    { id: "hypotheses", index: "05", label: "Hypothesis ledger", note: "testable questions" },
+    { id: "experiments", index: "06", label: "Experiment design", note: "controls + metrics" },
+    { id: "simulation", index: "07", label: "Simulation bench", note: "execute + compare" },
+    { id: "review", index: "08", label: "Critical review", note: "claims + limitations" },
   ],
   lifecycle: [
     { index: "01", title: "Corpus", description: "Extract methods, equations, assumptions", view: "corpus" },
@@ -61,6 +63,7 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "SRC-REPLICATOR", name: "EBID model implementations", type: "Python", status: "executable", provenance: "archive", projectId },
     { id: "SRC-EXPERIMENTS", name: "Spatial sweep results", type: "NPZ", status: "provenance partial", provenance: "archive", projectId },
     { id: "SRC-NOTES", name: "Source limitations", type: "Markdown", status: "indexed", provenance: "archive", projectId },
+    { id: "SRC-BOIDS", name: "PCC-Boids simulation framework", type: "Python", status: "adapter validated", provenance: "archive", projectId },
   ],
   methods: [
     { id: "M-001", name: "Cyclic replicator dynamics", status: "code-located", projectId },
@@ -69,8 +72,11 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "M-004", name: "Spatial lattice sweeps", status: "code-located", projectId },
     { id: "M-005", name: "Pitchfork / Ginzburg–Landau system", status: "described-in-notes", projectId },
     { id: "M-006", name: "Log-growth regression", status: "described-in-notes", projectId },
+    { id: "M-007", name: "Seeded PCC-Boids noise sweep", status: "code-located", projectId },
   ],
   observables: createPccObservables(projectId),
+  repositories,
+  engines: researchEngines,
   graph: {
     nodes: [
       { id: "pcc", label: "PCC", kind: "framework", x: 50, y: 50, projectId },
@@ -97,11 +103,15 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
       id: "H-006", title: "Observable robustness", statement: "KL divergence and quadratic distance recover the same local growth exponent when both are smooth at the equilibrium.", disconfirmingOutcome: "Reject if their confidence intervals do not overlap in the declared linear window.", evidence: "hypothesis", assumptions: ["Both observables are smooth at equilibrium.", "The same fit window is used for both observables."], derivedFromIds: ["C-018", "SRC-EXPERIMENTS"], projectId,
     },
     {
+      id: "H-BOIDS-001", title: "Entropy precedes polarization collapse", statement: "During a preregistered PCC-Boids chaos sweep, heading entropy crosses its declared rise threshold at or before global polarization crosses its collapse threshold.", disconfirmingOutcome: "Reject for this benchmark if the first declared entropy-rise threshold occurs at a higher chaos level than polarization collapse across the preregistered sweep and seed ensemble.", evidence: "hypothesis", assumptions: ["Sweep levels and thresholds are fixed before execution.", "Tail averaging is identical at every chaos level.", "The same model parameters are used except for chaos and derived seed."], derivedFromIds: ["SRC-BOIDS", "C-027"], projectId,
+    },
+    {
       id: "H-011", title: "Cross-domain invariance", statement: "The same correspondence persists across replicator, physical, and learning toy systems.", disconfirmingOutcome: "Currently underspecified: domain mapping and equivalence criteria require revision.", evidence: "speculation", assumptions: ["Domain mappings preserve the relevant local dynamics."], derivedFromIds: ["C-027"], projectId,
     },
   ],
   experiments: [
-    { id: "E-007", title: "Local entropy-growth recovery", hypothesisId: "H-003", model: "cyclic_dissipative_replicator", observableIds: ["OBS-DEFICIT", "OBS-KL", "OBS-QUADRATIC", "OBS-LOG-SLOPE"], controls: ["stable ε < 0", "neutral ε = 0", "bad observable |x₀|"], primaryMetric: "absolute slope error |β̂ − 2λ|max", status: "active", projectId },
+    { id: "E-007", engineId: "ENGINE-LOCAL-REPLICATOR", title: "Local entropy-growth recovery", hypothesisId: "H-003", model: "cyclic_dissipative_replicator", observableIds: ["OBS-DEFICIT", "OBS-KL", "OBS-QUADRATIC", "OBS-LOG-SLOPE"], controls: ["stable ε < 0", "neutral ε = 0", "bad observable |x₀|"], primaryMetric: "absolute slope error |β̂ − 2λ|max", status: "active", projectId },
+    { id: "E-BOIDS-001", engineId: "ENGINE-PCC-BOIDS", title: "Boids order-disorder transition under chaos", hypothesisId: "H-BOIDS-001", model: "pcc_boids_noise_sweep", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-TRANSITION-LEAD"], controls: ["fixed Pressure and Control", "fixed domain and agent count", "seeded initial conditions", "preregistered thresholds"], primaryMetric: "entropy transition lead Kcollapse - Kentropy", status: "active", projectId },
   ],
   reviewConcerns: [
     { id: "R01", severity: "major", title: "Unsupported universality language", description: "“Domain-independent” is stronger than the current toy-model evidence.", evidence: "speculation", projectId },

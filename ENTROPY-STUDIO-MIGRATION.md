@@ -36,3 +36,15 @@ Entropy Studio now includes a typed observable registry. Observable formulas and
 ## Evidence Graph milestone
 
 Entropy Studio now derives a typed evidence network from workspace sources, methods, observables, claims, hypotheses, and experiments. The graph UI supports entity-layer filtering, node-neighborhood inspection, relation auditing, and evidence-state display. Relation integrity is validated through `validateEvidenceGraph`.
+
+## Cross-repository execution milestone
+
+Added the first validated external-engine contract:
+
+- `entropy-run/1.0.0` JSON Schema
+- `E-BOIDS-001` order-disorder noise sweep
+- `ENGINE-PCC-BOIDS` validated adapter metadata
+- deterministic Python artifact generator
+- browser-side artifact validation and import
+- boids-specific observables and hypothesis registration
+- imported-run compatibility with the existing run ledger and Evidence Graph extension
