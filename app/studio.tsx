@@ -7,9 +7,14 @@ import { defaultWorkspaceId, getWorkspace, workspaceRegistry } from "./data/work
 import { extendEvidenceGraphWithRuns } from "./data/runEvidence";
 import { executeExperimentRun } from "./lib/experimentRunner";
 import { importRunArtifact, validateRunArtifact } from "./lib/runArtifact";
+import { executeAnalysis } from "./lib/analysisEngine";
+import { generateFigure } from "./lib/figureEngine";
+import { buildManuscript } from "./lib/publicationEngine";
+import { buildReproducibilityPackage } from "./lib/packageEngine";
+import { campaignRunCount, executeCampaign, type CampaignReport } from "./lib/campaignOrchestrator";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
-const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void }>({ runs: [], addRun: () => undefined });
+const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
 
 function useWorkspace(): ResearchWorkspace {
   const workspace = useContext(WorkspaceContext);
@@ -35,7 +40,7 @@ function Overview({ onNavigate }: { onNavigate: (v: ResearchView) => void }) {
       <div><span className="kicker">Active research program · {project.shortTitle}</span><h1>Can entropy make<br/><em>instability observable?</em></h1><p>{project.summary}</p></div>
       <div className="question-card"><span>Primary question · {project.questionId}</span><p>{project.primaryQuestion}</p><div><Tag level="hypothesis"/><small>last revised {project.updatedAt}</small></div></div>
     </div>
-    <div className="stats"><Stat label="Source artifacts" value={stats.sourceArtifacts.toLocaleString()} foot="archive audit"/><Stat label="Tracked claims" value={String(stats.trackedClaims)} foot={`${stats.claimsNeedingEvidence} need evidence`}/><Stat label="Experiments" value={String(stats.experiments).padStart(2,"0")} foot={`${stats.reproducibleExperiments} reproducible`}/><Stat label="Open questions" value={String(stats.openQuestions)} foot="human review required"/></div>
+    <div className="stats"><Stat label="Source artifacts" value={stats.sourceArtifacts.toLocaleString()} foot="archive audit"/><Stat label="Tracked claims" value={String(stats.trackedClaims)} foot={`${stats.claimsNeedingEvidence} need evidence`}/><Stat label="Experiments" value={String(stats.experiments).padStart(2,"0")} foot={`${stats.reproducibleExperiments} reproducible`}/><Stat label="Open questions" value={String(stats.openQuestions)} foot="human review required"/></div><section className="paper mission-control"><SectionHead eyebrow="Mission control" title="Research-to-publication state"/><div className="stats compact"><Stat label="Papers" value={String(workspace.papers.length).padStart(2,"0")} foot={`${workspace.papers.filter(p=>p.status==="draft").length} active drafts`}/><Stat label="Figures" value={String(workspace.figures.length).padStart(2,"0")} foot={`${workspace.figures.filter(f=>f.status!=="specified").length} generator-ready`}/><Stat label="Analyses" value={String(workspace.analyses.length).padStart(2,"0")} foot={`${workspace.analyses.filter(a=>a.preregistered).length} preregistered`}/><Stat label="Datasets" value={String(workspace.datasets.length).padStart(2,"0")} foot={`${workspace.datasets.filter(d=>d.status==="ready").length} manifest-ready`}/></div><div className="activity-strip"><span>Next scientific action</span><b>Execute or import registered runs, then regenerate figures and manuscript Results from those artifacts.</b></div></section>
     <section className="paper"><SectionHead eyebrow="Research lifecycle" title="From source material to reproducible evidence"/><div className="lifecycle">
       {lifecycle.map(stage=><button key={stage.index} onClick={()=>onNavigate(stage.view)}><i>{stage.index}</i><b>{stage.title}</b><span>{stage.description}</span></button>)}
     </div></section>
@@ -306,6 +311,115 @@ function Simulation() {
   </div>;
 }
 
+
+function downloadText(filename: string, content: string, type = "text/plain") {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+function ResultCards() {
+  const workspace = useWorkspace();
+  const { runs } = useContext(RunContext);
+  return <div className="result-cards">{workspace.experiments.map(experiment => {
+    const experimentRuns = runs.filter(run => run.experimentId === experiment.id);
+    const latest = experimentRuns.at(-1);
+    return <article key={experiment.id} className="paper result-card"><div><code>{experiment.id}</code><span className={`implementation ${latest ? "implemented" : "specified"}`}>{latest ? latest.status : "awaiting runs"}</span></div><h3>{experiment.title}</h3><dl><div><dt>Runs</dt><dd>{experimentRuns.length}</dd></div><div><dt>Hypothesis</dt><dd>{experiment.hypothesisId}</dd></div><div><dt>Latest conclusion</dt><dd>{latest?.conclusion ?? "not evaluated"}</dd></div><div><dt>Observables</dt><dd>{experiment.observableIds.length}</dd></div></dl>{latest && <small>{latest.id} · seed {latest.randomSeed} · {latest.provenance.engineId}</small>}</article>;
+  })}</div>;
+}
+
+
+function Orchestrator() {
+  const workspace = useWorkspace();
+  const { runs, addRuns } = useContext(RunContext);
+  const [selectedId, setSelectedId] = useState(workspace.campaigns[0]?.id ?? "");
+  const [report, setReport] = useState<CampaignReport | null>(null);
+  const [running, setRunning] = useState(false);
+  const campaign = workspace.campaigns.find(item => item.id === selectedId) ?? workspace.campaigns[0];
+  if (!campaign) return <div className="view"><Notice title="No campaigns registered">Create a research campaign to orchestrate execution and downstream publication outputs.</Notice></div>;
+  const experiment = workspace.experiments.find(item => item.id === campaign.experimentId);
+  const engine = workspace.engines.find(item => item.id === experiment?.engineId);
+  const executable = Boolean(engine?.status === "validated" && engine.entrypoints.some(entry => entry.protocol === "local"));
+
+  async function runCampaign() {
+    setRunning(true);
+    try {
+      const next = await executeCampaign({
+        campaign, experiment, engine, observables: workspace.observables, analyses: workspace.analyses,
+        figures: workspace.figures, papers: workspace.papers, datasets: workspace.datasets, existingRuns: runs,
+        projectRevision: workspace.project.revision, projectId: workspace.project.id,
+      });
+      setReport(next);
+      if (next.runs.length) addRuns(next.runs);
+    } finally { setRunning(false); }
+  }
+
+  return <div className="view">
+    <SectionHead eyebrow="08 · Experiment Orchestrator" title="Campaign execution and downstream refresh" action={<div className="action-row"><button className="button" disabled={running || !executable} onClick={()=>void runCampaign()}>{running ? "Executing campaign…" : "Execute campaign"}</button>{report && <button className="button secondary" onClick={()=>downloadText(`${report.campaignId}-report.json`,JSON.stringify(report,null,2),"application/json")}>Export campaign report</button>}</div>}/>
+    <p className="lede">A campaign freezes its parameter grid, executes every registered run, then chains statistics, figures, evidence summaries, manuscripts, and integrity-checked dataset packages. External engines remain import-gated.</p>
+    <div className="publication-layout">
+      <div className="publication-list">{workspace.campaigns.map(item=>{const itemExperiment=workspace.experiments.find(exp=>exp.id===item.experimentId);const itemEngine=workspace.engines.find(candidate=>candidate.id===itemExperiment?.engineId);const ready=itemEngine?.status==="validated"&&itemEngine.entrypoints.some(entry=>entry.protocol==="local");return <button key={item.id} className={item.id===campaign.id?"active":""} onClick={()=>{setSelectedId(item.id);setReport(null);}}><code>{item.id}</code><b>{item.title}</b><small>{ready?"browser-executable":"artifact import required"} · {campaignRunCount(item)} planned runs</small></button>})}</div>
+      <section className="paper manuscript">
+        <div className="action-row"><span className={`implementation ${executable?"implemented":"specified"}`}>{executable?"ready":"blocked on external artifacts"}</span><code>{engine?.id ?? "unknown engine"}</code></div>
+        <h2>{campaign.title}</h2><p>{campaign.description}</p>
+        <div className="stats compact"><Stat label="Planned runs" value={String(campaignRunCount(campaign))} foot={`${campaign.seeds.length} seeds`}/><Stat label="Axes" value={String(campaign.parameterAxes.length)} foot={campaign.parameterAxes.map(axis=>axis.name).join(", ")||"fixed"}/><Stat label="Analyses" value={String(campaign.analysisIds.length)} foot="registered definitions"/><Stat label="Outputs" value={String(campaign.figureIds.length+campaign.paperIds.length+campaign.datasetIds.length)} foot="figures · papers · datasets"/></div>
+        <h3>Frozen campaign manifest</h3><pre>{JSON.stringify({experimentId:campaign.experimentId,engineId:engine?.id,seeds:campaign.seeds,parameterAxes:campaign.parameterAxes,fixedParameters:campaign.fixedParameters,analysisIds:campaign.analysisIds,figureIds:campaign.figureIds,paperIds:campaign.paperIds,datasetIds:campaign.datasetIds},null,2)}</pre>
+        <h3>Execution graph</h3><div className="section-ledger">{campaign.steps.map(step=>{const result=report?.steps.find(item=>item.stepId===step.id);return <article key={step.id}><div><code>{step.id}</code><span className={`implementation ${result?.status==="completed"?"implemented":"specified"}`}>{result?.status ?? step.kind}</span></div><h3>{step.label}</h3><p>{result?.message ?? step.description}</p><small>{step.dependsOn.length?`depends on ${step.dependsOn.join(", ")}`:"root step"}</small></article>})}</div>
+        {!executable && <Notice title="Execution boundary">{engine?.name ?? "This engine"} is not available as a validated browser-local adapter. Generate its schema-valid run artifacts externally and import them through the Simulation Bench.</Notice>}
+        {report && <><h3>Campaign evidence summary</h3><Notice title={report.status==="completed"?"Campaign completed":"Campaign blocked"}>{report.evidence.statement}</Notice><dl className="definition-grid"><div><dt>Runs added</dt><dd>{report.runs.length}</dd></div><div><dt>Analyses</dt><dd>{report.analyses.filter(item=>item.status==="completed").length}/{report.analyses.length}</dd></div><div><dt>Figures</dt><dd>{report.figures.filter(item=>item.status==="generated").length}/{report.figures.length}</dd></div><div><dt>Packages</dt><dd>{report.packages.length}</dd></div></dl>{report.warnings.map(item=><p key={item}><small>{item}</small></p>)}</>}
+      </section>
+    </div>
+  </div>;
+}
+
+function Figures() {
+  const workspace = useWorkspace();
+  const { runs } = useContext(RunContext);
+  const [selectedId,setSelectedId]=useState(workspace.figures[0]?.id ?? "");
+  const figure=workspace.figures.find(item=>item.id===selectedId) ?? workspace.figures[0];
+  if (!figure) return <div className="view"><Notice title="No figures registered">Create a figure definition before generating publication graphics.</Notice></div>;
+  const product=generateFigure(figure,runs);
+  return <div className="view"><SectionHead eyebrow="08 · Figure Studio" title="Run-derived scientific graphics"/><p className="lede">Figure products are generated directly from completed run measurements. Each export records the contributing run IDs; missing data produces an explicit insufficient-data state.</p><div className="publication-layout"><div className="publication-list">{workspace.figures.map(item=>{const state=generateFigure(item,runs);return <button key={item.id} className={item.id===figure.id?"active":""} onClick={()=>setSelectedId(item.id)}><code>{item.id}</code><b>Figure {item.number} · {item.title}</b><small>{state.status} · {state.seriesCount} series</small></button>})}</div><section className="paper manuscript"><div className="action-row"><span className={`implementation ${product.status==="generated"?"implemented":"specified"}`}>{product.status}</span><button className="button" disabled={!product.svg} onClick={()=>product.svg&&downloadText(`${figure.id}.svg`,product.svg,"image/svg+xml")}>Export SVG</button><button className="button secondary" onClick={()=>downloadText(`${figure.id}-provenance.json`,JSON.stringify({...product,definition:figure,svg:undefined},null,2),"application/json")}>Export provenance</button></div><h2>{figure.title}</h2><p>{figure.caption}</p>{product.svg?<div className="figure-preview" dangerouslySetInnerHTML={{__html:product.svg}}/>:<Notice title="Awaiting compatible run">Import or execute a completed {figure.experimentIds.join(" / ")} run containing numeric measurement series.</Notice>}<dl className="definition-grid"><div><dt>Generator</dt><dd>{figure.generator}</dd></div><div><dt>Run IDs</dt><dd>{product.runIds.join(", ")||"—"}</dd></div><div><dt>Series</dt><dd>{product.seriesCount}</dd></div><div><dt>Observables</dt><dd>{figure.observableIds.join(", ")}</dd></div></dl>{product.warnings.map(warning=><p key={warning}><small>{warning}</small></p>)}</section></div></div>;
+}
+
+function Statistics() {
+  const workspace=useWorkspace();
+  const {runs}=useContext(RunContext);
+  return <div className="view"><SectionHead eyebrow="09 · Statistics Studio" title="Executable registered analyses"/><p className="lede">Each analysis is executed against compatible completed artifacts. Results include estimates, contributing run IDs, and limitations instead of a bare descriptive mean.</p><section className="analysis-grid">{workspace.analyses.map(analysis=>{const result=executeAnalysis(analysis,runs);return <article className="paper analysis-card" key={analysis.id}><div><code>{analysis.id}</code><span className={`implementation ${result.status==="completed"?"implemented":"specified"}`}>{result.status}</span></div><h3>{analysis.name}</h3><p>{analysis.method}</p><dl><div><dt>Kind</dt><dd>{analysis.kind}</dd></div><div><dt>Runs</dt><dd>{result.runIds.length}</dd></div><div><dt>Observations</dt><dd>{result.summary.n}</dd></div><div><dt>Mean</dt><dd>{result.summary.mean===undefined?"—":result.summary.mean.toPrecision(5)}</dd></div></dl><pre>{JSON.stringify(result.estimates,null,2)}</pre><ul>{result.limitations.map(item=><li key={item}>{item}</li>)}</ul><button className="button secondary" onClick={()=>downloadText(`${analysis.id}-result.json`,JSON.stringify({...analysis,result},null,2),"application/json")}>Export analysis result</button></article>})}</section></div>;
+}
+
+function Publications() {
+  const workspace = useWorkspace();
+  const { runs } = useContext(RunContext);
+  const [selectedId,setSelectedId]=useState(workspace.papers[0]?.id ?? "");
+  const paper=workspace.papers.find(item=>item.id===selectedId) ?? workspace.papers[0];
+  if (!paper) return <div className="view"><Notice title="No papers registered">Create a publication object to connect evidence, figures, and analyses.</Notice></div>;
+  const paperRuns=runs.filter(run=>paper.experimentIds.includes(run.experimentId));
+  const analysisResults=workspace.analyses.filter(item=>paper.analysisIds.includes(item.id)).map(item=>executeAnalysis(item,runs));
+  const manuscript=buildManuscript(paper,runs,workspace.figures,workspace.analyses,analysisResults);
+  const completeAnalyses=analysisResults.filter(item=>item.status==="completed").length;
+  return <div className="view"><SectionHead eyebrow="10 · Publication Studio" title="Evidence-linked manuscripts"/><p className="lede">The manuscript refresh now incorporates run conclusions and executable analysis summaries. Generated language remains visibly separated from author-approved prose.</p><div className="publication-layout"><div className="publication-list">{workspace.papers.map(item=><button key={item.id} className={item.id===paper.id?"active":""} onClick={()=>setSelectedId(item.id)}><code>{item.id}</code><b>{item.shortTitle}</b><small>{item.status} · {item.sections.length} sections</small></button>)}</div><section className="paper manuscript"><div className="action-row"><span className={`implementation ${paperRuns.length?"implemented":"specified"}`}>{paperRuns.length} runs · {completeAnalyses}/{analysisResults.length} analyses</span><button className="button" onClick={()=>downloadText(`${paper.id}.md`,manuscript,"text/markdown")}>Export refreshed manuscript</button><button className="button secondary" onClick={()=>downloadText(`${paper.id}-record.json`,JSON.stringify({...paper,runIds:paperRuns.map(r=>r.id),analysisResults},null,2),"application/json")}>Export record</button></div><h2>{paper.title}</h2><p><b>Target:</b> {paper.targetVenue ?? "Not selected"}</p><div className="section-ledger">{paper.sections.map(section=><article key={section.id}><div><code>{section.id}</code><span className={`implementation ${section.status==="reviewed"?"implemented":"specified"}`}>{section.status}</span></div><h3>{section.title}</h3><p>{section.purpose}</p><small>{section.sourceIds.join(" · ")}</small></article>)}</div><details><summary>Generated manuscript preview</summary><pre>{manuscript}</pre></details></section></div></div>;
+}
+
+function Datasets() {
+  const workspace=useWorkspace();
+  const {runs}=useContext(RunContext);
+  const [building,setBuilding]=useState<string|null>(null);
+  async function exportDataset(dataset: ResearchWorkspace["datasets"][number]) {
+    setBuilding(dataset.id);
+    try {
+      const results=workspace.analyses.map(item=>executeAnalysis(item,runs));
+      const bundle=await buildReproducibilityPackage(dataset,runs,workspace.figures,workspace.analyses,results);
+      downloadText(`${dataset.id}-v${dataset.version}.json`,JSON.stringify(bundle,null,2),"application/json");
+    } finally { setBuilding(null); }
+  }
+  return <div className="view"><SectionHead eyebrow="11 · Dataset Builder" title="Integrity-checked reproducibility packages"/><p className="lede">Exports now include run artifacts, definitions, executable analysis results, citation metadata, and a SHA-256 checksum over the canonical package payload.</p><section className="analysis-grid">{workspace.datasets.map(dataset=>{const includedRuns=runs.filter(run=>dataset.experimentIds.includes(run.experimentId)); const ready=includedRuns.length>0; return <article className="paper analysis-card" key={dataset.id}><div><code>{dataset.id}</code><span className={`implementation ${ready?"implemented":"specified"}`}>{ready?"exportable":dataset.status}</span></div><h3>{dataset.title}</h3><p>Version {dataset.version} · {dataset.license}</p><ul>{dataset.include.map(item=><li key={item}>{item}</li>)}</ul><p><b>{includedRuns.length}</b> compatible run artifact(s) currently loaded.</p><button className="button" disabled={!ready||building===dataset.id} onClick={()=>void exportDataset(dataset)}>{building===dataset.id?"Computing checksum…":"Export verified package"}</button></article>})}</section><Notice title="Release boundary">This produces an auditable release payload with cryptographic integrity metadata. Authenticated Zenodo deposition and DOI minting remain a separate integration.</Notice></div>;
+}
+
 function Review() {
   const { reviewConcerns } = useWorkspace();
   const [resolved,setResolved]=useState<number[]>([]);
@@ -318,7 +432,7 @@ export function Studio() {
   const [runs,setRuns]=useState<ExperimentRun[]>([]);
   const workspace=getWorkspace(workspaceId);
   const { project, navigation } = workspace;
-  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,observables:<Observables/>,engines:<Engines/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,review:<Review/>}[view];
+  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,observables:<Observables/>,engines:<Engines/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,orchestrator:<Orchestrator/>,figures:<Figures/>,statistics:<Statistics/>,publications:<Publications/>,datasets:<Datasets/>,review:<Review/>}[view];
 
   function selectWorkspace(nextId: string) {
     const entry = workspaceRegistry.find(item => item.id === nextId);
@@ -327,5 +441,27 @@ export function Studio() {
     setView("overview");
   }
 
-  return <WorkspaceContext.Provider key={workspaceId} value={workspace}><RunContext.Provider value={{runs,addRun:run=>setRuns(current=>[...current,run])}}><main className="shell"><header className="mast"><div className="identity"><span>{workspace.name}</span><b>{project.shortTitle} Research Laboratory</b></div><div className="mission">{workspace.tagline} <i>·</i> evidence over speculation</div><div className="lab-status"><i/> local research state</div></header><aside className="sidebar"><div className="workspace-picker"><span>Workspace</span><select aria-label="Research workspace" value={workspaceId} onChange={event=>selectWorkspace(event.target.value)}>{workspaceRegistry.map(entry=><option key={entry.id} value={entry.id} disabled={!entry.workspace}>{entry.label}{entry.availability === "planned" ? " · planned" : ""}</option>)}</select><small>{workspaceRegistry.find(entry=>entry.id===workspaceId)?.description}</small></div><div className="program"><span>Research program</span><b>{project.title}</b><small>Program revision {project.revision}</small></div><nav>{navigation.map(v=><button key={v.id} className={view===v.id?'active':''} onClick={()=>setView(v.id)}><code>{v.index}</code><span><b>{v.label}</b><small>{v.note}</small></span></button>)}</nav><div className="scope"><span>Epistemic status</span><b>{project.epistemicStatus}</b><small>{project.disclaimer}</small></div></aside><section className="content">{content}<footer><span>{project.shortTitle} is loaded from the Entropy Studio workspace registry.</span><b>All AI contributions require human verification.</b></footer></section></main></RunContext.Provider></WorkspaceContext.Provider>;
+  const navGroups = [
+    { label: "Research", ids: ["overview", "corpus", "hypotheses", "experiments", "orchestrator", "simulation"] },
+    { label: "Analysis", ids: ["observables", "statistics", "figures", "graph"] },
+    { label: "Publication", ids: ["publications", "datasets", "review"] },
+    { label: "Infrastructure", ids: ["engines"] },
+  ];
+  const activeNavigation = navigation.find(item => item.id === view);
+
+  return <WorkspaceContext.Provider key={workspaceId} value={workspace}><RunContext.Provider value={{runs,addRun:run=>setRuns(current=>[...current,run]),addRuns:nextRuns=>setRuns(current=>[...current,...nextRuns])}}><main className="shell ui-shell">
+    <header className="mast ui-mast">
+      <div className="brand-mark" aria-hidden="true">E</div>
+      <div className="identity"><span>Entropy Studio</span><b>{project.shortTitle}</b></div>
+      <div className="context-path"><span>{activeNavigation?.label ?? "Dashboard"}</span><small>{activeNavigation?.note ?? workspace.tagline}</small></div>
+      <div className="top-actions"><button className="icon-button" title="Command palette">⌘K</button><div className="lab-status"><i/> local</div></div>
+    </header>
+    <aside className="sidebar ui-sidebar">
+      <div className="workspace-picker"><span>Workspace</span><select aria-label="Research workspace" value={workspaceId} onChange={event=>selectWorkspace(event.target.value)}>{workspaceRegistry.map(entry=><option key={entry.id} value={entry.id} disabled={!entry.workspace}>{entry.label}{entry.availability === "planned" ? " · planned" : ""}</option>)}</select><small>{workspaceRegistry.find(entry=>entry.id===workspaceId)?.description}</small></div>
+      <div className="program"><span>Active program</span><b>{project.title}</b><small>Revision {project.revision}</small></div>
+      <nav aria-label="Research workflow">{navGroups.map(group=><div className="nav-group" key={group.label}><span className="nav-group-label">{group.label}</span>{navigation.filter(item=>group.ids.includes(item.id)).map(v=><button key={v.id} className={view===v.id?'active':''} onClick={()=>setView(v.id)}><code>{v.index}</code><span><b>{v.label}</b><small>{v.note}</small></span><i aria-hidden="true">›</i></button>)}</div>)}</nav>
+      <div className="scope"><span>Epistemic status</span><b>{project.epistemicStatus}</b><small>{project.disclaimer}</small></div>
+    </aside>
+    <section className="content ui-content"><div className="page-toolbar"><div><span>{workspace.name}</span><b>{activeNavigation?.label ?? "Dashboard"}</b></div><div className="run-badge"><strong>{runs.length}</strong><span>loaded runs</span></div></div>{content}<footer><span>{project.shortTitle} · local workspace registry</span><b>Human verification required for AI-assisted outputs.</b></footer></section>
+  </main></RunContext.Provider></WorkspaceContext.Provider>;
 }

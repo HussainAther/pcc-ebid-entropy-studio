@@ -71,3 +71,7 @@ No license was present in the supplied source repository. Choose an open-source 
 ## Current milestone: executable experiment runs
 
 Entropy Studio now separates experiment definitions from immutable run records. The Simulation Bench can execute the registered E-007 cyclic-replicator toy protocol, capture measurement series, compute registered observables, preserve a reproducibility manifest, and derive result-backed Evidence Graph relations. See `EXPERIMENT-RUNNER.md`.
+
+## Experiment Orchestrator
+
+The `08 · Experiment Orchestrator` workspace executes registered research campaigns from a frozen seed/parameter grid through statistics, figures, evidence summaries, manuscript refresh, and reproducibility packaging. Validated local engines run directly; external engines remain explicitly import-gated. See `EXPERIMENT-ORCHESTRATOR.md`.

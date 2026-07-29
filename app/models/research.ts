@@ -9,6 +9,11 @@ export type ResearchView =
   | "hypotheses"
   | "experiments"
   | "simulation"
+  | "orchestrator"
+  | "figures"
+  | "statistics"
+  | "publications"
+  | "datasets"
   | "review";
 
 export type EvidenceLevel =
@@ -319,6 +324,79 @@ export interface ExperimentRun {
   projectId: EntityId;
 }
 
+
+export type CampaignStatus = "specified" | "ready" | "running" | "completed" | "blocked";
+export type CampaignStepKind = "execute" | "import" | "analyze" | "figure" | "evidence" | "manuscript" | "package";
+
+export interface CampaignParameterAxis {
+  name: string;
+  values: number[];
+}
+
+export interface CampaignStepDefinition {
+  id: EntityId;
+  kind: CampaignStepKind;
+  label: string;
+  dependsOn: EntityId[];
+  description: string;
+}
+
+export interface ResearchCampaign {
+  id: EntityId;
+  title: string;
+  description: string;
+  experimentId: EntityId;
+  seeds: number[];
+  parameterAxes: CampaignParameterAxis[];
+  fixedParameters: Record<string, string | number | boolean>;
+  analysisIds: EntityId[];
+  figureIds: EntityId[];
+  paperIds: EntityId[];
+  datasetIds: EntityId[];
+  steps: CampaignStepDefinition[];
+  status: CampaignStatus;
+  projectId: EntityId;
+}
+
+export type PublicationStatus = "draft" | "review" | "submitted" | "published";
+export type AnalysisKind = "descriptive" | "regression" | "bootstrap" | "permutation" | "change-point";
+
+export interface FigureDefinition {
+  id: EntityId;
+  number: number;
+  title: string;
+  caption: string;
+  experimentIds: EntityId[];
+  observableIds: EntityId[];
+  generator: string;
+  outputFormats: ("svg" | "png" | "pdf")[];
+  status: "specified" | "ready" | "generated";
+  projectId: EntityId;
+}
+
+export interface AnalysisDefinition {
+  id: EntityId;
+  name: string;
+  kind: AnalysisKind;
+  experimentId: EntityId;
+  observableIds: EntityId[];
+  method: string;
+  preregistered: boolean;
+  status: "specified" | "ready" | "completed";
+  projectId: EntityId;
+}
+
+export interface ManuscriptSection { id: EntityId; title: string; purpose: string; sourceIds: EntityId[]; status: "outline" | "draft" | "reviewed"; }
+export interface ResearchPaper {
+  id: EntityId; title: string; shortTitle: string; status: PublicationStatus;
+  hypothesisIds: EntityId[]; experimentIds: EntityId[]; figureIds: EntityId[]; analysisIds: EntityId[];
+  sections: ManuscriptSection[]; targetVenue?: string; projectId: EntityId;
+}
+export interface DatasetDefinition {
+  id: EntityId; title: string; version: string; experimentIds: EntityId[];
+  include: string[]; license: string; status: "specified" | "ready" | "exported"; projectId: EntityId;
+}
+
 export interface ReviewConcern {
   id: EntityId;
   severity: "major" | "minor";
@@ -349,5 +427,10 @@ export interface ResearchWorkspace {
   evidenceGraph: EvidenceGraph;
   hypotheses: Hypothesis[];
   experiments: ExperimentDefinition[];
+  campaigns: ResearchCampaign[];
+  figures: FigureDefinition[];
+  analyses: AnalysisDefinition[];
+  papers: ResearchPaper[];
+  datasets: DatasetDefinition[];
   reviewConcerns: ReviewConcern[];
 }
