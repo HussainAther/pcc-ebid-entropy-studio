@@ -75,3 +75,31 @@ Entropy Studio now separates experiment definitions from immutable run records. 
 ## Experiment Orchestrator
 
 The `08 · Experiment Orchestrator` workspace executes registered research campaigns from a frozen seed/parameter grid through statistics, figures, evidence summaries, manuscript refresh, and reproducibility packaging. Validated local engines run directly; external engines remain explicitly import-gated. See `EXPERIMENT-ORCHESTRATOR.md`.
+
+## Mission Control dashboard
+
+The default landing page is now a front-facing Mission Control workspace. It derives presentation data from the active research registry and currently loaded immutable run records rather than calling a separate dashboard API.
+
+The dashboard includes:
+
+- time-aware workspace greeting and next-action focus
+- research-health metrics with direct navigation
+- campaign progress based on expected seed/parameter combinations
+- actionable attention items for blocked campaigns, missing figures, challenged runs, and incomplete Results sections
+- recent session and registry activity
+- evidence balance from loaded run conclusions
+- publication-pipeline readiness
+
+The composition layer lives in `app/lib/missionControl.ts`; responsive presentation is implemented in `app/studio.tsx` and `app/globals.css`.
+
+### Frontend verification
+
+```bash
+pnpm install
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm dev
+```
+
+Open `http://localhost:3000`. The repository intentionally uses pnpm as its single package manager.

@@ -12,6 +12,7 @@ import { generateFigure } from "./lib/figureEngine";
 import { buildManuscript } from "./lib/publicationEngine";
 import { buildReproducibilityPackage } from "./lib/packageEngine";
 import { campaignRunCount, executeCampaign, type CampaignReport } from "./lib/campaignOrchestrator";
+import { buildMissionControlViewModel, type DashboardTone } from "./lib/missionControl";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -32,19 +33,77 @@ function SectionHead({ eyebrow, title, action }: { eyebrow: string; title: strin
 function Stat({ label, value, foot }: { label: string; value: string; foot: string }) { return <div className="stat"><span>{label}</span><strong>{value}</strong><small>{foot}</small></div>; }
 function Notice({ title, children }: { title: string; children: React.ReactNode }) { return <aside className="notice"><b>{title}</b><p>{children}</p></aside>; }
 
+function DashboardIcon({ kind }: { kind: string }) {
+  const icons: Record<string, string> = { hypotheses: "◇", experiments: "⌁", runs: "▶", figures: "▧", papers: "¶", campaign: "↗", run: "✓", figure: "▥", analysis: "∿", paper: "¶", dataset: "⬡" };
+  return <span className="dashboard-icon" aria-hidden="true">{icons[kind] ?? "·"}</span>;
+}
+
+function ToneDot({ tone }: { tone: DashboardTone }) { return <i className={`tone-dot ${tone}`} aria-hidden="true"/>; }
+
 function Overview({ onNavigate }: { onNavigate: (v: ResearchView) => void }) {
   const workspace = useWorkspace();
-  const { project, stats, lifecycle, claims } = workspace;
-  return <div className="view">
-    <div className="hero">
-      <div><span className="kicker">Active research program · {project.shortTitle}</span><h1>Can entropy make<br/><em>instability observable?</em></h1><p>{project.summary}</p></div>
-      <div className="question-card"><span>Primary question · {project.questionId}</span><p>{project.primaryQuestion}</p><div><Tag level="hypothesis"/><small>last revised {project.updatedAt}</small></div></div>
+  const { runs } = useContext(RunContext);
+  const dashboard = useMemo(() => buildMissionControlViewModel(workspace, runs), [workspace, runs]);
+  const primaryCampaign = dashboard.campaigns.find(item => item.status !== "blocked") ?? dashboard.campaigns[0];
+  const evidenceTotal = dashboard.evidence.supported + dashboard.evidence.challenged + dashboard.evidence.inconclusive;
+
+  return <div className="view mission-dashboard">
+    <section className="dashboard-welcome">
+      <div className="dashboard-welcome-copy">
+        <span className="dashboard-kicker">Mission control · {workspace.project.shortTitle}</span>
+        <h1>{dashboard.greeting}, Hussain.</h1>
+        <p><ToneDot tone={dashboard.workspaceStatus.tone}/>{dashboard.workspaceStatus.message}</p>
+        <div className="dashboard-actions">
+          <button className="button dashboard-primary" onClick={()=>onNavigate("orchestrator")}>Continue {primaryCampaign?.title ?? "campaign"}<span aria-hidden="true">→</span></button>
+          <button className="button secondary" onClick={()=>onNavigate("experiments")}>Create experiment</button>
+        </div>
+      </div>
+      <aside className="focus-card">
+        <span>Next scientific action</span>
+        <strong>{primaryCampaign?.stage ?? "Register a campaign"}</strong>
+        <p>{primaryCampaign ? `${primaryCampaign.completedRuns} of ${primaryCampaign.totalRuns} expected runs are loaded.` : "Create a reproducible experiment and connect it to a registered engine."}</p>
+        <button onClick={()=>onNavigate("orchestrator")}>Open campaign workspace <span>↗</span></button>
+      </aside>
+    </section>
+
+    <section className="dashboard-section">
+      <header className="dashboard-section-head"><div><span>Research health</span><h2>Program at a glance</h2></div><small>Derived from the active workspace registry</small></header>
+      <div className="health-grid">{dashboard.metrics.map(metric=><button key={metric.id} className="health-card" onClick={()=>onNavigate(metric.view)}><div><DashboardIcon kind={metric.id}/><ToneDot tone={metric.tone}/></div><strong>{metric.value.toLocaleString()}</strong><span>{metric.label}</span><small>{metric.detail}</small></button>)}</div>
+    </section>
+
+    <div className="dashboard-grid dashboard-grid-primary">
+      <section className="dashboard-panel active-research">
+        <header className="panel-head"><div><span>Active research</span><h2>Campaigns in motion</h2></div><button onClick={()=>onNavigate("orchestrator")}>View all</button></header>
+        <div className="campaign-stack">{dashboard.campaigns.map(campaign=><article className="campaign-card" key={campaign.id}>
+          <div className="campaign-top"><div><span className={`status-pill ${campaign.status}`}>{campaign.status}</span><h3>{campaign.title}</h3><small>{campaign.engine}</small></div><strong>{campaign.progress}%</strong></div>
+          <div className="progress-track" role="progressbar" aria-label={`${campaign.title} progress`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={campaign.progress}><i style={{width:`${campaign.progress}%`}}/></div>
+          <div className="campaign-meta"><span>{campaign.completedRuns} / {campaign.totalRuns} runs</span><span>{campaign.stage}</span></div>
+          <button onClick={()=>onNavigate(campaign.view)}>Open campaign <span>→</span></button>
+        </article>)}</div>
+      </section>
+
+      <section className="dashboard-panel attention-panel">
+        <header className="panel-head"><div><span>Needs attention</span><h2>{dashboard.workspaceStatus.attentionCount} actionable items</h2></div></header>
+        <div className="attention-stack">{dashboard.attentionItems.length ? dashboard.attentionItems.map(item=><article key={item.id} className={`attention-item ${item.tone}`}><div className="attention-mark">{item.tone === "critical" ? "!" : "○"}</div><div><h3>{item.title}</h3><p>{item.description}</p><button onClick={()=>onNavigate(item.view)}>{item.action} <span>→</span></button></div></article>) : <div className="empty-dashboard-state"><span>✓</span><h3>Nothing needs attention</h3><p>All registered research objects are in a healthy state.</p></div>}</div>
+      </section>
     </div>
-    <div className="stats"><Stat label="Source artifacts" value={stats.sourceArtifacts.toLocaleString()} foot="archive audit"/><Stat label="Tracked claims" value={String(stats.trackedClaims)} foot={`${stats.claimsNeedingEvidence} need evidence`}/><Stat label="Experiments" value={String(stats.experiments).padStart(2,"0")} foot={`${stats.reproducibleExperiments} reproducible`}/><Stat label="Open questions" value={String(stats.openQuestions)} foot="human review required"/></div><section className="paper mission-control"><SectionHead eyebrow="Mission control" title="Research-to-publication state"/><div className="stats compact"><Stat label="Papers" value={String(workspace.papers.length).padStart(2,"0")} foot={`${workspace.papers.filter(p=>p.status==="draft").length} active drafts`}/><Stat label="Figures" value={String(workspace.figures.length).padStart(2,"0")} foot={`${workspace.figures.filter(f=>f.status!=="specified").length} generator-ready`}/><Stat label="Analyses" value={String(workspace.analyses.length).padStart(2,"0")} foot={`${workspace.analyses.filter(a=>a.preregistered).length} preregistered`}/><Stat label="Datasets" value={String(workspace.datasets.length).padStart(2,"0")} foot={`${workspace.datasets.filter(d=>d.status==="ready").length} manifest-ready`}/></div><div className="activity-strip"><span>Next scientific action</span><b>Execute or import registered runs, then regenerate figures and manuscript Results from those artifacts.</b></div></section>
-    <section className="paper"><SectionHead eyebrow="Research lifecycle" title="From source material to reproducible evidence"/><div className="lifecycle">
-      {lifecycle.map(stage=><button key={stage.index} onClick={()=>onNavigate(stage.view)}><i>{stage.index}</i><b>{stage.title}</b><span>{stage.description}</span></button>)}
-    </div></section>
-    <div className="two-col"><section className="paper"><SectionHead eyebrow="Evidence ledger" title="Claims needing attention"/>{claims.slice(2).map(c=><article className="claim" key={c.id}><div><code>{c.id}</code><Tag level={c.evidence}/></div><p>{c.text}</p><small>{claimSources(workspace, c.sourceIds)}</small></article>)}</section><section className="paper"><SectionHead eyebrow="Research principles" title="Epistemic contract"/><ol className="principles"><li><b>Evidence over fluency.</b><span>Generated text is never promoted to a finding.</span></li><li><b>Provenance by default.</b><span>Every claim points to a source or is marked unsupported.</span></li><li><b>Falsifiability first.</b><span>Every hypothesis includes a possible disconfirming result.</span></li><li><b>Human judgment remains central.</b><span>AI proposes and critiques; researchers decide.</span></li></ol></section></div>
+
+    <section className="dashboard-panel activity-panel">
+      <header className="panel-head"><div><span>Recent activity</span><h2>Workspace pulse</h2></div><small>Session and registry events</small></header>
+      <div className="activity-list">{dashboard.activity.map(event=><button key={event.id} onClick={()=>onNavigate(event.view)}><DashboardIcon kind={event.kind}/><span><b>{event.action}</b><small>{event.object}</small></span><time>{event.time}</time><i>›</i></button>)}</div>
+    </section>
+
+    <div className="dashboard-grid dashboard-grid-secondary">
+      <section className="dashboard-panel evidence-panel">
+        <header className="panel-head"><div><span>Evidence snapshot</span><h2>Current result balance</h2></div><button onClick={()=>onNavigate("graph")}>Explore graph</button></header>
+        {evidenceTotal ? <><div className="evidence-bar" aria-label="Evidence result distribution"><i className="supported" style={{width:`${dashboard.evidence.supported/evidenceTotal*100}%`}}/><i className="challenged" style={{width:`${dashboard.evidence.challenged/evidenceTotal*100}%`}}/><i className="inconclusive" style={{width:`${dashboard.evidence.inconclusive/evidenceTotal*100}%`}}/></div><div className="evidence-counts"><div><i className="supported"/><strong>{dashboard.evidence.supported}</strong><span>Supported</span></div><div><i className="challenged"/><strong>{dashboard.evidence.challenged}</strong><span>Challenged</span></div><div><i className="inconclusive"/><strong>{dashboard.evidence.inconclusive}</strong><span>Inconclusive</span></div></div></> : <div className="empty-evidence"><div className="empty-evidence-orbit"><i/><i/><i/></div><div><h3>No run evidence loaded yet</h3><p>Execute the local campaign or import validated engine artifacts to populate this view.</p><button onClick={()=>onNavigate("simulation")}>Open Simulation Bench →</button></div></div>}
+      </section>
+
+      <section className="dashboard-panel pipeline-panel">
+        <header className="panel-head"><div><span>Publication pipeline</span><h2>From experiment to release</h2></div><button onClick={()=>onNavigate("publications")}>Open workspace</button></header>
+        <div className="pipeline-list">{dashboard.publication.map((stage,index)=><div key={stage.label}><span className={`pipeline-state ${stage.state}`}>{stage.state === "complete" ? "✓" : String(index+1).padStart(2,"0")}</span><b>{stage.label}</b><small>{stage.value}</small><i className={stage.state}/></div>)}</div>
+      </section>
+    </div>
   </div>;
 }
 
