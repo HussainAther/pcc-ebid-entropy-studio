@@ -171,6 +171,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-BOIDS-RUL013-INFORMATION-WEIGHTED",
+    name: "Boids RUL-013 information-weighted observer",
+    description: "RUL-015 prospective continuous metric observer. All six Boids coordinates remain active, with weights fixed from RUL-013 reliability, signal-to-uncertainty, and degeneracy before RUL-015 outcomes are generated.",
+    observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE", "OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"],
+    coarseGraining: "Same six frozen Boids coordinates as full-core; only the standardized Euclidean metric is continuously information-weighted.",
+    temporalResolution: "Native simulation step; tail summaries use the final 25% of each 200-step trajectory.",
+    spatialResolution: "Whole-flock order parameters, fixed occupancy grid, and macrostate summaries.",
+    projectId,
+  },
+  {
     id: "OBSERVER-NETWORK-RULIAL-CORE",
     name: "Network rulial core observer",
     description: "Frozen RUL-008 observer combining network activity, state entropy, edge agreement, node switching, and operational macrostate residence summaries.",

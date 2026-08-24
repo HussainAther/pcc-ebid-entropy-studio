@@ -28,6 +28,7 @@ import boidsObserverValidation from "../data/ruliology/boids-observer-validation
 import observerConditioning from "../data/ruliology/observer-conditioning/observer-conditioning-summary.json";
 import observerInformation from "../data/ruliology/observer-information/observer-information-summary.json";
 import prospectiveObserverSelection from "../data/ruliology/prospective-observer-selection/prospective-observer-selection-summary.json";
+import informationWeightedObserver from "../data/ruliology/information-weighted-observer/information-weighted-observer-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -372,6 +373,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
       {prospectiveObserverSelection.observers.map(item=><div className="source-row rulial-table" key={`rul014-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
       <Notice title="Directional prediction, frozen primary challenge">The RUL-013-selected four-feature observer improves complete geometry and local-edge stability relative to full-core, and its top-boundary overlap improves substantially. But the gains of roughly +0.045 and +0.016 do not reach the preregistered +0.05 primary margins. The rejected low-reliability coordinates are near-zero or negative controls. Keep the primary outcome challenged rather than relaxing the threshold after the fact.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-015 continuous observer weighting" title="Continuous information weighting is challenged; hard selection remains stronger"/>
+      <p>RUL-015 keeps all six Boids coordinates active but weights their standardized metric using only frozen RUL-013 conditioning information: ICC-like reliability × log(1 + signal-to-uncertainty) × non-degeneracy. A new 56-point rule design and two new four-seed pools produce 448 trajectories shared by every metric variant.</p>
+      <div className="stats compact"><Stat label="New runs" value={String(informationWeightedObserver.simulation.totalNewRunCount)} foot="56 rules × 8 new seeds"/><Stat label="Weighted geometry ρ" value={Number(informationWeightedObserver.observers.find(item=>item.observerId === "information_weighted")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="continuous information weighting"/><Stat label="Hard-selection geometry ρ" value={Number(informationWeightedObserver.observers.find(item=>item.observerId === "rul013_hard_selection")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="RUL-013 threshold observer"/><Stat label="Primary test" value={informationWeightedObserver.primaryProspectiveTest.continuousWeightingSupported ? "PASS" : "CHALLENGED"} foot="+0.03 geometry and local margins"/></div>
+      <div className="table-head rulial-table"><span>Metric</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
+      {informationWeightedObserver.observers.map(item=><div className="source-row rulial-table" key={`rul015-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
+      <Notice title="Specific weighting rule challenged">The information-weighted metric barely changes complete/local stability relative to equal weighting and does not meet either preregistered +0.03 margin. The hard four-feature selection is substantially stronger on complete geometry and top-boundary overlap in this unseen design. Keep RUL-015 challenged: continuous down-weighting is not automatically better than removing poorly conditioned coordinates.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

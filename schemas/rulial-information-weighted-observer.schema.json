@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-information-weighted-observer/1.0.0",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "weightingSource", "design", "simulation", "observers", "primaryProspectiveTest"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-information-weighted-observer/1.0.0"},
+    "experimentId": {"const": "RUL-015"},
+    "weightingSource": {
+      "type": "object",
+      "required": ["experimentId", "equation", "conditioning"],
+      "properties": {"experimentId": {"const": "RUL-013"}}
+    },
+    "simulation": {
+      "type": "object",
+      "required": ["totalNewRunCount"],
+      "properties": {"totalNewRunCount": {"type": "integer", "minimum": 1}}
+    },
+    "observers": {"type": "array", "minItems": 4},
+    "primaryProspectiveTest": {
+      "type": "object",
+      "required": ["geometryMargin", "localMargin", "weightedMinusEqualGeometry", "weightedMinusEqualLocal", "continuousWeightingSupported"],
+      "properties": {"continuousWeightingSupported": {"type": "boolean"}}
+    }
+  }
+}

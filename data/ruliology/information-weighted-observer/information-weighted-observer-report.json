@@ -1,0 +1,186 @@
+{
+  "schemaVersion": "entropy-rulial-information-weighted-observer/1.0.0",
+  "experimentId": "RUL-015",
+  "title": "Prospective continuous information-conditioned observer weighting",
+  "generatedAt": "2026-08-24T23:00:00.000Z",
+  "weightingSource": {
+    "experimentId": "RUL-013",
+    "reportSha256": "01d9a1d57fa15774280e892cce99d722daa2145a84e9bc374f855ca4c32c216b",
+    "conditioning": [
+      {
+        "featureId": "OBS-POLARIZATION",
+        "iccLikeReliability": 0.9175024466419667,
+        "signalToUncertainty": 9.990269981735095,
+        "degeneracyIndex": 0.0625
+      },
+      {
+        "featureId": "OBS-HEADING-ENTROPY",
+        "iccLikeReliability": 0.8718380265274557,
+        "signalToUncertainty": 7.84974165545002,
+        "degeneracyIndex": 0.0625
+      },
+      {
+        "featureId": "OBS-SPATIAL",
+        "iccLikeReliability": 0.9530811299650986,
+        "signalToUncertainty": 6.986510231894566,
+        "degeneracyIndex": 0.03125
+      },
+      {
+        "featureId": "OBS-SPEED-VARIANCE",
+        "iccLikeReliability": 0.9341197185499126,
+        "signalToUncertainty": 11.738391328198466,
+        "degeneracyIndex": 0.0625
+      },
+      {
+        "featureId": "OBS-TRANSITION-RATE",
+        "iccLikeReliability": 0.3513513513513513,
+        "signalToUncertainty": 2.309882151876054,
+        "degeneracyIndex": 0.875
+      },
+      {
+        "featureId": "OBS-METASTABLE-DWELL",
+        "iccLikeReliability": 0.3513513513513521,
+        "signalToUncertainty": 2.3098821518760593,
+        "degeneracyIndex": 0.875
+      }
+    ],
+    "equation": "w_i proportional to ICC_i * log(1 + signalToUncertainty_i) * (1 - degeneracy_i)",
+    "hardSelectionThreshold": 0.8
+  },
+  "design": {
+    "rulePointCount": 56,
+    "latinHypercubeSeed": 2026082415,
+    "localNeighborK": 4,
+    "seedPools": {
+      "A": [
+        101003,
+        101019,
+        101041,
+        101063
+      ],
+      "B": [
+        102001,
+        102023,
+        102047,
+        102071
+      ]
+    },
+    "newRuleCoordinateCheckAgainstRUL006RUL011RUL014": {
+      "minimum": 0.059519980698562534,
+      "median": 0.12083463905271033,
+      "maximum": 0.20948036020891594
+    },
+    "config": {
+      "n_agents": 40,
+      "steps": 200,
+      "dt": 0.2,
+      "width": 100.0,
+      "height": 100.0,
+      "separation_radius": 3.0,
+      "max_speed": 2.5,
+      "pressure": 0.35,
+      "tail_fraction": 0.25,
+      "stochastic_noise_scale": 1.0
+    }
+  },
+  "simulation": {
+    "poolARunCount": 224,
+    "poolBRunCount": 224,
+    "totalNewRunCount": 448
+  },
+  "featureScalesFromPoolA": {
+    "OBS-POLARIZATION": 0.01018426521910698,
+    "OBS-HEADING-ENTROPY": 0.24331167912870255,
+    "OBS-SPATIAL": 0.6803875816101592,
+    "OBS-SPEED-VARIANCE": 0.013040321723760916,
+    "OBS-TRANSITION-RATE": 1e-09,
+    "OBS-METASTABLE-DWELL": 1e-09
+  },
+  "localEdgeCount": 151,
+  "observers": [
+    {
+      "observerId": "equal_full",
+      "weights": {
+        "OBS-POLARIZATION": 1.0,
+        "OBS-HEADING-ENTROPY": 1.0,
+        "OBS-SPATIAL": 1.0,
+        "OBS-SPEED-VARIANCE": 1.0,
+        "OBS-TRANSITION-RATE": 1.0,
+        "OBS-METASTABLE-DWELL": 1.0
+      },
+      "activeFeatureCount": 6,
+      "geometryStabilitySpearman": 0.8425090191916145,
+      "localEdgeStabilitySpearman": 0.8698786994502344,
+      "top10LocalEdgeJaccard": 0.5238095238095238
+    },
+    {
+      "observerId": "rul013_hard_selection",
+      "weights": {
+        "OBS-POLARIZATION": 1.0,
+        "OBS-HEADING-ENTROPY": 1.0,
+        "OBS-SPATIAL": 1.0,
+        "OBS-SPEED-VARIANCE": 1.0,
+        "OBS-TRANSITION-RATE": 0.0,
+        "OBS-METASTABLE-DWELL": 0.0
+      },
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.9388382827229781,
+      "localEdgeStabilitySpearman": 0.8819972115719762,
+      "top10LocalEdgeJaccard": 0.6842105263157895
+    },
+    {
+      "observerId": "reliability_weighted",
+      "weights": {
+        "OBS-POLARIZATION": 1.2570696332964026,
+        "OBS-HEADING-ENTROPY": 1.1945048346322291,
+        "OBS-SPATIAL": 1.3058159691365632,
+        "OBS-SPEED-VARIANCE": 1.2798369490459809,
+        "OBS-TRANSITION-RATE": 0.4813863069444119,
+        "OBS-METASTABLE-DWELL": 0.48138630694441303
+      },
+      "activeFeatureCount": 6,
+      "geometryStabilitySpearman": 0.8429279598150465,
+      "localEdgeStabilitySpearman": 0.8717149721228853,
+      "top10LocalEdgeJaccard": 0.5238095238095238
+    },
+    {
+      "observerId": "information_weighted",
+      "weights": {
+        "OBS-POLARIZATION": 1.5280425418313786,
+        "OBS-HEADING-ENTROPY": 1.3207722995493074,
+        "OBS-SPATIAL": 1.4217483202633479,
+        "OBS-SPEED-VARIANCE": 1.6515200394319343,
+        "OBS-TRANSITION-RATE": 0.038958399462015784,
+        "OBS-METASTABLE-DWELL": 0.03895839946201592
+      },
+      "activeFeatureCount": 6,
+      "geometryStabilitySpearman": 0.8437490623619667,
+      "localEdgeStabilitySpearman": 0.8761310561171138,
+      "top10LocalEdgeJaccard": 0.45454545454545453
+    }
+  ],
+  "primaryProspectiveTest": {
+    "geometryMargin": 0.03,
+    "localMargin": 0.03,
+    "weightedMinusEqualGeometry": 0.0012400431703522008,
+    "weightedMinusEqualLocal": 0.0062523566668793995,
+    "geometryCriterionPassed": false,
+    "localCriterionPassed": false,
+    "continuousWeightingSupported": false
+  },
+  "secondaryChecks": {
+    "jaccardMargin": 0.1,
+    "weightedMinusEqualTop10Jaccard": -0.0692640692640693,
+    "jaccardCriterionPassed": false,
+    "weightedMinusHardGeometry": -0.09508922036101142,
+    "weightedMinusHardLocal": -0.005866155454862354,
+    "weightedMinusHardTop10Jaccard": -0.22966507177033496
+  },
+  "interpretationBoundary": [
+    "RUL-015 is prospective relative to RUL-013/RUL-014: its continuous weighting equation, new LHS design, seed pools, and effect-size margins are frozen in code before RUL-015 outcomes are interpreted.",
+    "All observer variants reuse the same newly generated Boids trajectories; only the metric weights change.",
+    "Feature scaling is estimated from pool A only and then held fixed for pool B.",
+    "The information-conditioned equation is a proposed metric-conditioning rule, not a learned optimum; no RUL-015 outcome is used to tune its exponents or constants.",
+    "Failure to exceed the frozen +0.03 margins challenges this specific continuous weighting rule without erasing RUL-013 or RUL-014."
+  ]
+}

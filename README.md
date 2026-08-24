@@ -240,3 +240,12 @@ The experiment then generates a completely new 48-point Boids Latin-hypercube de
 The selected observer improves in the predicted direction, but the frozen primary criterion is **challenged**: geometry improves by about `+0.045` and local-edge stability by about `+0.016`, both below the preregistered `+0.05` margins. The secondary top-10% boundary Jaccard improves strongly (`+0.283`), and the rejected-coordinate control is near-zero/negative in geometry stability. The correct interpretation is therefore not that RUL-013 failed, nor that the selector is validated, but that the simple hard-threshold selection rule has directional predictive value without meeting the stronger prospective effect-size criterion on this sample.
 
 Run with `npm run ruliology:observer-selection`. Outputs live under `data/ruliology/prospective-observer-selection/`.
+
+
+## RUL-015 — Prospective continuous information-conditioned observer weighting
+
+RUL-015 tests the natural follow-up to RUL-014: replace binary keep/drop selection with a continuous metric fixed entirely from prior RUL-013 information. Before any new outcome is generated, each Boids coordinate receives weight proportional to `ICC-like reliability × log(1 + signal-to-uncertainty) × (1 - degeneracy)`. The experiment then generates a new 56-point Latin-hypercube rule design and two disjoint four-seed pools, for **448 new simulations**, and compares equal full-core, RUL-013 hard selection, reliability-only weighting, and the information-conditioned continuous metric on identical trajectories.
+
+The preregistered primary criterion is **challenged**. The information-weighted metric improves complete geometry by only about `+0.001` and local-edge stability by about `+0.006` relative to equal weighting, below the frozen `+0.03` margins. Its top-10% local-boundary overlap is also lower. In contrast, the hard four-feature RUL-013 selection again gives the strongest complete-geometry stability (`rho ≈ 0.939`) and top-boundary Jaccard (`≈ 0.684`) on this unseen design. This does not invalidate RUL-013; it challenges this particular smooth weighting equation and suggests that severely degenerate coordinates may need exclusion rather than merely small positive weights.
+
+Run with `npm run ruliology:observer-weighting`. Outputs live under `data/ruliology/information-weighted-observer/`.

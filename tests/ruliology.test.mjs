@@ -376,3 +376,33 @@ test("committed RUL-014 preserves the challenged prospective effect-size criteri
   assert.equal(summary.primaryProspectiveTest.prospectiveSelectionSupported, false);
   assert.equal(summary.secondaryChecks.jaccardCriterionPassed, true);
 });
+
+
+test("RUL-015 freezes continuous information weights before new simulations", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-information-weighted-observer.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-015/);
+  assert.match(research, /RUL-015/);
+  assert.match(spaces, /OBSERVER-BOIDS-RUL013-INFORMATION-WEIGHTED/);
+  assert.match(script, /DESIGN_POINT_COUNT = 56/);
+  assert.match(script, /PRIMARY_GEOMETRY_MARGIN = 0\.03/);
+  assert.match(script, /math\.log1p/);
+  assert.match(studio, /RUL-015 continuous observer weighting/);
+});
+
+test("committed RUL-015 preserves the challenged continuous-weighting result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/information-weighted-observer/information-weighted-observer-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-015");
+  assert.equal(summary.design.rulePointCount, 56);
+  assert.equal(summary.simulation.totalNewRunCount, 448);
+  assert.equal(new Set(summary.design.seedPools.A.concat(summary.design.seedPools.B)).size, 8);
+  assert.ok(summary.design.newRuleCoordinateCheckAgainstRUL006RUL011RUL014.minimum > 0);
+  assert.equal(summary.observers.length, 4);
+  const equal = summary.observers.find(row => row.observerId === "equal_full");
+  const weighted = summary.observers.find(row => row.observerId === "information_weighted");
+  const hard = summary.observers.find(row => row.observerId === "rul013_hard_selection");
+  assert.ok(weighted.geometryStabilitySpearman > equal.geometryStabilitySpearman);
+  assert.ok(hard.geometryStabilitySpearman > weighted.geometryStabilitySpearman);
+  assert.equal(summary.primaryProspectiveTest.continuousWeightingSupported, false);
+  assert.equal(summary.secondaryChecks.jaccardCriterionPassed, false);
+});
