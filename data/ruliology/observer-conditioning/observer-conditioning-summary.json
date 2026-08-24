@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "entropy-rulial-observer-conditioning/1.0.0",
+  "experimentId": "RUL-012",
+  "title": "Cross-substrate observer conditioning from independent-pool same-rule shift",
+  "generatedAt": "2026-08-24T22:50:00.000Z",
+  "newSimulationRunCount": 0,
+  "design": {
+    "substrates": [
+      "ECA",
+      "Boids",
+      "Network"
+    ],
+    "featureCount": 17,
+    "sourceExperiments": [
+      "RUL-001/RUL-003",
+      "RUL-006/RUL-007",
+      "RUL-008"
+    ],
+    "principle": "Observable coordinates that move more for the same rule across independent condition/stochastic pools should induce less reproducible rule-space geometry.",
+    "primaryCriterionFrozenBeforeOutcome": "pooled Spearman(median normalized same-rule shift, single-feature geometry stability) <= -0.5 with substrate-stratified permutation p <= 0.05."
+  },
+  "primaryTest": {
+    "frozenRhoThreshold": -0.5,
+    "pooledShiftVsGeometrySpearman": 0.004294478527607362,
+    "substrateStratifiedPermutationCount": 5000,
+    "substrateStratifiedPermutationP": 0.7916416716656669,
+    "rhoCriterionPassed": false,
+    "permutationCriterionPassed": false,
+    "observerConditioningSupported": false
+  },
+  "secondary": {
+    "pooledShiftVsRuleProfileSpearman": 0.17607361963190185,
+    "lowShiftHalfMedianGeometryStability": 0.8565840259019123,
+    "highShiftHalfMedianGeometryStability": 0.8755509200810063,
+    "lowMinusHighMedianGeometryStability": -0.01896689417909403,
+    "substratesWithNegativeAssociation": 2
+  },
+  "substrates": [
+    {
+      "substrate": "ECA",
+      "featureCount": 5,
+      "shiftVsGeometrySpearman": -0.19999999999999998,
+      "medianSameRuleShift": 0.005978708055122125,
+      "medianGeometryStability": 0.8918357072010753
+    },
+    {
+      "substrate": "Boids",
+      "featureCount": 6,
+      "shiftVsGeometrySpearman": 0.753702346348183,
+      "medianSameRuleShift": 0.0469166582531153,
+      "medianGeometryStability": 0.7954001132897089
+    },
+    {
+      "substrate": "Network",
+      "featureCount": 6,
+      "shiftVsGeometrySpearman": -0.2,
+      "medianSameRuleShift": 0.006637016344244161,
+      "medianGeometryStability": 0.9907782906207961
+    }
+  ],
+  "features": [
+    {
+      "substrate": "ECA",
+      "featureId": "OBS-AUTOCORR-TIME",
+      "ruleCount": 256,
+      "discoveryScale": 2.3125,
+      "medianNormalizedSameRuleShift": 0.0,
+      "meanNormalizedSameRuleShift": 0.13006756756756757,
+      "q90NormalizedSameRuleShift": 0.21621621621621623,
+      "ruleProfileStabilitySpearman": 0.9371018688806472,
+      "singleFeatureGeometryStabilitySpearman": 0.8918357072010753
+    },
+    {
+      "substrate": "ECA",
+      "featureId": "OBS-COMPRESSION",
+      "ruleCount": 256,
+      "discoveryScale": 1.7285365241974708,
+      "medianNormalizedSameRuleShift": 0.010782696245621243,
+      "meanNormalizedSameRuleShift": 0.017410008177702347,
+      "q90NormalizedSameRuleShift": 0.05166461308146597,
+      "ruleProfileStabilitySpearman": 0.9721283128318817,
+      "singleFeatureGeometryStabilitySpearman": 0.9851621097914953
+    },
+    {
+      "substrate": "ECA",
+      "featureId": "OBS-HAMMING",
+      "ruleCount": 256,
+      "discoveryScale": 0.38545339858949385,
+      "medianNormalizedSameRuleShift": 0.006151480199923105,
+      "meanNormalizedSameRuleShift": 0.03875373993237316,
+      "q90NormalizedSameRuleShift": 0.08535178777393314,
+      "ruleProfileStabilitySpearman": 0.7750751335992564,
+      "singleFeatureGeometryStabilitySpearman": 0.8026763657199973
+    },
+    {
+      "substrate": "ECA",
+      "featureId": "OBS-PERTURB-GROWTH",
+      "ruleCount": 256,
+      "discoveryScale": 0.002415610390744145,
+      "medianNormalizedSameRuleShift": 0.005978708055122125,
+      "meanNormalizedSameRuleShift": 0.04498994377386932,
+      "q90NormalizedSameRuleShift": 0.10590656712909077,
+      "ruleProfileStabilitySpearman": 0.719986478998788,
+      "singleFeatureGeometryStabilitySpearman": 0.8213323446027493
+    },
+    {
+      "substrate": "ECA",
+      "featureId": "OBS-SHANNON",
+      "ruleCount": 256,
+      "discoveryScale": 0.6930336166341411,
+      "medianNormalizedSameRuleShift": 0.003205304917796986,
+      "meanNormalizedSameRuleShift": 0.009220350254683493,
+      "q90NormalizedSameRuleShift": 0.02752406238274069,
+      "ruleProfileStabilitySpearman": 0.9874229980400837,
+      "singleFeatureGeometryStabilitySpearman": 0.9898741565402015
+    },
+    {
+      "substrate": "Boids",
+      "featureId": "OBS-POLARIZATION",
+      "ruleCount": 32,
+      "discoveryScale": 0.00883080795816793,
+      "medianNormalizedSameRuleShift": 0.06552609476806633,
+      "meanNormalizedSameRuleShift": 0.09961914464275246,
+      "q90NormalizedSameRuleShift": 0.22282995117170795,
+      "ruleProfileStabilitySpearman": 0.9692082111436949,
+      "singleFeatureGeometryStabilitySpearman": 0.8284581388625005
+    },
+    {
+      "substrate": "Boids",
+      "featureId": "OBS-HEADING-ENTROPY",
+      "ruleCount": 32,
+      "discoveryScale": 0.22348603226073716,
+      "medianNormalizedSameRuleShift": 0.10253523791362441,
+      "meanNormalizedSameRuleShift": 0.13147526695285294,
+      "q90NormalizedSameRuleShift": 0.25559898138310494,
+      "ruleProfileStabilitySpearman": 0.7705278592375364,
+      "singleFeatureGeometryStabilitySpearman": 0.7623420877169174
+    },
+    {
+      "substrate": "Boids",
+      "featureId": "OBS-SPATIAL",
+      "ruleCount": 32,
+      "discoveryScale": 0.5468415313732371,
+      "medianNormalizedSameRuleShift": 0.1742617119648316,
+      "meanNormalizedSameRuleShift": 0.17911722601798655,
+      "q90NormalizedSameRuleShift": 0.2710032852854977,
+      "ruleProfileStabilitySpearman": 0.9505131964809382,
+      "singleFeatureGeometryStabilitySpearman": 0.855664190421119
+    },
+    {
+      "substrate": "Boids",
+      "featureId": "OBS-SPEED-VARIANCE",
+      "ruleCount": 32,
+      "discoveryScale": 0.009673323491114346,
+      "medianNormalizedSameRuleShift": 0.028307221738164273,
+      "meanNormalizedSameRuleShift": 0.0725585350331484,
+      "q90NormalizedSameRuleShift": 0.19664996756801362,
+      "ruleProfileStabilitySpearman": 0.9512463343108503,
+      "singleFeatureGeometryStabilitySpearman": 0.8424289628287811
+    },
+    {
+      "substrate": "Boids",
+      "featureId": "OBS-TRANSITION-RATE",
+      "ruleCount": 32,
+      "discoveryScale": 0.0033500837520938024,
+      "medianNormalizedSameRuleShift": 0.0,
+      "meanNormalizedSameRuleShift": 0.125,
+      "q90NormalizedSameRuleShift": 0.45000000000000084,
+      "ruleProfileStabilitySpearman": 0.3598637460328732,
+      "singleFeatureGeometryStabilitySpearman": 0.3166190024613885
+    },
+    {
+      "substrate": "Boids",
+      "featureId": "OBS-METASTABLE-DWELL",
+      "ruleCount": 32,
+      "discoveryScale": 0.0444444444444444,
+      "medianNormalizedSameRuleShift": 1.2490009027033025e-15,
+      "meanNormalizedSameRuleShift": 0.1250000000000012,
+      "q90NormalizedSameRuleShift": 0.4500000000000012,
+      "ruleProfileStabilitySpearman": 0.3598637460328732,
+      "singleFeatureGeometryStabilitySpearman": 0.3166190024613885
+    },
+    {
+      "substrate": "Network",
+      "featureId": "OBS-NETWORK-ACTIVITY",
+      "ruleCount": 24,
+      "discoveryScale": 0.9992718855218854,
+      "medianNormalizedSameRuleShift": 0.0018812800004492166,
+      "meanNormalizedSameRuleShift": 0.01084777870905821,
+      "q90NormalizedSameRuleShift": 0.031028484544723123,
+      "ruleProfileStabilitySpearman": 0.9984761546394317,
+      "singleFeatureGeometryStabilitySpearman": 0.9919666480487416
+    },
+    {
+      "substrate": "Network",
+      "featureId": "OBS-SHANNON",
+      "ruleCount": 24,
+      "discoveryScale": 0.6729156095062215,
+      "medianNormalizedSameRuleShift": 0.009482915759535372,
+      "meanNormalizedSameRuleShift": 0.015440356062323001,
+      "q90NormalizedSameRuleShift": 0.03114384696317114,
+      "ruleProfileStabilitySpearman": 0.9967343732968423,
+      "singleFeatureGeometryStabilitySpearman": 0.9922018109197395
+    },
+    {
+      "substrate": "Network",
+      "featureId": "OBS-NETWORK-ORDER",
+      "ruleCount": 24,
+      "discoveryScale": 0.4188832641052266,
+      "medianNormalizedSameRuleShift": 0.00447565009609318,
+      "meanNormalizedSameRuleShift": 0.014159919525766743,
+      "q90NormalizedSameRuleShift": 0.03674259730979798,
+      "ruleProfileStabilitySpearman": 0.9932508106116633,
+      "singleFeatureGeometryStabilitySpearman": 0.9910020236507155
+    },
+    {
+      "substrate": "Network",
+      "featureId": "OBS-SWITCH-RATE",
+      "ruleCount": 24,
+      "discoveryScale": 0.3292803030303028,
+      "medianNormalizedSameRuleShift": 0.007115133078551956,
+      "meanNormalizedSameRuleShift": 0.014615491675578338,
+      "q90NormalizedSameRuleShift": 0.04293365031890286,
+      "ruleProfileStabilitySpearman": 0.9949925919542527,
+      "singleFeatureGeometryStabilitySpearman": 0.9905545575908767
+    },
+    {
+      "substrate": "Network",
+      "featureId": "OBS-TRANSITION-RATE",
+      "ruleCount": 24,
+      "discoveryScale": 0.12356671740233367,
+      "medianNormalizedSameRuleShift": 0.006158899609936366,
+      "meanNormalizedSameRuleShift": 0.026945185793471618,
+      "q90NormalizedSameRuleShift": 0.0708273455142685,
+      "ruleProfileStabilitySpearman": 0.9471840516157181,
+      "singleFeatureGeometryStabilitySpearman": 0.8901571041229143
+    },
+    {
+      "substrate": "Network",
+      "featureId": "OBS-METASTABLE-DWELL",
+      "ruleCount": 24,
+      "discoveryScale": 0.8864944291297954,
+      "medianNormalizedSameRuleShift": 0.036816252679092575,
+      "meanNormalizedSameRuleShift": 0.05118561611259407,
+      "q90NormalizedSameRuleShift": 0.10925263449982874,
+      "ruleProfileStabilitySpearman": 0.9551328746156521,
+      "singleFeatureGeometryStabilitySpearman": 0.8954376497408936
+    }
+  ],
+  "interpretationBoundary": [
+    "RUL-012 adds zero simulations and does not modify RUL-009, RUL-010, or RUL-011.",
+    "Same-rule shift is a cross-substrate reliability diagnostic: for ECA it reflects independent initial-condition ensembles; for Boids stochastic realization; for Network stochastic realization plus the already-frozen topology block averaging.",
+    "The primary analysis uses individual observable coordinates, not observer subsets selected for good performance.",
+    "The permutation test shuffles geometry-stability labels only within substrate, reducing the chance that substrate identity alone explains the association.",
+    "A supported association motivates a future prospective observer-conditioning rule; it is not itself proof of a universal law."
+  ]
+}

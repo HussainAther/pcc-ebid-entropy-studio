@@ -25,6 +25,7 @@ import networkRulial from "../data/ruliology/network-rulial/network-rulial-summa
 import threeSubstrate from "../data/ruliology/three-substrate/three-substrate-summary.json";
 import boidsResolution from "../data/ruliology/boids-resolution/boids-resolution-summary.json";
 import boidsObserverValidation from "../data/ruliology/boids-observer-validation/boids-observer-validation-summary.json";
+import observerConditioning from "../data/ruliology/observer-conditioning/observer-conditioning-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -345,6 +346,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
       {boidsObserverValidation.observers.map(item=><div className="source-row rulial-table" key={`rul011-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
       <Notice title="Prospective replication, narrow claim">The state-structure observer exceeds full-core stability by the frozen margins on both complete and local geometry. The two-feature order/entropy observer does not dominate across metrics, so this is evidence against unstable transition/dwell coordinates rather than a blanket preference for fewer measurements.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-012 observer conditioning diagnostic" title="The simple cross-substrate conditioning rule is challenged"/>
+      <p>RUL-012 adds no simulations. It compares 17 registered observable coordinates across frozen ECA, Boids, and Network discovery/holdout profile pairs, asking whether coordinates that move more for the same rule systematically induce less reproducible rule-space geometry.</p>
+      <div className="stats compact"><Stat label="New runs" value={String(observerConditioning.newSimulationRunCount)} foot="frozen profiles only"/><Stat label="Pooled ρ" value={Number(observerConditioning.primaryTest.pooledShiftVsGeometrySpearman).toFixed(3)} foot="same-rule shift vs geometry stability"/><Stat label="Permutation p" value={Number(observerConditioning.primaryTest.substrateStratifiedPermutationP).toFixed(3)} foot="5,000 within-substrate permutations"/><Stat label="Primary test" value={observerConditioning.primaryTest.observerConditioningSupported ? "PASS" : "CHALLENGED"} foot="frozen ρ ≤ −0.50 + p ≤ 0.05"/></div>
+      <div className="table-head rulial-table"><span>Substrate</span><span>Coordinate count</span><span>Shift↔geometry ρ</span><span>Median geometry stability</span></div>
+      {observerConditioning.substrates.map(item=><div className="source-row rulial-table" key={`rul012-${item.substrate}`}><b>{item.substrate}</b><code>{item.featureCount}</code><span>{Number(item.shiftVsGeometrySpearman).toFixed(3)}</span><small>{Number(item.medianGeometryStability).toFixed(3)}</small></div>)}
+      <Notice title="A useful negative result">The preregistered simple rule is not supported: pooled coordinate-wise same-rule shift is essentially unrelated to geometry stability. ECA and Network trend weakly negative, while Boids trends positive. RUL-011 remains valid as a prospective observer-subset result; RUL-012 says a single scalar reliability proxy is not enough to explain observer conditioning across substrates.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

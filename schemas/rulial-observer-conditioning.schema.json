@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-observer-conditioning.schema.json",
+  "title": "RUL-012 observer conditioning report",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "experimentId",
+    "newSimulationRunCount",
+    "design",
+    "primaryTest",
+    "substrates",
+    "features",
+    "interpretationBoundary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "entropy-rulial-observer-conditioning/1.0.0"
+    },
+    "experimentId": {
+      "const": "RUL-012"
+    },
+    "newSimulationRunCount": {
+      "const": 0
+    },
+    "design": {
+      "type": "object"
+    },
+    "primaryTest": {
+      "type": "object",
+      "required": [
+        "pooledShiftVsGeometrySpearman",
+        "substrateStratifiedPermutationP",
+        "observerConditioningSupported"
+      ]
+    },
+    "secondary": {
+      "type": "object"
+    },
+    "substrates": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "features": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17
+    },
+    "interpretationBoundary": {
+      "type": "array",
+      "minItems": 1
+    }
+  },
+  "additionalProperties": true
+}

@@ -296,3 +296,26 @@ test("committed RUL-011 validates the state-structure observer on unseen rule co
   assert.ok(structure.localEdgeStabilitySpearman - full.localEdgeStabilitySpearman >= 0.05);
   assert.equal(summary.primaryProspectiveTest.prospectiveReplicationPassed, true);
 });
+
+test("RUL-012 freezes a zero-simulation cross-substrate observer-conditioning diagnostic", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-observer-conditioning.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-012/);
+  assert.match(research, /RUL-012/);
+  assert.match(script, /PRIMARY_RHO_MAX = -0\.50/);
+  assert.match(script, /PERMUTATIONS = 5000/);
+  assert.match(script, /within substrate/i);
+  assert.match(studio, /RUL-012 observer conditioning diagnostic/);
+});
+
+test("committed RUL-012 preserves the challenged primary conditioning result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/observer-conditioning/observer-conditioning-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-012");
+  assert.equal(summary.newSimulationRunCount, 0);
+  assert.equal(summary.design.substrates.length, 3);
+  assert.equal(summary.design.featureCount, 17);
+  assert.equal(summary.features.length, 17);
+  assert.equal(summary.primaryTest.observerConditioningSupported, false);
+  assert.ok(summary.primaryTest.pooledShiftVsGeometrySpearman > -0.50);
+  assert.ok(summary.primaryTest.substrateStratifiedPermutationP > 0.05);
+});

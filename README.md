@@ -209,3 +209,12 @@ The committed diagnostic indicates that averaging improves the full Boids geomet
 ### RUL-011 prospective Boids observer validation
 
 `npm run ruliology:boids:observer-validation` runs a new 40-point Boids rule-space sample under two new four-seed pools and projects the identical 320 trajectories through three preregistered observers. The primary test asks whether the RUL-010 state/structure observer beats the frozen six-feature observer by at least `0.05` in both full-geometry and local-edge split-half Spearman stability. The committed result passes both margins on unseen rule coordinates; earlier RUL-009/RUL-010 benchmarks remain unchanged. Outputs are frozen under `data/ruliology/boids-observer-validation/`.
+
+
+## RUL-012 — Cross-substrate observer conditioning diagnostic
+
+RUL-012 asks whether a simple coordinate-level reliability rule generalizes across ECA, Boids, and Network: do observable coordinates that move more for the same rule across independent pools induce less reproducible rule-space geometry? The analysis adds **zero new simulations**, uses 17 registered coordinates from frozen prior profile pairs, normalizes same-rule displacement by discovery-pool robust range, and applies a 5,000-draw substrate-stratified permutation test.
+
+The frozen primary hypothesis is **challenged**. The pooled association is approximately `rho = 0.004` with stratified permutation `p = 0.792`, rather than the preregistered `rho <= -0.50`. This preserves the narrower prospective RUL-011 result while rejecting the stronger idea that one scalar same-rule-shift score is a general cross-substrate predictor of observer geometry conditioning. The next observer theory should therefore model feature semantics, degeneracy, and interactions among coordinates rather than relying on a single noise magnitude.
+
+Run with `npm run ruliology:observer-conditioning`. Outputs live under `data/ruliology/observer-conditioning/`.
