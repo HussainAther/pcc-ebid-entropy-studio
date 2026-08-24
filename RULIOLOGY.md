@@ -280,3 +280,14 @@ RUL-012 asks whether a simple coordinate-level reliability rule generalizes acro
 The frozen primary hypothesis is **challenged**. The pooled association is approximately `rho = 0.004` with stratified permutation `p = 0.792`, rather than the preregistered `rho <= -0.50`. This preserves the narrower prospective RUL-011 result while rejecting the stronger idea that one scalar same-rule-shift score is a general cross-substrate predictor of observer geometry conditioning. The next observer theory should therefore model feature semantics, degeneracy, and interactions among coordinates rather than relying on a single noise magnitude.
 
 Run with `npm run ruliology:observer-conditioning`. Outputs live under `data/ruliology/observer-conditioning/`.
+
+
+## RUL-013 — Observer information and degeneracy analysis
+
+RUL-013 follows the challenged RUL-012 scalar-shift hypothesis without adding simulations. It reuses the same 17 ECA, Boids, and Network coordinate profile pairs, but separates **between-rule discrimination** from **independent-pool uncertainty**. For two independent aggregate pools A and B, `Var(A-B)/2` estimates per-pool error variance; midpoint variance is then corrected to estimate between-rule variance. Their ratio defines an explicitly labeled **ICC-like aggregate reliability** rather than a classical per-trial ICC.
+
+The frozen primary test is supported: ICC-like reliability is strongly positively associated with single-feature geometry stability (`rho ≈ 0.882`) with a 5,000-draw within-substrate permutation `p ≈ 0.0010`, exceeding the preregistered `rho >= 0.70` threshold. A separately frozen robust signal-to-uncertainty ratio also tracks geometry stability (`rho ≈ 0.833`, `p ≈ 0.0134`). The result is not simply a rebranding of RUL-012: raw same-rule shift alone had essentially no pooled association, whereas signal relative to uncertainty is strongly predictive.
+
+Degeneracy is retained as a secondary diagnostic. The pooled degeneracy association is weaker (`rho ≈ -0.198`), although the Boids transition-rate and metastable-dwell coordinates remain conspicuous low-reliability, low-support cases. This motivates a prospective observer-selection experiment rather than retroactively changing any frozen RUL-006 through RUL-012 observer.
+
+Run with `npm run ruliology:observer-information`. Outputs live under `data/ruliology/observer-information/`.

@@ -26,6 +26,7 @@ import threeSubstrate from "../data/ruliology/three-substrate/three-substrate-su
 import boidsResolution from "../data/ruliology/boids-resolution/boids-resolution-summary.json";
 import boidsObserverValidation from "../data/ruliology/boids-observer-validation/boids-observer-validation-summary.json";
 import observerConditioning from "../data/ruliology/observer-conditioning/observer-conditioning-summary.json";
+import observerInformation from "../data/ruliology/observer-information/observer-information-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -354,6 +355,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Substrate</span><span>Coordinate count</span><span>Shift↔geometry ρ</span><span>Median geometry stability</span></div>
       {observerConditioning.substrates.map(item=><div className="source-row rulial-table" key={`rul012-${item.substrate}`}><b>{item.substrate}</b><code>{item.featureCount}</code><span>{Number(item.shiftVsGeometrySpearman).toFixed(3)}</span><small>{Number(item.medianGeometryStability).toFixed(3)}</small></div>)}
       <Notice title="A useful negative result">The preregistered simple rule is not supported: pooled coordinate-wise same-rule shift is essentially unrelated to geometry stability. ECA and Network trend weakly negative, while Boids trends positive. RUL-011 remains valid as a prospective observer-subset result; RUL-012 says a single scalar reliability proxy is not enough to explain observer conditioning across substrates.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-013 observer information analysis" title="Discrimination-to-uncertainty predicts coordinate geometry stability"/>
+      <p>RUL-013 keeps the same 17 frozen coordinates and adds no simulations. Instead of using raw same-rule shift alone, it decomposes each coordinate into between-rule variance, independent-pool error variance, ICC-like reliability, robust signal-to-uncertainty, and explicit support degeneracy.</p>
+      <div className="stats compact"><Stat label="New runs" value={String(observerInformation.newSimulationRunCount)} foot="same frozen profile pairs"/><Stat label="Reliability ↔ geometry ρ" value={Number(observerInformation.primaryTest.reliabilityVsGeometrySpearman).toFixed(3)} foot="primary cross-substrate association"/><Stat label="Permutation p" value={Number(observerInformation.primaryTest.substrateStratifiedPermutationP).toFixed(4)} foot="5,000 within-substrate shuffles"/><Stat label="Primary test" value={observerInformation.primaryTest.informationConditioningSupported ? "PASS" : "CHALLENGED"} foot="frozen ρ ≥ +0.70 + p ≤ 0.05"/></div>
+      <div className="table-head rulial-table"><span>Substrate</span><span>Reliability↔geometry ρ</span><span>Signal↔geometry ρ</span><span>Median reliability</span></div>
+      {observerInformation.substrates.map(item=><div className="source-row rulial-table" key={`rul013-${item.substrate}`}><b>{item.substrate}</b><code>{Number(item.reliabilityVsGeometrySpearman).toFixed(3)}</code><span>{Number(item.signalToUncertaintyVsGeometrySpearman).toFixed(3)}</span><small>{Number(item.medianReliability).toFixed(3)}</small></div>)}
+      <Notice title="A better conditioning model, still provisional">The primary reliability association is strong and survives within-substrate permutation; the robust signal-to-uncertainty diagnostic agrees. Degeneracy is informative but weaker as a pooled scalar. RUL-013 therefore refines, rather than erases, RUL-012: low raw movement alone was insufficient, while discrimination relative to independent-pool uncertainty is much more predictive. A prospective RUL-014 is still required before treating this as a design rule.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

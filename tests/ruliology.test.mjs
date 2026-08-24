@@ -319,3 +319,28 @@ test("committed RUL-012 preserves the challenged primary conditioning result", (
   assert.ok(summary.primaryTest.pooledShiftVsGeometrySpearman > -0.50);
   assert.ok(summary.primaryTest.substrateStratifiedPermutationP > 0.05);
 });
+
+test("RUL-013 freezes a zero-simulation information-conditioning analysis", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-observer-information.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-013/);
+  assert.match(research, /RUL-013/);
+  assert.match(script, /PRIMARY_RELIABILITY_RHO_MIN = 0\.70/);
+  assert.match(script, /PERMUTATIONS = 5000/);
+  assert.match(script, /pool_error_variance/);
+  assert.match(studio, /RUL-013 observer information analysis/);
+});
+
+test("committed RUL-013 supports discrimination-to-uncertainty conditioning", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/observer-information/observer-information-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-013");
+  assert.equal(summary.newSimulationRunCount, 0);
+  assert.equal(summary.design.substrates.length, 3);
+  assert.equal(summary.design.featureCount, 17);
+  assert.equal(summary.features.length, 17);
+  assert.equal(summary.primaryTest.informationConditioningSupported, true);
+  assert.ok(summary.primaryTest.reliabilityVsGeometrySpearman >= 0.70);
+  assert.ok(summary.primaryTest.substrateStratifiedPermutationP <= 0.05);
+  assert.ok(summary.secondary.signalToUncertaintyVsGeometrySpearman >= 0.60);
+  assert.ok(summary.secondary.signalToUncertaintyPermutationP <= 0.05);
+});

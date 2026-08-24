@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-observer-information.schema.json",
+  "title": "RUL-013 observer information report",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "experimentId",
+    "newSimulationRunCount",
+    "design",
+    "primaryTest",
+    "secondary",
+    "substrates",
+    "features",
+    "interpretationBoundary"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-observer-information/1.0.0" },
+    "experimentId": { "const": "RUL-013" },
+    "newSimulationRunCount": { "const": 0 },
+    "design": { "type": "object" },
+    "primaryTest": {
+      "type": "object",
+      "required": [
+        "reliabilityVsGeometrySpearman",
+        "substrateStratifiedPermutationP",
+        "informationConditioningSupported"
+      ]
+    },
+    "secondary": {
+      "type": "object",
+      "required": [
+        "signalToUncertaintyVsGeometrySpearman",
+        "signalToUncertaintyPermutationP",
+        "degeneracyVsGeometrySpearman"
+      ]
+    },
+    "substrates": { "type": "array", "minItems": 3, "maxItems": 3 },
+    "features": { "type": "array", "minItems": 17, "maxItems": 17 },
+    "interpretationBoundary": { "type": "array", "minItems": 1 }
+  },
+  "additionalProperties": true
+}
