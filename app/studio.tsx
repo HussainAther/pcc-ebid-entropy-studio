@@ -30,6 +30,7 @@ import observerInformation from "../data/ruliology/observer-information/observer
 import prospectiveObserverSelection from "../data/ruliology/prospective-observer-selection/prospective-observer-selection-summary.json";
 import informationWeightedObserver from "../data/ruliology/information-weighted-observer/information-weighted-observer-summary.json";
 import interactionObserverValidation from "../data/ruliology/interaction-informed-observer-validation/interaction-informed-observer-validation-summary.json";
+import objectiveDependentObserver from "../data/ruliology/objective-dependent-observer/objective-dependent-observer-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -400,6 +401,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
       {interactionObserverValidation.observers.map(item=><div className="source-row rulial-table" key={`rul017-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
       <Notice title="Prospective geometry replication, mixed boundary replication">The frozen three-feature candidate beats the four-feature observer by about +0.082 in complete geometry and +0.012 in local geometry, clearing both preregistered +0.01 margins. Its top-10% boundary overlap is lower than the four-feature observer, so the secondary Jaccard criterion is challenged. Treat RUL-017 as support for interaction-informed geometry conditioning, not proof that the compact observer dominates every notion of reproducibility.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-018 objective-dependent observer geometry" title="There is no single best observer for every rulial task"/>
+      <p>RUL-018 reuses the frozen RUL-017 population and evaluates all 63 non-empty subsets of the six Boids coordinates against three separate targets: complete geometry, local-edge geometry, and top-10% boundary recovery. No new unique simulations are added.</p>
+      <div className="stats compact"><Stat label="Observer subsets" value={String(objectiveDependentObserver.design.nonEmptyObserverSubsetCount)} foot="complete six-feature Boolean lattice"/><Stat label="Pareto front" value={String(objectiveDependentObserver.objectiveDependence.paretoFrontSize)} foot="global/local/boundary objectives"/><Stat label="Global↔local rank ρ" value={Number(objectiveDependentObserver.objectiveRankAssociations.find(item=>item.objectiveA === "global_geometry" && item.objectiveB === "local_geometry")?.spearman ?? 0).toFixed(3)} foot="strongly aligned"/><Stat label="Local↔boundary rank ρ" value={Number(objectiveDependentObserver.objectiveRankAssociations.find(item=>item.objectiveA === "local_geometry" && item.objectiveB === "boundary_recovery")?.spearman ?? 0).toFixed(3)} foot="nearly orthogonal"/></div>
+      <div className="table-head rulial-table"><span>Objective</span><span>Representative optimum</span><span>Score</span><span>Co-optima</span></div>
+      {objectiveDependentObserver.objectiveOptima.map(item=><div className="source-row rulial-table" key={`rul018-${item.objective}`}><b>{item.objective}</b><code>{item.representativeFeatures.join(" + ")}</code><span>{Number(item.score).toFixed(3)}</span><small>{item.coOptimalObserverCount} optimal subset{item.coOptimalObserverCount === 1 ? "" : "s"}</small></div>)}
+      <Notice title="Observer choice is objective-dependent">Global geometry is best preserved by spatial entropy + speed variance, while local geometry is best preserved by speed variance + transition rate. Boundary recovery has ten tied optima. Treat this as evidence that observer construction should be matched to the scientific task, not as a post-hoc declaration of a universally optimal subset.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

@@ -1,0 +1,4 @@
+objective,metric,representativeObserverId,representativeFeatures,representativeFeatureCount,score,coOptimalObserverCount,coOptimalObserverIds,otherScoresForRepresentative
+global_geometry,geometryStabilitySpearman,OBSSET-001100,OBS-SPATIAL|OBS-SPEED-VARIANCE,2,0.913980741636277,1,OBSSET-001100,"{""boundary_recovery"": 0.4666666666666667, ""local_geometry"": 0.8440016458002704}"
+local_geometry,localEdgeStabilitySpearman,OBSSET-000110,OBS-SPEED-VARIANCE|OBS-TRANSITION-RATE,2,0.844648210192206,1,OBSSET-000110,"{""boundary_recovery"": 0.5714285714285714, ""global_geometry"": 0.8790316834978754}"
+boundary_recovery,top10LocalEdgeJaccard,OBSSET-100000,OBS-POLARIZATION,1,0.5714285714285714,10,OBSSET-000101|OBSSET-000110|OBSSET-000111|OBSSET-010100|OBSSET-100000|OBSSET-100100|OBSSET-101000|OBSSET-110000|OBSSET-110100|OBSSET-111000,"{""global_geometry"": 0.7034201618952746, ""local_geometry"": 0.7076745234036717}"

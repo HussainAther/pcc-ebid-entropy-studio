@@ -1,0 +1,4 @@
+objectiveA,objectiveB,spearman
+global_geometry,local_geometry,0.9005856374807988
+global_geometry,boundary_recovery,0.07886904761904762
+local_geometry,boundary_recovery,0.016561059907834103

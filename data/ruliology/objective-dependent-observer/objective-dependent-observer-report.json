@@ -1,0 +1,1163 @@
+{
+  "schemaVersion": "entropy-rulial-objective-dependent-observer/1.0.0",
+  "experimentId": "RUL-018",
+  "title": "Objective-dependent observer geometry on the frozen RUL-017 Boids population",
+  "generatedAt": "2026-08-24T22:45:00.000Z",
+  "source": {
+    "experimentId": "RUL-017",
+    "reportSha256": "48ded3f2bf821e57bf8935795655f7bf5d4f7d2ac07d28061610859fac8779ef",
+    "newUniqueSimulationRunCount": 0,
+    "reconstructedFrozenRunCount": 320
+  },
+  "design": {
+    "featureCount": 6,
+    "nonEmptyObserverSubsetCount": 63,
+    "rulePointCount": 40,
+    "seedPools": {
+      "A": [
+        111001,
+        111017,
+        111043,
+        111071
+      ],
+      "B": [
+        112003,
+        112027,
+        112051,
+        112079
+      ]
+    },
+    "localNeighborK": 4,
+    "objectives": [
+      {
+        "id": "global_geometry",
+        "metric": "geometryStabilitySpearman"
+      },
+      {
+        "id": "local_geometry",
+        "metric": "localEdgeStabilitySpearman"
+      },
+      {
+        "id": "boundary_recovery",
+        "metric": "top10LocalEdgeJaccard"
+      }
+    ]
+  },
+  "objectiveOptima": [
+    {
+      "objective": "global_geometry",
+      "metric": "geometryStabilitySpearman",
+      "representativeObserverId": "OBSSET-001100",
+      "representativeFeatures": [
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "representativeFeatureCount": 2,
+      "score": 0.913980741636277,
+      "coOptimalObserverCount": 1,
+      "coOptimalObserverIds": [
+        "OBSSET-001100"
+      ],
+      "otherScoresForRepresentative": {
+        "local_geometry": 0.8440016458002704,
+        "boundary_recovery": 0.4666666666666667
+      }
+    },
+    {
+      "objective": "local_geometry",
+      "metric": "localEdgeStabilitySpearman",
+      "representativeObserverId": "OBSSET-000110",
+      "representativeFeatures": [
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "representativeFeatureCount": 2,
+      "score": 0.844648210192206,
+      "coOptimalObserverCount": 1,
+      "coOptimalObserverIds": [
+        "OBSSET-000110"
+      ],
+      "otherScoresForRepresentative": {
+        "global_geometry": 0.8790316834978754,
+        "boundary_recovery": 0.5714285714285714
+      }
+    },
+    {
+      "objective": "boundary_recovery",
+      "metric": "top10LocalEdgeJaccard",
+      "representativeObserverId": "OBSSET-100000",
+      "representativeFeatures": [
+        "OBS-POLARIZATION"
+      ],
+      "representativeFeatureCount": 1,
+      "score": 0.5714285714285714,
+      "coOptimalObserverCount": 10,
+      "coOptimalObserverIds": [
+        "OBSSET-000101",
+        "OBSSET-000110",
+        "OBSSET-000111",
+        "OBSSET-010100",
+        "OBSSET-100000",
+        "OBSSET-100100",
+        "OBSSET-101000",
+        "OBSSET-110000",
+        "OBSSET-110100",
+        "OBSSET-111000"
+      ],
+      "otherScoresForRepresentative": {
+        "global_geometry": 0.7034201618952746,
+        "local_geometry": 0.7076745234036717
+      }
+    }
+  ],
+  "objectiveRankAssociations": [
+    {
+      "objectiveA": "global_geometry",
+      "objectiveB": "local_geometry",
+      "spearman": 0.9005856374807988
+    },
+    {
+      "objectiveA": "global_geometry",
+      "objectiveB": "boundary_recovery",
+      "spearman": 0.07886904761904762
+    },
+    {
+      "objectiveA": "local_geometry",
+      "objectiveB": "boundary_recovery",
+      "spearman": 0.016561059907834103
+    }
+  ],
+  "paretoFrontObserverIds": [
+    "OBSSET-000110",
+    "OBSSET-001100"
+  ],
+  "objectiveDependence": {
+    "allObjectivesShareAtLeastOneOptimum": false,
+    "commonOptimalObserverIds": [],
+    "globalAndLocalOptimaDiffer": true,
+    "minimumPairwiseObjectiveRankSpearman": 0.016561059907834103,
+    "maximumPairwiseObjectiveRankSpearman": 0.9005856374807988,
+    "paretoFrontSize": 2,
+    "objectiveDependenceDetected": true
+  },
+  "interpretationBoundary": [
+    "RUL-018 is a diagnostic reuse of the frozen RUL-017 rule coordinates and seed pools; it introduces zero new unique simulations.",
+    "All 63 non-empty subsets of the six registered Boids coordinates are evaluated on the same reconstructed trajectories and pool-A feature scaling.",
+    "Global geometry stability, local-edge geometry stability, and top-10% local-boundary recovery are treated as distinct scientific objectives rather than collapsed into a post-hoc scalar utility.",
+    "Objective-specific optima are descriptive for this frozen population. RUL-018 does not declare any subset universally optimal and does not replace the prospective RUL-017 result.",
+    "A distinct optimum across objectives demonstrates task dependence in this finite observer family; it does not by itself prove a general theorem about all observers or substrates."
+  ],
+  "observerSubsets": [
+    {
+      "observerId": "OBSSET-100000",
+      "featureCount": 1,
+      "features": [
+        "OBS-POLARIZATION"
+      ],
+      "activeFeatureCount": 1,
+      "geometryStabilitySpearman": 0.7034201618952746,
+      "localEdgeStabilitySpearman": 0.7076745234036717,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 42,
+      "local_geometryRank": 50,
+      "boundary_recoveryRank": 5
+    },
+    {
+      "observerId": "OBSSET-010000",
+      "featureCount": 1,
+      "features": [
+        "OBS-HEADING-ENTROPY"
+      ],
+      "activeFeatureCount": 1,
+      "geometryStabilitySpearman": 0.48366822026081824,
+      "localEdgeStabilitySpearman": 0.5981994161327612,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 57,
+      "local_geometryRank": 60,
+      "boundary_recoveryRank": 16
+    },
+    {
+      "observerId": "OBSSET-001000",
+      "featureCount": 1,
+      "features": [
+        "OBS-SPATIAL"
+      ],
+      "activeFeatureCount": 1,
+      "geometryStabilitySpearman": 0.8853918613885345,
+      "localEdgeStabilitySpearman": 0.7564411528439036,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 5,
+      "local_geometryRank": 28,
+      "boundary_recoveryRank": 19
+    },
+    {
+      "observerId": "OBSSET-000100",
+      "featureCount": 1,
+      "features": [
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 1,
+      "geometryStabilitySpearman": 0.8848382773096654,
+      "localEdgeStabilitySpearman": 0.8145927623973823,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 6,
+      "local_geometryRank": 11,
+      "boundary_recoveryRank": 14
+    },
+    {
+      "observerId": "OBSSET-000010",
+      "featureCount": 1,
+      "features": [
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 1,
+      "geometryStabilitySpearman": 0.0,
+      "localEdgeStabilitySpearman": 0.0,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 62,
+      "local_geometryRank": 62,
+      "boundary_recoveryRank": 12
+    },
+    {
+      "observerId": "OBSSET-000001",
+      "featureCount": 1,
+      "features": [
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 1,
+      "geometryStabilitySpearman": 0.0,
+      "localEdgeStabilitySpearman": 0.0,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 61,
+      "local_geometryRank": 61,
+      "boundary_recoveryRank": 11
+    },
+    {
+      "observerId": "OBSSET-110000",
+      "featureCount": 2,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.5926156253480921,
+      "localEdgeStabilitySpearman": 0.7093301201042341,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 53,
+      "local_geometryRank": 49,
+      "boundary_recoveryRank": 8
+    },
+    {
+      "observerId": "OBSSET-101000",
+      "featureCount": 2,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.8214244270618458,
+      "localEdgeStabilitySpearman": 0.7684221869550735,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 21,
+      "local_geometryRank": 22,
+      "boundary_recoveryRank": 7
+    },
+    {
+      "observerId": "OBSSET-100100",
+      "featureCount": 2,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.8427088650198813,
+      "localEdgeStabilitySpearman": 0.7717333803561983,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 14,
+      "local_geometryRank": 21,
+      "boundary_recoveryRank": 6
+    },
+    {
+      "observerId": "OBSSET-100010",
+      "featureCount": 2,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.646979711877201,
+      "localEdgeStabilitySpearman": 0.6561257077920806,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 47,
+      "local_geometryRank": 54,
+      "boundary_recoveryRank": 28
+    },
+    {
+      "observerId": "OBSSET-100001",
+      "featureCount": 2,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.6462302114202079,
+      "localEdgeStabilitySpearman": 0.6559801325497555,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 49,
+      "local_geometryRank": 55,
+      "boundary_recoveryRank": 27
+    },
+    {
+      "observerId": "OBSSET-011000",
+      "featureCount": 2,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.6828557979473744,
+      "localEdgeStabilitySpearman": 0.742961264915065,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 43,
+      "local_geometryRank": 35,
+      "boundary_recoveryRank": 26
+    },
+    {
+      "observerId": "OBSSET-010100",
+      "featureCount": 2,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.7495714793442106,
+      "localEdgeStabilitySpearman": 0.7410607574599816,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 36,
+      "local_geometryRank": 36,
+      "boundary_recoveryRank": 4
+    },
+    {
+      "observerId": "OBSSET-010010",
+      "featureCount": 2,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.4687567551985286,
+      "localEdgeStabilitySpearman": 0.5994533591959089,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 60,
+      "local_geometryRank": 57,
+      "boundary_recoveryRank": 38
+    },
+    {
+      "observerId": "OBSSET-010001",
+      "featureCount": 2,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.4688852834065023,
+      "localEdgeStabilitySpearman": 0.599400452628271,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 58,
+      "local_geometryRank": 59,
+      "boundary_recoveryRank": 37
+    },
+    {
+      "observerId": "OBSSET-001100",
+      "featureCount": 2,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.913980741636277,
+      "localEdgeStabilitySpearman": 0.8440016458002704,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 1,
+      "local_geometryRank": 4,
+      "boundary_recoveryRank": 15
+    },
+    {
+      "observerId": "OBSSET-001010",
+      "featureCount": 2,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.8328449993206951,
+      "localEdgeStabilitySpearman": 0.748231744352358,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 15,
+      "local_geometryRank": 33,
+      "boundary_recoveryRank": 21
+    },
+    {
+      "observerId": "OBSSET-001001",
+      "featureCount": 2,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.8323888339639883,
+      "localEdgeStabilitySpearman": 0.7480492382883378,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 17,
+      "local_geometryRank": 34,
+      "boundary_recoveryRank": 20
+    },
+    {
+      "observerId": "OBSSET-000110",
+      "featureCount": 2,
+      "features": [
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.8790316834978754,
+      "localEdgeStabilitySpearman": 0.844648210192206,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 8,
+      "local_geometryRank": 1,
+      "boundary_recoveryRank": 2
+    },
+    {
+      "observerId": "OBSSET-000101",
+      "featureCount": 2,
+      "features": [
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.8787163084474203,
+      "localEdgeStabilitySpearman": 0.8442133521348928,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 10,
+      "local_geometryRank": 2,
+      "boundary_recoveryRank": 1
+    },
+    {
+      "observerId": "OBSSET-000011",
+      "featureCount": 2,
+      "features": [
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 2,
+      "geometryStabilitySpearman": 0.0,
+      "localEdgeStabilitySpearman": 0.0,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 63,
+      "local_geometryRank": 63,
+      "boundary_recoveryRank": 13
+    },
+    {
+      "observerId": "OBSSET-111000",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.7069562775541911,
+      "localEdgeStabilitySpearman": 0.7570681243754777,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 41,
+      "local_geometryRank": 27,
+      "boundary_recoveryRank": 10
+    },
+    {
+      "observerId": "OBSSET-110100",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.7453651304489325,
+      "localEdgeStabilitySpearman": 0.7584592174611572,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 37,
+      "local_geometryRank": 26,
+      "boundary_recoveryRank": 9
+    },
+    {
+      "observerId": "OBSSET-110010",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.5585584713068487,
+      "localEdgeStabilitySpearman": 0.6904132134250278,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 54,
+      "local_geometryRank": 51,
+      "boundary_recoveryRank": 35
+    },
+    {
+      "observerId": "OBSSET-110001",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.5584828030530978,
+      "localEdgeStabilitySpearman": 0.6903186304606337,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 55,
+      "local_geometryRank": 53,
+      "boundary_recoveryRank": 34
+    },
+    {
+      "observerId": "OBSSET-101100",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8846674632930034,
+      "localEdgeStabilitySpearman": 0.8288171790199651,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 7,
+      "local_geometryRank": 8,
+      "boundary_recoveryRank": 33
+    },
+    {
+      "observerId": "OBSSET-101010",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.7525969831361553,
+      "localEdgeStabilitySpearman": 0.7342914242050198,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 30,
+      "local_geometryRank": 41,
+      "boundary_recoveryRank": 31
+    },
+    {
+      "observerId": "OBSSET-101001",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.7524803480580797,
+      "localEdgeStabilitySpearman": 0.7345497293811025,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 32,
+      "local_geometryRank": 40,
+      "boundary_recoveryRank": 30
+    },
+    {
+      "observerId": "OBSSET-100110",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8242298838582258,
+      "localEdgeStabilitySpearman": 0.7632270499715528,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 18,
+      "local_geometryRank": 23,
+      "boundary_recoveryRank": 50
+    },
+    {
+      "observerId": "OBSSET-100101",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8240841225726839,
+      "localEdgeStabilitySpearman": 0.7632242802961122,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 20,
+      "local_geometryRank": 24,
+      "boundary_recoveryRank": 49
+    },
+    {
+      "observerId": "OBSSET-100011",
+      "featureCount": 3,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.6468558645360097,
+      "localEdgeStabilitySpearman": 0.6559801325497555,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 48,
+      "local_geometryRank": 56,
+      "boundary_recoveryRank": 29
+    },
+    {
+      "observerId": "OBSSET-011100",
+      "featureCount": 3,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8150712582721841,
+      "localEdgeStabilitySpearman": 0.8256333392111914,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 22,
+      "local_geometryRank": 9,
+      "boundary_recoveryRank": 17
+    },
+    {
+      "observerId": "OBSSET-011010",
+      "featureCount": 3,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.6386087384114748,
+      "localEdgeStabilitySpearman": 0.7266600050941436,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 51,
+      "local_geometryRank": 48,
+      "boundary_recoveryRank": 44
+    },
+    {
+      "observerId": "OBSSET-011001",
+      "featureCount": 3,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.6385470749184078,
+      "localEdgeStabilitySpearman": 0.7268007151516251,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 52,
+      "local_geometryRank": 46,
+      "boundary_recoveryRank": 43
+    },
+    {
+      "observerId": "OBSSET-010110",
+      "featureCount": 3,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.7497848783279157,
+      "localEdgeStabilitySpearman": 0.7384940927526009,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 34,
+      "local_geometryRank": 39,
+      "boundary_recoveryRank": 41
+    },
+    {
+      "observerId": "OBSSET-010101",
+      "featureCount": 3,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.7496838120447745,
+      "localEdgeStabilitySpearman": 0.7385209205170358,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 35,
+      "local_geometryRank": 38,
+      "boundary_recoveryRank": 40
+    },
+    {
+      "observerId": "OBSSET-010011",
+      "featureCount": 3,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.46885315520046655,
+      "localEdgeStabilitySpearman": 0.5994024148390585,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 59,
+      "local_geometryRank": 58,
+      "boundary_recoveryRank": 39
+    },
+    {
+      "observerId": "OBSSET-001110",
+      "featureCount": 3,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8994047036617633,
+      "localEdgeStabilitySpearman": 0.8325398224886852,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 2,
+      "local_geometryRank": 5,
+      "boundary_recoveryRank": 24
+    },
+    {
+      "observerId": "OBSSET-001101",
+      "featureCount": 3,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8993719079674001,
+      "localEdgeStabilitySpearman": 0.8318009710994827,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 3,
+      "local_geometryRank": 7,
+      "boundary_recoveryRank": 23
+    },
+    {
+      "observerId": "OBSSET-001011",
+      "featureCount": 3,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.832646393054799,
+      "localEdgeStabilitySpearman": 0.7485525632969876,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 16,
+      "local_geometryRank": 32,
+      "boundary_recoveryRank": 22
+    },
+    {
+      "observerId": "OBSSET-000111",
+      "featureCount": 3,
+      "features": [
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8790188804515505,
+      "localEdgeStabilitySpearman": 0.8442133521348928,
+      "top10LocalEdgeJaccard": 0.5714285714285714,
+      "global_geometryRank": 9,
+      "local_geometryRank": 3,
+      "boundary_recoveryRank": 3
+    },
+    {
+      "observerId": "OBSSET-111100",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.80249959951636,
+      "localEdgeStabilitySpearman": 0.8166989948862635,
+      "top10LocalEdgeJaccard": 0.4666666666666667,
+      "global_geometryRank": 23,
+      "local_geometryRank": 10,
+      "boundary_recoveryRank": 18
+    },
+    {
+      "observerId": "OBSSET-111010",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.6553188417254153,
+      "localEdgeStabilitySpearman": 0.732655420364819,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 45,
+      "local_geometryRank": 44,
+      "boundary_recoveryRank": 56
+    },
+    {
+      "observerId": "OBSSET-111001",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.6553006215644651,
+      "localEdgeStabilitySpearman": 0.732655420364819,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 46,
+      "local_geometryRank": 43,
+      "boundary_recoveryRank": 55
+    },
+    {
+      "observerId": "OBSSET-110110",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.7317071653508762,
+      "localEdgeStabilitySpearman": 0.7537667274045339,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 40,
+      "local_geometryRank": 31,
+      "boundary_recoveryRank": 53
+    },
+    {
+      "observerId": "OBSSET-110101",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.7317132780660293,
+      "localEdgeStabilitySpearman": 0.753856741554656,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 39,
+      "local_geometryRank": 29,
+      "boundary_recoveryRank": 52
+    },
+    {
+      "observerId": "OBSSET-110011",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.5584621968460145,
+      "localEdgeStabilitySpearman": 0.690346329148236,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 56,
+      "local_geometryRank": 52,
+      "boundary_recoveryRank": 36
+    },
+    {
+      "observerId": "OBSSET-101110",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.8565900280455513,
+      "localEdgeStabilitySpearman": 0.8101255902349184,
+      "top10LocalEdgeJaccard": 0.2222222222222222,
+      "global_geometryRank": 11,
+      "local_geometryRank": 16,
+      "boundary_recoveryRank": 62
+    },
+    {
+      "observerId": "OBSSET-101101",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.856568345147468,
+      "localEdgeStabilitySpearman": 0.8099886850889536,
+      "top10LocalEdgeJaccard": 0.2222222222222222,
+      "global_geometryRank": 12,
+      "local_geometryRank": 17,
+      "boundary_recoveryRank": 61
+    },
+    {
+      "observerId": "OBSSET-101011",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.7525940623398862,
+      "localEdgeStabilitySpearman": 0.7341516698531116,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 31,
+      "local_geometryRank": 42,
+      "boundary_recoveryRank": 32
+    },
+    {
+      "observerId": "OBSSET-100111",
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.8241001809136659,
+      "localEdgeStabilitySpearman": 0.7632242802961122,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 19,
+      "local_geometryRank": 25,
+      "boundary_recoveryRank": 51
+    },
+    {
+      "observerId": "OBSSET-011110",
+      "featureCount": 4,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.7976969364720858,
+      "localEdgeStabilitySpearman": 0.8132800407531495,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 24,
+      "local_geometryRank": 14,
+      "boundary_recoveryRank": 47
+    },
+    {
+      "observerId": "OBSSET-011101",
+      "featureCount": 4,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.7976928127209526,
+      "localEdgeStabilitySpearman": 0.8135289363571425,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 25,
+      "local_geometryRank": 12,
+      "boundary_recoveryRank": 46
+    },
+    {
+      "observerId": "OBSSET-011011",
+      "featureCount": 4,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.6386309136042947,
+      "localEdgeStabilitySpearman": 0.7267597493109174,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 50,
+      "local_geometryRank": 47,
+      "boundary_recoveryRank": 45
+    },
+    {
+      "observerId": "OBSSET-010111",
+      "featureCount": 4,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.7498641998163722,
+      "localEdgeStabilitySpearman": 0.7385791712711742,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 33,
+      "local_geometryRank": 37,
+      "boundary_recoveryRank": 42
+    },
+    {
+      "observerId": "OBSSET-001111",
+      "featureCount": 4,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.8992391490993384,
+      "localEdgeStabilitySpearman": 0.8320581522191642,
+      "top10LocalEdgeJaccard": 0.375,
+      "global_geometryRank": 4,
+      "local_geometryRank": 6,
+      "boundary_recoveryRank": 25
+    },
+    {
+      "observerId": "OBSSET-111110",
+      "featureCount": 5,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "activeFeatureCount": 5,
+      "geometryStabilitySpearman": 0.7758046735764667,
+      "localEdgeStabilitySpearman": 0.7984286525989929,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 27,
+      "local_geometryRank": 19,
+      "boundary_recoveryRank": 59
+    },
+    {
+      "observerId": "OBSSET-111101",
+      "featureCount": 5,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 5,
+      "geometryStabilitySpearman": 0.7757145432381941,
+      "localEdgeStabilitySpearman": 0.7982885594582991,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 28,
+      "local_geometryRank": 20,
+      "boundary_recoveryRank": 58
+    },
+    {
+      "observerId": "OBSSET-111011",
+      "featureCount": 5,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 5,
+      "geometryStabilitySpearman": 0.6553431421618922,
+      "localEdgeStabilitySpearman": 0.732655420364819,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 44,
+      "local_geometryRank": 45,
+      "boundary_recoveryRank": 57
+    },
+    {
+      "observerId": "OBSSET-110111",
+      "featureCount": 5,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 5,
+      "geometryStabilitySpearman": 0.731770931628382,
+      "localEdgeStabilitySpearman": 0.753856741554656,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 38,
+      "local_geometryRank": 30,
+      "boundary_recoveryRank": 54
+    },
+    {
+      "observerId": "OBSSET-101111",
+      "featureCount": 5,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 5,
+      "geometryStabilitySpearman": 0.8565317870188459,
+      "localEdgeStabilitySpearman": 0.8101491513897977,
+      "top10LocalEdgeJaccard": 0.2222222222222222,
+      "global_geometryRank": 13,
+      "local_geometryRank": 15,
+      "boundary_recoveryRank": 63
+    },
+    {
+      "observerId": "OBSSET-011111",
+      "featureCount": 5,
+      "features": [
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 5,
+      "geometryStabilitySpearman": 0.7976078612325591,
+      "localEdgeStabilitySpearman": 0.8135289363571425,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 26,
+      "local_geometryRank": 13,
+      "boundary_recoveryRank": 48
+    },
+    {
+      "observerId": "OBSSET-111111",
+      "featureCount": 6,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "activeFeatureCount": 6,
+      "geometryStabilitySpearman": 0.7756981667657973,
+      "localEdgeStabilitySpearman": 0.7985579619480687,
+      "top10LocalEdgeJaccard": 0.29411764705882354,
+      "global_geometryRank": 29,
+      "local_geometryRank": 18,
+      "boundary_recoveryRank": 60
+    }
+  ]
+}

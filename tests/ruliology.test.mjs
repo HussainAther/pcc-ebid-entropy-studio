@@ -462,3 +462,27 @@ test("committed RUL-017 prospectively validates the compact geometry observer", 
   assert.equal(summary.secondaryChecks.jaccardCriterionPassed, false);
 });
 
+test("RUL-018 registers objective-dependent observer geometry without new unique simulations", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-objective-dependent-observer.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-018/);
+  assert.match(research, /RUL-018/);
+  assert.match(script, /OBJECTIVES =/);
+  assert.match(script, /newUniqueSimulationRunCount': 0/);
+  assert.match(studio, /RUL-018 objective-dependent observer geometry/);
+});
+
+test("committed RUL-018 separates global, local, and boundary observer objectives", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/objective-dependent-observer/objective-dependent-observer-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-018");
+  assert.equal(summary.source.newUniqueSimulationRunCount, 0);
+  assert.equal(summary.design.nonEmptyObserverSubsetCount, 63);
+  assert.equal(summary.design.objectives.length, 3);
+  assert.equal(summary.objectiveDependence.objectiveDependenceDetected, true);
+  assert.equal(summary.objectiveDependence.allObjectivesShareAtLeastOneOptimum, false);
+  assert.equal(summary.objectiveDependence.globalAndLocalOptimaDiffer, true);
+  assert.equal(summary.objectiveOptima.find(x => x.objective === "global_geometry").representativeObserverId, "OBSSET-001100");
+  assert.equal(summary.objectiveOptima.find(x => x.objective === "local_geometry").representativeObserverId, "OBSSET-000110");
+  assert.ok(summary.objectiveOptima.find(x => x.objective === "boundary_recovery").coOptimalObserverCount > 1);
+});
+

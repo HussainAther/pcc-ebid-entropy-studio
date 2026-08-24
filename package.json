@@ -25,7 +25,8 @@
     "ruliology:observer-selection": "python3 scripts/analyze-rulial-prospective-observer-selection.py --output-dir data/ruliology/prospective-observer-selection",
     "ruliology:observer-weighting": "python3 scripts/analyze-rulial-information-weighted-observer.py --output-dir data/ruliology/information-weighted-observer",
     "ruliology:observer-ablation": "python3 scripts/analyze-rulial-observer-ablation.py",
-    "ruliology:observer-interaction-validation": "python3 scripts/analyze-rulial-interaction-informed-observer-validation.py --output-dir data/ruliology/interaction-informed-observer-validation"
+    "ruliology:observer-interaction-validation": "python3 scripts/analyze-rulial-interaction-informed-observer-validation.py --output-dir data/ruliology/interaction-informed-observer-validation",
+    "ruliology:observer-objectives": "python3 scripts/analyze-rulial-objective-dependent-observer.py"
   },
   "dependencies": {
     "next": "16.2.6",

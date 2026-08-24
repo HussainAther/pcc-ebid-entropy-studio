@@ -267,3 +267,12 @@ RUL-017 turns the diagnostic RUL-016 subset result into a prospective test. Befo
 The primary margins are frozen at **+0.01** for both complete-geometry and local-edge split-half Spearman stability relative to the four-feature observer. The three-feature candidate passes both: complete geometry improves by about **+0.082** and local geometry by about **+0.012**. The secondary top-10% boundary-overlap margin is challenged: Jaccard is lower than the four-feature comparator. This supports predictive value for the RUL-016 interaction-informed geometry choice without claiming universal observer optimality.
 
 Run with `npm run ruliology:observer-interaction-validation`. Outputs live under `data/ruliology/interaction-informed-observer-validation/`.
+
+## RUL-018 — Objective-dependent observer geometry
+
+RUL-018 reuses the frozen RUL-017 Boids population and introduces **zero new unique simulations**. It evaluates all 63 non-empty subsets of the six registered Boids observer coordinates under three fixed objectives: complete rule-space geometry stability, local-edge geometry stability, and top-10% local-boundary recovery. The objectives are intentionally kept separate rather than collapsed into a post-hoc scalar score.
+
+The optimum depends on the scientific target. Global geometry is maximized by `spatial entropy + speed variance` (rho = 0.914), while local geometry is maximized by `speed variance + transition rate` (rho = 0.845). Boundary recovery is discrete and has ten co-optimal subsets at Jaccard = 0.571; the smallest representative is `polarization` alone, and the local-geometry optimum is also boundary co-optimal. Global- and local-objective rankings are strongly related (rho = 0.901), but boundary-recovery rankings are nearly orthogonal to both (rho = 0.079 and 0.017).
+
+This is a diagnostic result, not a prospective claim that these subsets are universally optimal. It supports treating observer design as **task-dependent**: preserving the global rulial map, preserving local neighborhoods, and recovering extreme boundaries are distinct measurement goals. Run with `npm run ruliology:observer-objectives`.
+

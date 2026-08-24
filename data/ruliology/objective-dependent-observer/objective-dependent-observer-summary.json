@@ -1,0 +1,140 @@
+{
+  "experimentId": "RUL-018",
+  "source": {
+    "experimentId": "RUL-017",
+    "reportSha256": "48ded3f2bf821e57bf8935795655f7bf5d4f7d2ac07d28061610859fac8779ef",
+    "newUniqueSimulationRunCount": 0,
+    "reconstructedFrozenRunCount": 320
+  },
+  "design": {
+    "featureCount": 6,
+    "nonEmptyObserverSubsetCount": 63,
+    "rulePointCount": 40,
+    "seedPools": {
+      "A": [
+        111001,
+        111017,
+        111043,
+        111071
+      ],
+      "B": [
+        112003,
+        112027,
+        112051,
+        112079
+      ]
+    },
+    "localNeighborK": 4,
+    "objectives": [
+      {
+        "id": "global_geometry",
+        "metric": "geometryStabilitySpearman"
+      },
+      {
+        "id": "local_geometry",
+        "metric": "localEdgeStabilitySpearman"
+      },
+      {
+        "id": "boundary_recovery",
+        "metric": "top10LocalEdgeJaccard"
+      }
+    ]
+  },
+  "objectiveOptima": [
+    {
+      "objective": "global_geometry",
+      "metric": "geometryStabilitySpearman",
+      "representativeObserverId": "OBSSET-001100",
+      "representativeFeatures": [
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "representativeFeatureCount": 2,
+      "score": 0.913980741636277,
+      "coOptimalObserverCount": 1,
+      "coOptimalObserverIds": [
+        "OBSSET-001100"
+      ],
+      "otherScoresForRepresentative": {
+        "local_geometry": 0.8440016458002704,
+        "boundary_recovery": 0.4666666666666667
+      }
+    },
+    {
+      "objective": "local_geometry",
+      "metric": "localEdgeStabilitySpearman",
+      "representativeObserverId": "OBSSET-000110",
+      "representativeFeatures": [
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE"
+      ],
+      "representativeFeatureCount": 2,
+      "score": 0.844648210192206,
+      "coOptimalObserverCount": 1,
+      "coOptimalObserverIds": [
+        "OBSSET-000110"
+      ],
+      "otherScoresForRepresentative": {
+        "global_geometry": 0.8790316834978754,
+        "boundary_recovery": 0.5714285714285714
+      }
+    },
+    {
+      "objective": "boundary_recovery",
+      "metric": "top10LocalEdgeJaccard",
+      "representativeObserverId": "OBSSET-100000",
+      "representativeFeatures": [
+        "OBS-POLARIZATION"
+      ],
+      "representativeFeatureCount": 1,
+      "score": 0.5714285714285714,
+      "coOptimalObserverCount": 10,
+      "coOptimalObserverIds": [
+        "OBSSET-000101",
+        "OBSSET-000110",
+        "OBSSET-000111",
+        "OBSSET-010100",
+        "OBSSET-100000",
+        "OBSSET-100100",
+        "OBSSET-101000",
+        "OBSSET-110000",
+        "OBSSET-110100",
+        "OBSSET-111000"
+      ],
+      "otherScoresForRepresentative": {
+        "global_geometry": 0.7034201618952746,
+        "local_geometry": 0.7076745234036717
+      }
+    }
+  ],
+  "objectiveRankAssociations": [
+    {
+      "objectiveA": "global_geometry",
+      "objectiveB": "local_geometry",
+      "spearman": 0.9005856374807988
+    },
+    {
+      "objectiveA": "global_geometry",
+      "objectiveB": "boundary_recovery",
+      "spearman": 0.07886904761904762
+    },
+    {
+      "objectiveA": "local_geometry",
+      "objectiveB": "boundary_recovery",
+      "spearman": 0.016561059907834103
+    }
+  ],
+  "paretoFrontObserverIds": [
+    "OBSSET-000110",
+    "OBSSET-001100"
+  ],
+  "objectiveDependence": {
+    "allObjectivesShareAtLeastOneOptimum": false,
+    "commonOptimalObserverIds": [],
+    "globalAndLocalOptimaDiffer": true,
+    "minimumPairwiseObjectiveRankSpearman": 0.016561059907834103,
+    "maximumPairwiseObjectiveRankSpearman": 0.9005856374807988,
+    "paretoFrontSize": 2,
+    "objectiveDependenceDetected": true
+  }
+}
