@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-campaign-report.schema.json",
+  "title": "Entropy Studio Rulial Campaign Report",
+  "type": "object",
+  "required": ["schemaVersion", "campaignId", "ruleSpaceId", "observerId", "engineId", "createdAt", "configuration", "runs", "profiles", "transitions", "summary", "notes"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-campaign-report/1.0.0" },
+    "campaignId": { "type": "string" },
+    "ruleSpaceId": { "type": "string" },
+    "observerId": { "type": "string" },
+    "engineId": { "type": "string" },
+    "createdAt": { "type": "string" },
+    "configuration": {
+      "type": "object",
+      "required": ["seeds", "width", "steps", "density", "perturbationIndex", "boundary", "initialization", "perturbation"]
+    },
+    "runs": { "type": "array" },
+    "profiles": { "type": "array" },
+    "transitions": { "type": "array" },
+    "summary": {
+      "type": "object",
+      "required": ["ruleCount", "runCount", "profileCount", "transitionCount"]
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}
