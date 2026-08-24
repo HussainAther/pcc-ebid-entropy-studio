@@ -90,6 +90,30 @@ def _lineage_diversity(founders: np.ndarray, initial_population: int) -> float:
     return h / math.log(initial_population) if initial_population > 1 else 0.0
 
 
+def _lineage_snapshot(founders: np.ndarray, rules: np.ndarray) -> list[dict[str, Any]]:
+    """Return founder-lineage abundance and rule centroid without consuming RNG.
+
+    This diagnostic is intentionally observational: enabling it must not change the
+    stochastic trajectory.  Rule centroids are reported in normalized rule units.
+    """
+    if len(founders) == 0:
+        return []
+    total = float(len(founders))
+    rows: list[dict[str, Any]] = []
+    for founder in np.unique(founders):
+        mask = founders == founder
+        lineage_rules = rules[mask]
+        centroid, diversity = _centroid_and_diversity(lineage_rules)
+        rows.append({
+            "founderId": int(founder),
+            "count": int(np.sum(mask)),
+            "fraction": float(np.sum(mask) / total),
+            "ruleCentroid": centroid.tolist(),
+            "ruleDiversity": float(diversity),
+        })
+    return rows
+
+
 def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None = None) -> dict[str, Any]:
     cfg = {**DEFAULT_CONFIG, **(config or {})}
     if condition not in {"stable_mutable", "scarcity_mutable", "scarcity_frozen", "neutral_bottleneck_mutable"}:
@@ -256,7 +280,7 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
             centroid, diversity = _centroid_and_diversity(rules)
             if np.all(np.isfinite(centroid)):
                 centroid_path.append(centroid.copy())
-            history.append({
+            history_row = {
                 "step": t,
                 "population": int(len(rules)),
                 "meanEnergy": float(np.mean(energy)) if len(energy) else 0.0,
@@ -265,7 +289,10 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
                 "lineageDiversity": _lineage_diversity(founders, initial_population),
                 "mutantFraction": float(np.mean(invasion_tags)) if invasion_applied and len(invasion_tags) else None,
                 "scarcityActive": bool(scarcity),
-            })
+            }
+            if bool(cfg.get("record_lineages", False)):
+                history_row["lineages"] = _lineage_snapshot(founders, rules)
+            history.append(history_row)
 
     if len(rules):
         centroid_final, diversity_final = _centroid_and_diversity(rules)

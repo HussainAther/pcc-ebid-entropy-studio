@@ -63,3 +63,7 @@ Registry status distinguishes metadata availability from actual validation. A re
 ### RUL-023 contrastive environmental-gradient probes
 
 `ENGINE-LOCAL-ALIFE` is reused for matched stable-resource finite-difference probes at exactly the RUL-022 rule centers and step size. RUL-023 does not rerun the frozen RUL-021 motion or RUL-022 scarcity probes; it adds stable probes only and constructs `grad(F_scarcity) - grad(F_stable)` analysis-side.
+
+### RUL-025 lineage-resolved replay
+
+`ENGINE-LOCAL-ALIFE` now supports non-invasive founder-lineage snapshots through `record_lineages`. RUL-025 uses this only for deterministic replay of the frozen RUL-021 scarcity and neutral conditions; enabling the diagnostic consumes no random numbers and must reproduce the committed source motion exactly. Entrypoint: `python3 scripts/run-rulial-alife-lineage-motion.py`.

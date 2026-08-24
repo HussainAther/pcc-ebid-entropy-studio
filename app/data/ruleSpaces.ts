@@ -260,6 +260,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-ALIFE-LINEAGE-MOTION",
+    name: "ALife lineage-resolved motion observer",
+    description: "RUL-025 observer decomposing population rule-centroid motion into within-founder-lineage rule change and between-lineage abundance reweighting, while measuring directional heterogeneity among surviving lineages.",
+    observableIds: ["OBS-LINEAGE-REWEIGHTING-SHARE", "OBS-LINEAGE-DIRECTIONAL-COHERENCE", "OBS-LINEAGE-DIVERSITY", "OBS-POSTSHOCK-RULE-DISPLACEMENT"],
+    coarseGraining: "Founder identities define lineage partitions; each lineage is summarized by abundance and normalized rule centroid at the pre-shock and final endpoints.",
+    temporalResolution: "Deterministic replay of the frozen RUL-021 180-step burn-in plus 160 post-shock steps, with non-invasive founder-lineage snapshots at the existing record cadence.",
+    spatialResolution: "Founder-lineage abundance and rule centroids within the agent-resolved ALife population.",
+    projectId,
+  },
+  {
     id: "OBSERVER-NETWORK-RULIAL-CORE",
     name: "Network rulial core observer",
     description: "Frozen RUL-008 observer combining network activity, state entropy, edge agreement, node switching, and operational macrostate residence summaries.",

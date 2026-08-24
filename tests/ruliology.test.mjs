@@ -663,3 +663,36 @@ test("committed RUL-024 preserves the challenged context-dependent invasion-grad
   assert.ok(Math.abs(summary.results.medianScarcityAlignment) < 1e-12);
   assert.ok(Math.abs(summary.results.medianScarcityMinusNeutralAlignment) < 1e-12);
 });
+
+
+test("RUL-025 registers lineage-resolved ALife motion decomposition", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife-lineage-motion.py", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-025/);
+  assert.match(research, /RUL-025/);
+  assert.match(spaces, /OBSERVER-ALIFE-LINEAGE-MOTION/);
+  assert.match(observables, /OBS-LINEAGE-REWEIGHTING-SHARE/);
+  assert.match(observables, /OBS-LINEAGE-DIRECTIONAL-COHERENCE/);
+  assert.match(script, /deterministicReplayRuns/);
+  assert.match(script, /reweightingNormShare/);
+  assert.match(studio, /RUL-025 lineage-resolved rule motion/);
+});
+
+test("committed RUL-025 preserves the mixed lineage-reweighting result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-lineage-motion/alife-lineage-motion-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-025");
+  assert.equal(summary.source.newUniqueSimulationConditions, 0);
+  assert.equal(summary.source.deterministicReplayRuns, 24);
+  assert.equal(summary.design.seedCount, 12);
+  assert.equal(summary.primaryTest.criteriaPassed, 4);
+  assert.equal(summary.primaryTest.criteriaTotal, 5);
+  assert.equal(summary.primaryTest.pilotSupported, false);
+  assert.ok(summary.results.scarcity.medianReweightingNormShare >= 0.60);
+  assert.ok(summary.results.scarcity.medianLineageDirectionalCoherence <= 0.50);
+  assert.ok(summary.results.medianScarcityMinusNeutralReweightingShare < 0.10);
+  assert.equal(summary.results.scarcityRunsWithAtLeastThreeMovingSurvivorLineages, 12);
+  assert.equal(summary.results.maxReplayPostShockDeltaAbsError, 0);
+  assert.equal(summary.results.allReplayFinalPopulationsMatch, true);
+  assert.ok(summary.results.scarcity.maxDecompositionError <= 1e-12);
+});

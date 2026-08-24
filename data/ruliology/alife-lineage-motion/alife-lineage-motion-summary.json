@@ -1,0 +1,89 @@
+{
+  "design": {
+    "burnInSteps": 180,
+    "conditions": [
+      "scarcity_mutable",
+      "neutral_bottleneck_mutable"
+    ],
+    "decomposition": "Delta_mu = sum_l 0.5(p0_l+p1_l)(mu1_l-mu0_l) + sum_l (p1_l-p0_l)0.5(mu0_l+mu1_l)",
+    "extinctLineageConvention": "for lineages absent at final time, set mu1_l = mu0_l so disappearance is attributed entirely to reweighting",
+    "primaryCriteria": {
+      "deterministicReplayMatchesRUL021": "replayed post-shock deltas match source within 1e-12 and all final populations match",
+      "exactCentroidDecomposition": "maximum vector reconstruction error <= 1e-9",
+      "scarcityExceedsNeutralReweighting": "median paired scarcity-minus-neutral reweighting norm share >= +0.10",
+      "scarcityLineageDirectionsHeterogeneousAndIdentifiable": "median pairwise within-lineage direction cosine <= 0.50 and >= 3 moving surviving lineages in at least 3/4 seeds",
+      "scarcityMostlyReweighting": "median scarcity reweighting norm share >= 0.60"
+    },
+    "ruleDimensions": [
+      "forage_weight",
+      "hazard_avoidance",
+      "exploration",
+      "reproduction_threshold"
+    ],
+    "seedCount": 12,
+    "seeds": [
+      14003,
+      14011,
+      14029,
+      14041,
+      14057,
+      14071,
+      14087,
+      14101,
+      14119,
+      14137,
+      14153,
+      14173
+    ]
+  },
+  "experimentId": "RUL-025",
+  "interpretationBoundary": "RUL-025 is a lineage-resolved decomposition of the engineered RUL-021 ALife system. Founder labels are bookkeeping identities, and the symmetric within-lineage/reweighting decomposition is descriptive rather than a biological Price-equation claim. A large reweighting term does not by itself establish natural selection.",
+  "observerId": "OBSERVER-ALIFE-LINEAGE-MOTION",
+  "primaryTest": {
+    "criteria": {
+      "deterministicReplayMatchesRUL021": true,
+      "exactCentroidDecomposition": true,
+      "scarcityExceedsNeutralReweighting": false,
+      "scarcityLineageDirectionsHeterogeneousAndIdentifiable": true,
+      "scarcityMostlyReweighting": true
+    },
+    "criteriaPassed": 4,
+    "criteriaTotal": 5,
+    "pilotSupported": false
+  },
+  "results": {
+    "allReplayFinalPopulationsMatch": true,
+    "maxReplayPostShockDeltaAbsError": 0.0,
+    "medianScarcityMinusNeutralReweightingShare": 0.03782750564795728,
+    "neutral": {
+      "maxDecompositionError": 3.639448198906424e-16,
+      "medianFinalLineageCount": 4.0,
+      "medianLineageDirectionalCoherence": 0.0003518413798832389,
+      "medianLineageHHIChange": 0.1931652307204208,
+      "medianReweightingNormShare": 0.764334686359759,
+      "medianTop3FinalLineageFraction": 0.8054298642533937,
+      "medianWithinLineageNormShare": 0.23566531364024104,
+      "runCount": 12
+    },
+    "scarcity": {
+      "maxDecompositionError": 3.337258119553657e-16,
+      "medianFinalLineageCount": 5.0,
+      "medianLineageDirectionalCoherence": 0.1898801026869732,
+      "medianLineageHHIChange": 0.17252582514487275,
+      "medianReweightingNormShare": 0.7876626730569214,
+      "medianTop3FinalLineageFraction": 0.7083333333333333,
+      "medianWithinLineageNormShare": 0.2123373269430786,
+      "runCount": 12
+    },
+    "scarcityRunsWithAtLeastThreeMovingSurvivorLineages": 12
+  },
+  "ruleSpaceId": "RSPACE-ALIFE-001",
+  "schemaVersion": "entropy-rulial-alife-lineage-motion/1.0.0",
+  "source": {
+    "deterministicReplayRuns": 24,
+    "motionExperimentId": "RUL-021",
+    "newUniqueSimulationConditions": 0,
+    "replayPurpose": "non-invasive founder-lineage logging; no new parameter/seed conditions",
+    "sourceArtifact": "data/ruliology/alife-selection-control/alife-selection-control-report.json"
+  }
+}

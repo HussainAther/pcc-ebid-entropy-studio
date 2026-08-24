@@ -144,9 +144,10 @@ export const researchEngines: ResearchEngine[] = [
     entrypoints: [
       { id: "EP-RULIAL-ALIFE", label: "Run RUL-020 mutable-rule ALife pilot", command: "python3 scripts/run-rulial-alife.py --output-dir data/ruliology/alife-rule-motion", protocol: "python-module", description: "Executes matched stable, scarcity-mutable, and scarcity-frozen ecological conditions across frozen seeds." },
       { id: "EP-RULIAL-ALIFE-SELECTION", label: "Run RUL-021 selection vs bottleneck control", command: "python3 scripts/run-rulial-alife-selection-control.py --output-dir data/ruliology/alife-selection-control", protocol: "python-module", description: "Executes burn-in, scarcity-selection, stable, and depth-matched rule-blind bottleneck comparisons across frozen seeds." },
+      { id: "EP-RULIAL-ALIFE-LINEAGE", label: "Run RUL-025 lineage-resolved motion decomposition", command: "python3 scripts/run-rulial-alife-lineage-motion.py", protocol: "python-module", description: "Deterministically replays the frozen RUL-021 scarcity and neutral conditions with non-invasive founder-lineage logging and decomposes centroid motion." },
     ],
-    supportedObservableIds: ["OBS-RULE-CENTROID-DISPLACEMENT", "OBS-POSTSHOCK-RULE-DISPLACEMENT", "OBS-BOTTLENECK-DEPTH", "OBS-RULE-DIVERSITY", "OBS-RULE-PATH-LENGTH", "OBS-POPULATION-RECOVERY", "OBS-LINEAGE-DIVERSITY"],
-    supportedExperimentIds: ["RUL-020", "RUL-021"],
+    supportedObservableIds: ["OBS-RULE-CENTROID-DISPLACEMENT", "OBS-POSTSHOCK-RULE-DISPLACEMENT", "OBS-BOTTLENECK-DEPTH", "OBS-RULE-DIVERSITY", "OBS-RULE-PATH-LENGTH", "OBS-POPULATION-RECOVERY", "OBS-LINEAGE-DIVERSITY", "OBS-LINEAGE-REWEIGHTING-SHARE", "OBS-LINEAGE-DIRECTIONAL-COHERENCE"],
+    supportedExperimentIds: ["RUL-020", "RUL-021", "RUL-025"],
     artifactSchemaVersion: "entropy-rulial-alife-selection-control/1.0.0",
     projectId,
   },

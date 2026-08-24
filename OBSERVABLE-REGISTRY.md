@@ -65,3 +65,8 @@ RUL-022 adds `OBS-FITNESS-GRADIENT-ALIGNMENT`, the cosine between a realized pos
 
 
 RUL-023 adds `OBS-CONTRASTIVE-FITNESS-GRADIENT-ALIGNMENT`, the cosine between realized post-shock rule motion and `grad(F_scarcity) - grad(F_stable)`. The contrast is intended to remove performance directions shared by stable and scarce ecology, but remains a local engineered proxy based on short-horizon homogeneous-population persistence.
+
+### RUL-025 lineage observables
+
+- `OBS-LINEAGE-REWEIGHTING-SHARE`: norm share of the exact two-time population-centroid decomposition attributable to changing founder-lineage abundances rather than within-lineage centroid change.
+- `OBS-LINEAGE-DIRECTIONAL-COHERENCE`: mean pairwise cosine among nonzero rule-centroid motion vectors of surviving founder lineages; low values indicate that a whole-population centroid hides divergent subpopulation directions.

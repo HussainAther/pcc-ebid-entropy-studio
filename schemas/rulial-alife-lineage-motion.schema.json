@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-alife-lineage-motion.schema.json",
+  "title": "RUL-025 ALife lineage-resolved motion report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "source", "design", "results", "primaryTest", "interpretationBoundary", "runDecompositions", "replayChecks"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-alife-lineage-motion/1.0.0" },
+    "experimentId": { "const": "RUL-025" },
+    "ruleSpaceId": { "const": "RSPACE-ALIFE-001" },
+    "observerId": { "const": "OBSERVER-ALIFE-LINEAGE-MOTION" },
+    "source": {
+      "type": "object",
+      "required": ["motionExperimentId", "newUniqueSimulationConditions", "deterministicReplayRuns"],
+      "properties": {
+        "motionExperimentId": { "const": "RUL-021" },
+        "newUniqueSimulationConditions": { "const": 0 },
+        "deterministicReplayRuns": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "design": {
+      "type": "object",
+      "required": ["seedCount", "seeds", "conditions", "ruleDimensions", "burnInSteps", "decomposition", "primaryCriteria"],
+      "properties": {
+        "seedCount": { "type": "integer", "minimum": 1 },
+        "seeds": { "type": "array", "items": { "type": "integer" } },
+        "conditions": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+        "ruleDimensions": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "burnInSteps": { "type": "integer", "minimum": 1 },
+        "decomposition": { "type": "string" },
+        "primaryCriteria": { "type": "object" }
+      }
+    },
+    "results": {
+      "type": "object",
+      "required": ["scarcity", "neutral", "medianScarcityMinusNeutralReweightingShare", "scarcityRunsWithAtLeastThreeMovingSurvivorLineages", "maxReplayPostShockDeltaAbsError", "allReplayFinalPopulationsMatch"],
+      "properties": {
+        "scarcity": { "$ref": "#/$defs/conditionSummary" },
+        "neutral": { "$ref": "#/$defs/conditionSummary" },
+        "medianScarcityMinusNeutralReweightingShare": { "type": "number" },
+        "scarcityRunsWithAtLeastThreeMovingSurvivorLineages": { "type": "integer", "minimum": 0 },
+        "maxReplayPostShockDeltaAbsError": { "type": "number", "minimum": 0 },
+        "allReplayFinalPopulationsMatch": { "type": "boolean" }
+      }
+    },
+    "primaryTest": {
+      "type": "object",
+      "required": ["criteria", "criteriaPassed", "criteriaTotal", "pilotSupported"],
+      "properties": {
+        "criteria": { "type": "object" },
+        "criteriaPassed": { "type": "integer", "minimum": 0 },
+        "criteriaTotal": { "type": "integer", "minimum": 1 },
+        "pilotSupported": { "type": "boolean" }
+      }
+    },
+    "interpretationBoundary": { "type": "string" },
+    "runDecompositions": { "type": "array", "items": { "type": "object" } },
+    "replayChecks": { "type": "array", "items": { "type": "object" } }
+  },
+  "$defs": {
+    "conditionSummary": {
+      "type": "object",
+      "required": ["runCount", "medianReweightingNormShare", "medianWithinLineageNormShare", "medianLineageDirectionalCoherence", "medianFinalLineageCount", "medianTop3FinalLineageFraction", "medianLineageHHIChange", "maxDecompositionError"],
+      "properties": {
+        "runCount": { "type": "integer", "minimum": 1 },
+        "medianReweightingNormShare": { "type": "number", "minimum": 0, "maximum": 1 },
+        "medianWithinLineageNormShare": { "type": "number", "minimum": 0, "maximum": 1 },
+        "medianLineageDirectionalCoherence": { "type": "number", "minimum": -1, "maximum": 1 },
+        "medianFinalLineageCount": { "type": "number", "minimum": 0 },
+        "medianTop3FinalLineageFraction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "medianLineageHHIChange": { "type": "number" },
+        "maxDecompositionError": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}
