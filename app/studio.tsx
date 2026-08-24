@@ -29,6 +29,7 @@ import observerConditioning from "../data/ruliology/observer-conditioning/observ
 import observerInformation from "../data/ruliology/observer-information/observer-information-summary.json";
 import prospectiveObserverSelection from "../data/ruliology/prospective-observer-selection/prospective-observer-selection-summary.json";
 import informationWeightedObserver from "../data/ruliology/information-weighted-observer/information-weighted-observer-summary.json";
+import interactionObserverValidation from "../data/ruliology/interaction-informed-observer-validation/interaction-informed-observer-validation-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -391,6 +392,14 @@ function RulialAtlas() {
         <Metric label="New unique runs" value="0"/>
       </div>
       <Notice title="Interaction structure detected">The strongest complete-geometry interaction is polarization × speed variance (I ≈ -0.298). Transition rate and metastable dwell each have negative complete-geometry Shapley contributions and small beneficial leave-one-out removals, but the dominant interaction lies among structural coordinates. Observer conditioning is therefore not reducible to independently good or bad features.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-017 prospective interaction observer" title="The compact interaction-informed observer wins the frozen geometry test"/>
+      <p>RUL-017 freezes the three-coordinate candidate found diagnostically in RUL-016—polarization, spatial entropy, and speed variance—then tests it on a new 40-point Boids rule-space sample and two new four-seed pools. The comparison uses the established four-feature RUL-013 observer and the six-feature full-core baseline on the same 320 trajectories.</p>
+      <div className="stats compact"><Stat label="New runs" value={String(interactionObserverValidation.simulation.totalNewRunCount)} foot="40 rules × 8 new seeds"/><Stat label="Three-feature geometry ρ" value={Number(interactionObserverValidation.observers.find(item=>item.observerId === "rul016_interaction3")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="interaction-informed candidate"/><Stat label="Four-feature geometry ρ" value={Number(interactionObserverValidation.observers.find(item=>item.observerId === "rul013_hard4")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="established comparison"/><Stat label="Primary test" value={interactionObserverValidation.primaryProspectiveTest.interactionInformedObserverSupported ? "PASS" : "CHALLENGED"} foot="+0.01 geometry and local margins"/></div>
+      <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
+      {interactionObserverValidation.observers.map(item=><div className="source-row rulial-table" key={`rul017-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
+      <Notice title="Prospective geometry replication, mixed boundary replication">The frozen three-feature candidate beats the four-feature observer by about +0.082 in complete geometry and +0.012 in local geometry, clearing both preregistered +0.01 margins. Its top-10% boundary overlap is lower than the four-feature observer, so the secondary Jaccard criterion is challenged. Treat RUL-017 as support for interaction-informed geometry conditioning, not proof that the compact observer dominates every notion of reproducibility.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

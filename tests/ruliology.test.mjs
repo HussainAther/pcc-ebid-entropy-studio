@@ -432,3 +432,33 @@ test("committed RUL-016 preserves exact non-additive observer effects", () => {
   assert.equal(summary.diagnostic.bothRegimeRemovalsImproveGeometry, true);
   assert.equal(summary.diagnostic.bothRegimeRemovalsImproveLocal, true);
 });
+
+test("RUL-017 freezes the interaction-informed three-feature candidate before new simulations", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-interaction-informed-observer-validation.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-017/);
+  assert.match(research, /RUL-017/);
+  assert.match(spaces, /OBSERVER-BOIDS-RUL016-INTERACTION3-PROSPECTIVE/);
+  assert.match(script, /DESIGN_POINT_COUNT = 40/);
+  assert.match(script, /PRIMARY_GEOMETRY_MARGIN = 0\.01/);
+  assert.match(script, /PRIMARY_LOCAL_MARGIN = 0\.01/);
+  assert.match(studio, /RUL-017 prospective interaction observer/);
+});
+
+test("committed RUL-017 prospectively validates the compact geometry observer", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/interaction-informed-observer-validation/interaction-informed-observer-validation-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-017");
+  assert.equal(summary.design.rulePointCount, 40);
+  assert.equal(summary.simulation.totalNewRunCount, 320);
+  assert.equal(new Set(summary.design.seedPools.A.concat(summary.design.seedPools.B)).size, 8);
+  assert.ok(summary.design.newRuleCoordinateCheckAgainstRUL006RUL011RUL014RUL015.minimum > 0);
+  const full = summary.observers.find(row => row.observerId === "full_core");
+  const hard4 = summary.observers.find(row => row.observerId === "rul013_hard4");
+  const interaction3 = summary.observers.find(row => row.observerId === "rul016_interaction3");
+  assert.ok(interaction3.geometryStabilitySpearman > hard4.geometryStabilitySpearman);
+  assert.ok(interaction3.localEdgeStabilitySpearman > hard4.localEdgeStabilitySpearman);
+  assert.ok(interaction3.geometryStabilitySpearman > full.geometryStabilitySpearman);
+  assert.equal(summary.primaryProspectiveTest.interactionInformedObserverSupported, true);
+  assert.equal(summary.secondaryChecks.jaccardCriterionPassed, false);
+});
+

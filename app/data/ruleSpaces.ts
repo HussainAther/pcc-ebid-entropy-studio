@@ -171,6 +171,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-BOIDS-RUL016-INTERACTION3-PROSPECTIVE",
+    name: "Boids RUL-016 interaction-informed three-feature observer",
+    description: "RUL-017 prospective observer frozen from the best complete-geometry subset in the diagnostic RUL-016 Boolean-lattice analysis before new RUL-017 trajectories are generated.",
+    observableIds: ["OBS-POLARIZATION", "OBS-SPATIAL", "OBS-SPEED-VARIANCE"],
+    coarseGraining: "Tail-mean flock polarization, fixed-grid spatial entropy, and speed variance; heading entropy and regime-transition coordinates are intentionally omitted.",
+    temporalResolution: "Native simulation step; tail summaries use the final 25% of each 200-step trajectory.",
+    spatialResolution: "Whole-flock order and speed summaries plus a fixed 8x8 occupancy grid on a 100x100 periodic domain.",
+    projectId,
+  },
+  {
     id: "OBSERVER-BOIDS-RUL013-INFORMATION-WEIGHTED",
     name: "Boids RUL-013 information-weighted observer",
     description: "RUL-015 prospective continuous metric observer. All six Boids coordinates remain active, with weights fixed from RUL-013 reliability, signal-to-uncertainty, and degeneracy before RUL-015 outcomes are generated.",

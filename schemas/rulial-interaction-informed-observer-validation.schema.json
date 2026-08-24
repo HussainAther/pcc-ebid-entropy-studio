@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-interaction-informed-observer-validation/1.0.0",
+  "title": "RUL-017 interaction-informed observer validation report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "selectionSource", "design", "simulation", "observers", "primaryProspectiveTest", "secondaryChecks"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-interaction-informed-observer-validation/1.0.0"},
+    "experimentId": {"const": "RUL-017"},
+    "selectionSource": {"type": "object", "required": ["experimentId", "reportSha256", "candidateFeatures"]},
+    "design": {"type": "object", "required": ["rulePointCount", "latinHypercubeSeed", "seedPools"]},
+    "simulation": {"type": "object", "required": ["poolARunCount", "poolBRunCount", "totalNewRunCount"]},
+    "observers": {"type": "array", "minItems": 3},
+    "primaryProspectiveTest": {"type": "object", "required": ["geometryMargin", "localMargin", "interactionInformedObserverSupported"]},
+    "secondaryChecks": {"type": "object", "required": ["jaccardMargin", "jaccardCriterionPassed"]}
+  },
+  "additionalProperties": true
+}

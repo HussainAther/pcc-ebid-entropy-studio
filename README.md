@@ -260,3 +260,10 @@ The diagnostic finds clear non-additivity. The strongest complete-geometry inter
 
 Run with `npm run ruliology:observer-ablation`. Outputs live under `data/ruliology/observer-ablation/`.
 
+## RUL-017 — Prospective interaction-informed compact observer validation
+
+RUL-017 turns the diagnostic RUL-016 subset result into a prospective test. Before reading new outcomes, it freezes the three-feature Boids observer `polarization + spatial entropy + speed variance`, compares it against the established four-feature RUL-013 hard-selection observer and the six-feature full-core baseline, and generates a new deterministic 40-point Latin-hypercube rule-space design with two disjoint four-seed pools (**320 new simulations**). Pool-A feature scaling is held fixed for pool B.
+
+The primary margins are frozen at **+0.01** for both complete-geometry and local-edge split-half Spearman stability relative to the four-feature observer. The three-feature candidate passes both: complete geometry improves by about **+0.082** and local geometry by about **+0.012**. The secondary top-10% boundary-overlap margin is challenged: Jaccard is lower than the four-feature comparator. This supports predictive value for the RUL-016 interaction-informed geometry choice without claiming universal observer optimality.
+
+Run with `npm run ruliology:observer-interaction-validation`. Outputs live under `data/ruliology/interaction-informed-observer-validation/`.

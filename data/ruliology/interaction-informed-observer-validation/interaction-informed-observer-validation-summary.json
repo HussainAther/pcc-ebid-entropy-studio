@@ -1,0 +1,123 @@
+{
+  "experimentId": "RUL-017",
+  "selectionSource": {
+    "experimentId": "RUL-016",
+    "reportSha256": "b2e0d974060e8e8b2cdf5fbfb0067d76584d4491c5959623d09fa87252f404db",
+    "candidateFeatures": [
+      "OBS-POLARIZATION",
+      "OBS-SPATIAL",
+      "OBS-SPEED-VARIANCE"
+    ],
+    "candidateSelectionRule": "Freeze the RUL-016 non-empty subset with the highest complete-geometry split-half stability; do not search RUL-017 outcomes for another subset.",
+    "comparisonObserverFeatures": [
+      "OBS-POLARIZATION",
+      "OBS-HEADING-ENTROPY",
+      "OBS-SPATIAL",
+      "OBS-SPEED-VARIANCE"
+    ]
+  },
+  "design": {
+    "rulePointCount": 40,
+    "latinHypercubeSeed": 2026082417,
+    "localNeighborK": 4,
+    "seedPools": {
+      "A": [
+        111001,
+        111017,
+        111043,
+        111071
+      ],
+      "B": [
+        112003,
+        112027,
+        112051,
+        112079
+      ]
+    },
+    "newRuleCoordinateCheckAgainstRUL006RUL011RUL014RUL015": {
+      "minimum": 0.043899661126361816,
+      "median": 0.11413352300727303,
+      "maximum": 0.19824994313014685
+    },
+    "config": {
+      "n_agents": 40,
+      "steps": 200,
+      "dt": 0.2,
+      "width": 100.0,
+      "height": 100.0,
+      "separation_radius": 3.0,
+      "max_speed": 2.5,
+      "pressure": 0.35,
+      "tail_fraction": 0.25,
+      "stochastic_noise_scale": 1.0
+    }
+  },
+  "simulation": {
+    "poolARunCount": 160,
+    "poolBRunCount": 160,
+    "totalNewRunCount": 320
+  },
+  "localEdgeCount": 107,
+  "observers": [
+    {
+      "observerId": "full_core",
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "description": "Six-feature RUL-006 baseline observer.",
+      "activeFeatureCount": 6,
+      "geometryStabilitySpearman": 0.7756981667657973,
+      "localEdgeStabilitySpearman": 0.7985579619480687,
+      "top10LocalEdgeJaccard": 0.29411764705882354
+    },
+    {
+      "observerId": "rul013_hard4",
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "description": "Four-feature reliability-selected observer retained from RUL-013/RUL-014.",
+      "activeFeatureCount": 4,
+      "geometryStabilitySpearman": 0.80249959951636,
+      "localEdgeStabilitySpearman": 0.8166989948862635,
+      "top10LocalEdgeJaccard": 0.4666666666666667
+    },
+    {
+      "observerId": "rul016_interaction3",
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "description": "Three-feature interaction-informed candidate frozen from the best complete-geometry RUL-016 subset.",
+      "activeFeatureCount": 3,
+      "geometryStabilitySpearman": 0.8846674632930034,
+      "localEdgeStabilitySpearman": 0.8288171790199651,
+      "top10LocalEdgeJaccard": 0.375
+    }
+  ],
+  "primaryProspectiveTest": {
+    "geometryMargin": 0.01,
+    "localMargin": 0.01,
+    "interaction3MinusHard4Geometry": 0.08216786377664342,
+    "interaction3MinusHard4Local": 0.012118184133701582,
+    "geometryCriterionPassed": true,
+    "localCriterionPassed": true,
+    "interactionInformedObserverSupported": true
+  },
+  "secondaryChecks": {
+    "jaccardMargin": 0.05,
+    "interaction3MinusHard4Top10Jaccard": -0.09166666666666667,
+    "jaccardCriterionPassed": false,
+    "interaction3MinusFullGeometry": 0.1089692965272061,
+    "interaction3MinusFullLocal": 0.030259217071896383,
+    "interaction3MinusFullTop10Jaccard": 0.08088235294117646
+  }
+}
