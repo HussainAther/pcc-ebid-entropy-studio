@@ -37,3 +37,26 @@ Two rules may therefore be observationally equivalent for one observer and disti
 - Treat clustering and embeddings as exploratory until stability and sensitivity are measured.
 - Report negative and inconclusive outcomes.
 - Preserve seeds, initial states, parameter grids, observer definitions, estimator versions, and source revisions in exported artifacts.
+
+## Executable ECA benchmark
+
+`CAMPAIGN-RUL-ECA-001` now has a dedicated local campaign runner in `app/lib/rulialCampaignRunner.ts` and a no-dependency Node 22 CLI in `scripts/run-rulial-eca.ts`.
+
+Run the frozen benchmark with:
+
+```bash
+npm run ruliology:eca
+```
+
+Use `npm run ruliology:eca:quick` for the seven-rule plumbing subset.
+
+The complete benchmark currently freezes 256 ECA rules × 4 seeded Bernoulli initial conditions at width 257 for 256 steps, with periodic boundaries and a matched center-cell flip. It writes:
+
+- `data/ruliology/eca-atlas/campaign-report.json` — run summaries, profiles, and rule-neighborhood transitions;
+- `data/ruliology/eca-atlas/profiles.csv` — one EBID feature vector per rule;
+- `data/ruliology/eca-atlas/transitions.csv` — one-bit truth-table edges with scaled observable distance;
+- `data/ruliology/eca-atlas/atlas.json` — compact UI payload used by the Rulial Atlas.
+
+The rule geometry is the 8-dimensional Hamming hypercube of ECA transition tables: two rules are neighbors only when exactly one of the eight local outputs differs. This produces 1024 undirected one-bit edges across the complete 256-rule family. Observable distances use fixed, declared feature scales before cross-feature Euclidean comparison.
+
+The generated atlas is a benchmark dataset, not a discovered universal taxonomy. External cellular-automaton classes remain excluded from feature construction and may only be compared post hoc.

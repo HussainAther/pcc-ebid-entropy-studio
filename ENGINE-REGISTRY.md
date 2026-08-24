@@ -38,3 +38,7 @@ Registry status distinguishes metadata availability from actual validation. A re
 `ENGINE-LOCAL-ECA` is the calibration implementation for the finite `RSPACE-ECA-256` rule space. It is registered as **available**, not yet as a campaign-validated engine: the Rulial Atlas can exercise deterministic ECA trajectories, but the general campaign orchestrator must not silently route ECA campaigns through the replicator runner. A dedicated rulial campaign execution path is required before `CAMPAIGN-RUL-ECA-001` is promoted to ready/validated.
 
 `ENGINE-PCC-BOIDS` is also mapped to `RSPACE-BOIDS-001`. The existing single-axis noise sweep remains a valid narrow benchmark; `CAMPAIGN-RUL-BOIDS-001` is a specified multidimensional extension and should use a frozen space-filling design plus held-out boundary validation before interpretation.
+
+## Local ECA rulial campaign runner
+
+`ENGINE-LOCAL-ECA` is now executable through `app/lib/rulialCampaignRunner.ts` and `scripts/run-rulial-eca.ts`. Engineering validation covers deterministic seeded initialization, complete 256-rule enumeration, matched perturbations, 8-bit truth-table Hamming neighborhoods, profile aggregation, and committed atlas generation. This validation is about execution/provenance correctness; it does not validate a scientific universality claim.

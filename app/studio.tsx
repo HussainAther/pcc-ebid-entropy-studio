@@ -15,6 +15,7 @@ import { campaignRunCount, executeCampaign, type CampaignReport } from "./lib/ca
 import { buildMissionControlViewModel, type DashboardTone } from "./lib/missionControl";
 import { ecaInstabilitySignature } from "./lib/elementaryCA";
 import { enumerateFiniteRuleSpace } from "./lib/ruleSpaceExplorer";
+import ecaAtlas from "../data/ruliology/eca-atlas/atlas.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -208,6 +209,10 @@ function RulialAtlas() {
   const initial = Array.from({ length: 129 }, (_, index) => index === 64 ? 1 : 0);
   const benchmarkRules = [0, 30, 54, 90, 110, 184, 255];
   const signatures = benchmarkRules.map(rule => ecaInstabilitySignature(rule, initial, 96));
+  const atlasProfiles = ecaAtlas.profiles;
+  const atlasProfileByRule = new Map(atlasProfiles.map(profile => [profile.rule.ruleId, profile]));
+  const atlasPreview = benchmarkRules.map(rule => atlasProfileByRule.get(String(rule))).filter(Boolean);
+  const sensitiveEdges = ecaAtlas.highSensitivityTransitions.slice(0, 8);
 
   if (!selected) return <div className="view"><Notice title="No rule spaces">Register a rule space before opening the Rulial Atlas.</Notice></div>;
 
@@ -231,8 +236,21 @@ function RulialAtlas() {
       <div className="analysis-grid">{workspace.observers.map(observer=><article className="analysis-card" key={observer.id}><div><code>{observer.id}</code><span className="implementation specified">frozen definition</span></div><h3>{observer.name}</h3><p>{observer.description}</p><small>{observer.observableIds.join(" · ")}</small><p><b>Coarse-graining:</b> {observer.coarseGraining}</p></article>)}</div>
     </section>
     <section className="paper">
-      <SectionHead eyebrow="RUL-001 calibration preview" title="Elementary CA instability signatures"/>
-      <p>This deterministic preview uses a single centered-cell initial condition and a matched one-cell perturbation. It exists to exercise the rule-space plumbing; the registered campaign still requires the frozen multi-condition ensemble before scientific interpretation.</p>
+      <SectionHead eyebrow="RUL-001 frozen benchmark" title="256-rule EBID atlas"/>
+      <p>The committed benchmark enumerates all 256 ECA rules over four frozen seeded Bernoulli initial conditions, with matched one-cell perturbations. Profiles are constructed without external CA class labels.</p>
+      <div className="stats compact"><Stat label="Profiles" value={String(ecaAtlas.summary.profileCount)} foot="complete rule population"/><Stat label="Runs" value={String(ecaAtlas.summary.runCount)} foot="rule × seed"/><Stat label="Rule edges" value={String(ecaAtlas.summary.transitionCount)} foot="one-bit truth-table neighbors"/><Stat label="Seeds" value={String(ecaAtlas.configuration.seeds.length)} foot="frozen ensemble"/></div>
+      <div className="table-head rulial-table"><span>Rule</span><span>Entropy</span><span>Hamming</span><span>EBID features</span></div>
+      {atlasPreview.map(profile=>{ const features=new Map(profile!.features.map(feature=>[feature.observableId,feature.value])); return <div className="source-row rulial-table" key={profile!.rule.ruleId}><b>Rule {profile!.rule.ruleId}</b><code>{Number(features.get("OBS-SHANNON") ?? 0).toFixed(4)}</code><span>{Number(features.get("OBS-HAMMING") ?? 0).toFixed(4)}</span><small>growth {Number(features.get("OBS-PERTURB-GROWTH") ?? 0).toExponential(2)} · τac {Number(features.get("OBS-AUTOCORR-TIME") ?? 0).toFixed(2)} · RLE {Number(features.get("OBS-COMPRESSION") ?? 0).toFixed(3)}</small></div>;})}
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-002 neighborhood scan" title="Highest one-bit rule sensitivities"/>
+      <p>Edges compare rules separated by exactly one output bit in the 8-bit ECA truth table. Observable distance uses preregistered fixed feature scales rather than raw mixed-unit values.</p>
+      <div className="table-head rulial-table"><span>Edge</span><span>Rule distance</span><span>Observable distance</span><span>Observer</span></div>
+      {sensitiveEdges.map(edge=><div className="source-row rulial-table" key={`${edge.fromRuleId}-${edge.toRuleId}`}><b>{edge.fromRuleId} ↔ {edge.toRuleId}</b><code>{edge.syntacticDistance.toFixed(3)}</code><span>{edge.observableDistance.toFixed(4)}</span><small>{edge.observerId}</small></div>)}
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>
+      <p>The older single-centered-cell view remains as a plumbing check only; it is not the benchmark used for the atlas above.</p>
       <div className="table-head rulial-table"><span>Rule</span><span>Mean entropy</span><span>Terminal entropy</span><span>Perturbation distance</span></div>
       {signatures.map(signature=><div className="source-row rulial-table" key={signature.rule}><b>Rule {signature.rule}</b><code>{signature.meanEntropy.toFixed(4)}</code><span>{signature.terminalEntropy.toFixed(4)}</span><small>{signature.meanPerturbationDistance.toFixed(4)} mean · {signature.terminalPerturbationDistance.toFixed(4)} terminal</small></div>)}
     </section>

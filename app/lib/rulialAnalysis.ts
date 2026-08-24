@@ -49,3 +49,25 @@ export function detectHighSensitivityTransitions(transitions: RulialTransition[]
     return transition.observableDistance / transition.syntacticDistance >= ratioThreshold;
   });
 }
+
+
+export const DEFAULT_RULIAL_FEATURE_SCALES: Record<string, number> = {
+  "OBS-SHANNON": Math.log(2),
+  "OBS-HAMMING": 1,
+  "OBS-PERTURB-GROWTH": 1,
+  "OBS-AUTOCORR-TIME": 64,
+  "OBS-COMPRESSION": 2,
+};
+
+export function scaledObservableDistance(a: RulialProfile, b: RulialProfile, scales: Record<string, number> = DEFAULT_RULIAL_FEATURE_SCALES): number {
+  const left = featureMap(a);
+  const right = featureMap(b);
+  const shared = [...left.keys()].filter(key => right.has(key) && Number.isFinite(scales[key]) && scales[key] > 0);
+  if (!shared.length) return Number.NaN;
+  const sumSquares = shared.reduce((sum, key) => {
+    const scale = scales[key];
+    const delta = ((left.get(key) ?? 0) - (right.get(key) ?? 0)) / scale;
+    return sum + delta * delta;
+  }, 0);
+  return Math.sqrt(sumSquares / shared.length);
+}

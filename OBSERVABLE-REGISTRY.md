@@ -43,3 +43,7 @@ Add one `ObservableDefinition` to `createPccObservables`. Use a stable uppercase
 ## Ruliology additions
 
 The registry now includes planned or implemented quantities for trajectory compression, perturbation growth, recovery time, mutual information, autocorrelation time, macrostate occupancy, transition rate, metastable dwell time, and rule sensitivity. These definitions are intentionally estimator-aware: no compression statistic is labeled exact algorithmic complexity, and no finite perturbation-growth statistic is labeled a Lyapunov exponent without the required assumptions.
+
+## RUL-001 implemented estimators
+
+The ECA benchmark now computes ensemble summaries for Shannon entropy, normalized Hamming perturbation distance, finite-horizon perturbation-growth slope, entropy-series autocorrelation threshold time, and a frozen binary run-length compression ratio. The compression statistic is an explicitly codec-dependent proxy and must not be described as Kolmogorov complexity. Cross-feature rule-neighborhood distances use fixed scales declared in `app/lib/rulialAnalysis.ts`.

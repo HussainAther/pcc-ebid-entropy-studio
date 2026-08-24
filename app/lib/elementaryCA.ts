@@ -69,3 +69,36 @@ export function ecaInstabilitySignature(rule: number, initial: number[], steps: 
     hammingSeries,
   };
 }
+
+/** Hamming distance between the two 8-bit ECA transition tables, normalized to [0, 1]. */
+export function ecaRuleTableDistance(a: number, b: number): number {
+  validateEcaRule(a);
+  validateEcaRule(b);
+  let difference = (a ^ b) & 0xff;
+  let bits = 0;
+  while (difference) {
+    bits += difference & 1;
+    difference >>>= 1;
+  }
+  return bits / 8;
+}
+
+/** The eight ECA rules reachable by flipping exactly one transition-table output bit. */
+export function ecaOneBitNeighbors(rule: number): number[] {
+  validateEcaRule(rule);
+  return Array.from({ length: 8 }, (_, bit) => rule ^ (1 << bit));
+}
+
+/**
+ * Fixed binary run-length codec used only as a transparent compression proxy.
+ * The ratio is encoded-symbol count / raw-symbol count and may exceed 1.
+ */
+export function binaryRunLengthCompressionRatio(trajectory: number[][]): number {
+  const symbols = trajectory.flat();
+  if (!symbols.length) return 0;
+  let runs = 1;
+  for (let index = 1; index < symbols.length; index += 1) {
+    if ((symbols[index] ? 1 : 0) !== (symbols[index - 1] ? 1 : 0)) runs += 1;
+  }
+  return (2 * runs) / symbols.length;
+}

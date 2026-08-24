@@ -121,3 +121,9 @@ Key additions:
 - `04 · Rulial Atlas` - Studio workspace for browsing rule spaces, observers, and a deterministic ECA plumbing preview.
 
 The scientific boundary is explicit: the ECA preview verifies infrastructure only. Claims about classes, phase boundaries, observer dependence, PCC regimes, or cross-system universality require frozen campaigns and held-out validation.
+
+### RUL-001 executable atlas
+
+The first complete Ruliology benchmark can now be regenerated locally with `npm run ruliology:eca`. It enumerates all 256 elementary cellular automata over the frozen four-seed ensemble and writes the campaign report, rule profiles, one-bit rule-neighborhood transitions, and compact Rulial Atlas payload under `data/ruliology/eca-atlas/`.
+
+The browser Rulial Atlas consumes the committed compact atlas payload, so the 256-rule population and highest one-bit sensitivity edges can be inspected without rerunning the campaign on every page load. `npm run ruliology:eca:quick` preserves a seven-rule smoke-test path.

@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.mjs",
-    "lint": "eslint ."
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "lint": "eslint .",
+    "ruliology:eca": "node --experimental-strip-types scripts/run-rulial-eca.ts",
+    "ruliology:eca:quick": "node --experimental-strip-types scripts/run-rulial-eca.ts --quick"
   },
   "dependencies": {
     "next": "16.2.6",

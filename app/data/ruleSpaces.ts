@@ -64,7 +64,7 @@ export const observers: ObserverDefinition[] = [
     id: "OBSERVER-EBID-CORE",
     name: "EBID core observer",
     description: "Information-dynamics observer using entropy, divergence, perturbation, and recovery observables without semantic regime labels.",
-    observableIds: ["OBS-SHANNON", "OBS-DEFICIT", "OBS-KL", "OBS-HAMMING", "OBS-PERTURB-GROWTH", "OBS-RECOVERY-TIME"],
+    observableIds: ["OBS-SHANNON", "OBS-DEFICIT", "OBS-KL", "OBS-HAMMING", "OBS-PERTURB-GROWTH", "OBS-AUTOCORR-TIME", "OBS-COMPRESSION", "OBS-RECOVERY-TIME"],
     coarseGraining: "System-specific state distributions mapped to registered scalar observables.",
     temporalResolution: "Native simulation step plus declared aggregation windows.",
     spatialResolution: "Native lattice or agent resolution unless a registered coarse-graining is declared.",

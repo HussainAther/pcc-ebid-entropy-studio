@@ -138,10 +138,10 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       formula: "Cz = compressed_bytes / raw_bytes",
       interpretation: "Lower ratios indicate greater compressibility under the declared codec; this is estimator-dependent and not Kolmogorov complexity.",
       requiredInputs: ["canonical trajectory bytes", "fixed codec and settings"], output: "dimensionless ratio",
-      estimator: "Serialize trajectories canonically, compress with a frozen codec/version, and divide compressed byte count by raw byte count.",
+      estimator: "Serialize the binary trajectory in row-major order and apply the frozen binary run-length codec; ratio = 2 * run_count / symbol_count.",
       validWhen: ["serialization and codec are identical across comparisons"],
       failureModes: ["Codec dependence", "Short-sequence overhead", "Equating compression ratio with exact algorithmic complexity"],
-      implementationStatus: "planned", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: [], tags: ["ruliology", "complexity", "compression"], projectId,
+      implementationStatus: "implemented", implementationPath: "app/lib/elementaryCA.ts", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: [], tags: ["ruliology", "complexity", "compression"], projectId,
     },
     {
       id: "OBS-PERTURB-GROWTH", slug: "perturbation-growth", name: "Perturbation growth", symbol: "Gd", category: "rate",
@@ -185,7 +185,7 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       estimator: "Compute the normalized autocorrelation and apply the preregistered integral or first-crossing rule.",
       validWhen: ["sampling interval is fixed", "time series length supports the requested lag range"],
       failureModes: ["Nonstationarity", "Short trajectories", "Oscillatory correlations with ambiguous integral time"],
-      implementationStatus: "planned", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: [], tags: ["ruliology", "memory", "critical slowing"], projectId,
+      implementationStatus: "implemented", implementationPath: "app/lib/rulialCampaignRunner.ts", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: [], tags: ["ruliology", "memory", "critical slowing"], projectId,
     },
     {
       id: "OBS-STATE-OCCUPANCY", slug: "state-occupancy", name: "Macrostate occupancy", symbol: "pi_m", category: "stability",
