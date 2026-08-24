@@ -21,6 +21,7 @@ import ecaObserverDependence from "../data/ruliology/eca-observer-dependence/obs
 import ecaObserverGeometry from "../data/ruliology/eca-observer-geometry/observer-geometry-summary.json";
 import boidsRulial from "../data/ruliology/boids-rulial/boids-rulial-summary.json";
 import crossSubstrate from "../data/ruliology/cross-substrate/cross-substrate-summary.json";
+import networkRulial from "../data/ruliology/network-rulial/network-rulial-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -308,6 +309,15 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Frozen criterion</span><span>ECA</span><span>Boids</span><span>Cross-substrate</span></div>
       {Object.entries(crossSubstrate.challenge.criteria).map(([id,criterion])=><div className="source-row rulial-table" key={id}><b>{id.replaceAll(/([A-Z])/g," $1").trim()}</b><code>{criterion.eca ? "pass" : "fail"}</code><span>{criterion.boids ? "pass" : "fail"}</span><small>{criterion.crossSubstratePass ? "retained" : "challenged"} · {criterion.definition}</small></div>)}
       <Notice title="No universality claim">Only two of five frozen criteria pass in both substrates. The common positive association and heavy local sensitivity tail are worth carrying forward, while the failed Boids replication criteria are preserved rather than tuned away.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-008 network substrate" title="A third rule space survives held-out stochastic validation"/>
+      <p>RUL-008 samples 24 local update rules in a four-dimensional stochastic binary-network space. Every rule is evaluated on ring, small-world, and matched-degree Erdos-Renyi graphs as fixed topology blocks, then the full design is repeated with disjoint held-out seeds.</p>
+      <div className="stats compact"><Stat label="Network runs" value={networkRulial.simulation.totalRunCount.toLocaleString()} foot={`${networkRulial.sampling.pointCount} rules × 3 topology blocks`}/><Stat label="Geometry stability ρ" value={Number(networkRulial.validation.geometryStabilitySpearman).toFixed(3)} foot="discovery vs holdout"/><Stat label="Local stability ρ" value={Number(networkRulial.validation.localEdgeStabilitySpearman).toFixed(3)} foot={`${networkRulial.discovery.localEdgeCount} frozen local edges`}/><Stat label="Top-10% Jaccard" value={Number(networkRulial.validation.top10LocalEdgeJaccard).toFixed(3)} foot="boundary replication"/></div>
+      <p>The local sensitivity tail is pronounced: q95/median = <b>{Number(networkRulial.discovery.localSensitivityQ95OverMedian).toFixed(2)}</b>. The three topology-specific rule geometries are also strongly rank-aligned, while mean within-rule topology displacement is only {Number(networkRulial.topologyBlocks.spread.topologyToLocalRuleDistanceRatio).toFixed(2)}× the mean local rule-induced observable distance.</p>
+      <Notice title="Topology is blocked, not hidden">RUL-008 does not treat graph topology as another Euclidean rule coordinate. The same local rules are crossed with three preregistered interaction structures, topology-specific profiles are retained, and the aggregate rule profile averages across those blocks. The next three-substrate challenge must reuse the already-frozen RUL-007 criteria without changing thresholds after seeing this result.</Notice>
+      <div className="table-head rulial-table"><span>Candidate edge</span><span>dR</span><span>Discovery S</span><span>Holdout S</span></div>
+      {networkRulial.discovery.topCandidateEdges.slice(0,6).map(edge=><div className="table-row rulial-table" key={edge.pairKey}><span><b>{edge.leftRuleId} ↔ {edge.rightRuleId}</b></span><span>{Number(edge.ruleDistance).toFixed(3)}</span><span>{Number(edge.discoverySensitivity).toFixed(2)}</span><span>{Number(edge.holdoutSensitivity).toFixed(2)}</span></div>)}
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

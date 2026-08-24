@@ -185,3 +185,25 @@ npm run ruliology:cross-substrate
 ```
 
 Artifacts are written to `data/ruliology/cross-substrate/`.
+
+## RUL-008 — topology-blocked network rule space
+
+RUL-008 adds a third substrate without changing the RUL-007 cross-substrate thresholds after seeing the new system. The substrate is a synchronous stochastic binary-state network model whose local rule is
+
+`R = (threshold, coupling, memory, temperature)`.
+
+The four coordinates are normalized within frozen ranges before Euclidean rule distance is computed. Graph topology is **not** treated as a fifth Euclidean rule coordinate. Instead, every rule point is crossed with three preregistered topology blocks of matched nominal mean degree: ring lattice, small-world, and Erdos-Renyi. This separates local update rules from interaction structure and preserves topology-specific profiles for audit.
+
+The frozen discovery design uses 24 deterministic Latin-hypercube points (`seed=20260824`) and three dynamics seeds per point/topology. The complete design is then repeated with two disjoint validation seeds. With 3 topology blocks this yields 216 discovery simulations and 144 held-out simulations, 360 total.
+
+The frozen network observer reports tail network activity, binary state entropy, edge agreement, node switch rate, operational macrostate transition rate, and normalized macrostate dwell time. The activity bins are coarse-graining devices only; they do not establish PCC semantics.
+
+The committed RUL-008 result is strongly reproducible under held-out stochastic realizations. Discovery-to-holdout full-geometry Spearman is about `0.992`, local-edge Spearman about `0.983`, and top-10% local-edge Jaccard is `0.75`. The local sensitivity tail is heterogeneous (`q95 / median ~= 3.51`). Across the three topology blocks, rule-space geometries remain highly rank-aligned in the discovery ensemble. These findings support using the network substrate in the next frozen three-substrate challenge, but they are not themselves evidence of universal rulial laws.
+
+Run with:
+
+```bash
+npm run ruliology:network
+```
+
+Artifacts are written under `data/ruliology/network-rulial/`.

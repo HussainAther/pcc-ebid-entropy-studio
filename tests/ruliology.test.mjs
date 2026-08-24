@@ -189,3 +189,33 @@ test("committed RUL-007 adds complete Boids holdout coverage and preserves faile
   assert.ok(eca.localSensitivity.q95OverMedian > 1);
   assert.ok(boids.localSensitivity.q95OverMedian > 1);
 });
+
+test("RUL-008 registers a topology-blocked stochastic network substrate", () => {
+  const engines = readFileSync(new URL("../app/data/engines.ts", import.meta.url), "utf8");
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  assert.match(spaces, /RSPACE-NETWORK-001/);
+  assert.match(spaces, /OBSERVER-NETWORK-RULIAL-CORE/);
+  assert.match(spaces, /DIM-NET-THRESHOLD/);
+  assert.match(engines, /ENGINE-LOCAL-NETWORK/);
+  assert.match(research, /H-RUL-008/);
+  assert.match(research, /RUL-008/);
+  assert.match(studio, /RUL-008 network substrate/);
+});
+
+test("committed RUL-008 repeats the complete topology-blocked design on disjoint seeds", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/network-rulial/network-rulial-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-008");
+  assert.equal(summary.sampling.pointCount, 24);
+  assert.deepEqual(summary.sampling.discoverySeeds, [71011, 71023, 71039]);
+  assert.deepEqual(summary.sampling.validationSeeds, [72019, 72031]);
+  assert.deepEqual(summary.sampling.topologies, ["ring", "small_world", "erdos_renyi"]);
+  assert.equal(summary.simulation.discoveryRunCount, 216);
+  assert.equal(summary.simulation.holdoutRunCount, 144);
+  assert.equal(summary.simulation.totalRunCount, 360);
+  assert.ok(summary.validation.geometryStabilitySpearman >= 0.70);
+  assert.ok(summary.validation.localEdgeStabilitySpearman >= 0.70);
+  assert.ok(summary.discovery.localSensitivityQ95OverMedian >= 1.5);
+  assert.ok(summary.validation.top10LocalEdgeJaccard >= 0.50);
+  assert.equal(summary.topologyBlocks.discovery.length, 3);
+  assert.equal(summary.topologyBlocks.crossTopologyDiscovery.length, 3);
+});

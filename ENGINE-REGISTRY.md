@@ -42,3 +42,7 @@ Registry status distinguishes metadata availability from actual validation. A re
 ## Local ECA rulial campaign runner
 
 `ENGINE-LOCAL-ECA` is now executable through `app/lib/rulialCampaignRunner.ts` and `scripts/run-rulial-eca.ts`. Engineering validation covers deterministic seeded initialization, complete 256-rule enumeration, matched perturbations, 8-bit truth-table Hamming neighborhoods, profile aggregation, and committed atlas generation. This validation is about execution/provenance correctness; it does not validate a scientific universality claim.
+
+## RUL-008 local network engine
+
+`ENGINE-LOCAL-NETWORK` executes the topology-blocked stochastic binary-network benchmark through `scripts/run-rulial-network.py`. The engine samples `RSPACE-NETWORK-001`, evaluates every local rule across fixed ring, small-world, and Erdos-Renyi topology blocks, and emits `entropy-rulial-network/1.0.0`. Topology is an explicit block, not a hidden coordinate in the normalized local-rule metric.

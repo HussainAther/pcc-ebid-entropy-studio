@@ -135,6 +135,9 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
       id: "H-RUL-007", title: "Cross-substrate rulial structure", statement: "At least some dimensionless structural properties of rule-space geometry recur across discrete ECA and continuous stochastic Boids under a frozen cross-substrate comparison contract.", disconfirmingOutcome: "Do not claim a cross-substrate regularity when the frozen criteria fail in either substrate; retain failures rather than retuning thresholds or metrics.", evidence: "hypothesis", assumptions: ["Rule distances are dimensionless and frozen within each substrate.", "Only structural summaries, not raw mixed-observer distances, are compared across substrates.", "Discovery and holdout ensembles are disjoint within each substrate.", "The RUL-007 contract is versioned before adding a third substrate."], derivedFromIds: ["SRC-README", "SRC-BOIDS"], projectId,
     },
     {
+      id: "H-RUL-008", title: "Network rulial structure under topology blocking", statement: "A stochastic binary network substrate exhibits reproducible rule-space geometry and heterogeneous local sensitivity when the same local rules are evaluated across preregistered topology blocks.", disconfirmingOutcome: "Do not treat the network substrate as structurally reproducible if discovery/holdout geometry fails the frozen stability checks or if local sensitivity collapses under held-out seeds; retain topology dependence rather than averaging it away post hoc.", evidence: "hypothesis", assumptions: ["The four-dimensional local rule metric is frozen before outcome analysis.", "Ring, small-world, and Erdos-Renyi topologies are fixed experimental blocks rather than outcome-tuned rule coordinates.", "Discovery and validation seeds are disjoint.", "The RUL-007 five-criterion contract remains unchanged for any later three-substrate test."], derivedFromIds: ["SRC-README"], projectId,
+    },
+    {
       id: "H-011", title: "Cross-domain invariance", statement: "The same correspondence persists across replicator, physical, and learning toy systems.", disconfirmingOutcome: "Currently underspecified: domain mapping and equivalence criteria require revision.", evidence: "speculation", assumptions: ["Domain mappings preserve the relevant local dynamics."], derivedFromIds: ["C-027"], projectId,
     },
   ],
@@ -148,6 +151,7 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "RUL-005", engineId: "ENGINE-LOCAL-ECA", title: "Observer-space geometry on a fixed ECA population", hypothesisId: "H-RUL-005", model: "eca_observer_subset_lattice", observableIds: ["OBS-SHANNON", "OBS-HAMMING", "OBS-PERTURB-GROWTH", "OBS-COMPRESSION", "OBS-AUTOCORR-TIME"], controls: ["same 4,096 stored trajectories for all 31 observers", "all non-empty subsets of a frozen five-feature basis", "normalized Hamming observer distance", "observer-specific epsilon from median split-half self-distance", "no external CA labels"], primaryMetric: "Spearman association between observer structural distance and induced quotient/geometry distance", status: "active", projectId },
     { id: "RUL-006", engineId: "ENGINE-PCC-BOIDS", title: "Boids multidimensional rulial landscape", hypothesisId: "H-RUL-006", model: "pcc_boids_rule_space", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE", "OBS-METASTABLE-DWELL", "OBS-TRANSITION-RATE"], controls: ["32-point deterministic Latin hypercube discovery design", "held-out validation seeds", "fixed 40-agent periodic domain", "frozen robust-range feature scaling", "adaptive boundary probes simulated only after discovery"], primaryMetric: "held-out rank stability of local rule sensitivity plus boundary-candidate retention", status: "active", projectId },
     { id: "RUL-007", engineId: "ENGINE-PCC-BOIDS", title: "ECA-Boids cross-substrate rulial structure challenge", hypothesisId: "H-RUL-007", model: "cross_substrate_rule_geometry", observableIds: ["OBS-RULE-SENSITIVITY"], controls: ["frozen substrate-specific dimensionless rule metrics", "frozen observer feature scaling", "complete held-out Boids coverage at the same 32 coordinates", "disjoint discovery/holdout ensembles", "five versioned cross-substrate challenge criteria", "failed criteria retained without threshold tuning"], primaryMetric: "number of frozen structural criteria satisfied by both ECA and Boids", status: "active", projectId },
+    { id: "RUL-008", engineId: "ENGINE-LOCAL-NETWORK", title: "Topology-blocked network rulial landscape", hypothesisId: "H-RUL-008", model: "stochastic_binary_network_rule_space", observableIds: ["OBS-NETWORK-ACTIVITY", "OBS-SHANNON", "OBS-NETWORK-ORDER", "OBS-SWITCH-RATE", "OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"], controls: ["24-point deterministic Latin hypercube in four local-rule coordinates", "three fixed topology blocks with matched mean degree", "three discovery and two disjoint validation seeds", "frozen discovery feature scaling", "topology excluded from the local-rule metric"], primaryMetric: "discovery-to-holdout stability of complete and local rule-space geometry", status: "active", projectId },
   ],
   campaigns: [
     {
@@ -213,6 +217,22 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
         { id: "BRSTEP-02", kind: "analyze", label: "Discover candidate regimes", dependsOn: ["BRSTEP-01"], description: "Build six-feature collective-dynamics profiles, compute normalized rule/observable distances, and rank local sensitivity edges." },
         { id: "BRSTEP-03", kind: "analyze", label: "Validate candidate boundaries", dependsOn: ["BRSTEP-02"], description: "Re-run selected edge endpoints with two held-out seeds and simulate adaptive transverse midpoint probes near the candidate boundaries." },
         { id: "BRSTEP-04", kind: "package", label: "Freeze boids rulial package", dependsOn: ["BRSTEP-03"], description: "Export sampling design, rule coordinates, observer definitions, run artifacts, profiles, and validation outcomes." }
+      ],
+    },
+    {
+      id: "CAMPAIGN-RUL-NETWORK-001",
+      title: "Topology-blocked network rulial landscape",
+      description: "Sample a four-dimensional stochastic local update-rule space and evaluate every coordinate across three fixed graph topology blocks with disjoint discovery and validation seeds.",
+      experimentId: "RUL-008",
+      seeds: [71011, 71023, 71039],
+      parameterAxes: [],
+      fixedParameters: { discoveryPoints: 24, samplingDesign: "deterministic-LHS-seed-20260824", thresholdRange: "0.25..0.75", couplingRange: "0.5..2.5", memoryRange: "0.0..1.5", temperatureRange: "0.08..0.5", topologies: "ring,small_world,erdos_renyi", nNodes: 72, meanDegree: 6, steps: 220, tailFraction: 0.25, validationSeeds: "72019,72031" },
+      analysisIds: [], figureIds: [], paperIds: [], datasetIds: [], status: "completed", projectId,
+      steps: [
+        { id: "NRSTEP-01", kind: "execute", label: "Run topology-blocked discovery design", dependsOn: [], description: "Execute every frozen local-rule coordinate on all three topology blocks with three discovery seeds." },
+        { id: "NRSTEP-02", kind: "analyze", label: "Build aggregate and topology-specific profiles", dependsOn: ["NRSTEP-01"], description: "Construct six-feature profiles using discovery-frozen scaling while retaining topology-specific measurements." },
+        { id: "NRSTEP-03", kind: "analyze", label: "Validate network rulial geometry", dependsOn: ["NRSTEP-02"], description: "Re-run the complete 24-point design with two disjoint validation seeds and project the frozen local neighbor graph." },
+        { id: "NRSTEP-04", kind: "package", label: "Freeze RUL-008 package", dependsOn: ["NRSTEP-03"], description: "Export rule coordinates, topology blocks, profiles, local-edge validation, and checksums." }
       ],
     },
     {

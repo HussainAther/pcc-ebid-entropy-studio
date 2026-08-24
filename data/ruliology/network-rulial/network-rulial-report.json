@@ -1,0 +1,226 @@
+{
+  "schemaVersion": "entropy-rulial-network/1.0.0",
+  "experimentId": "RUL-008",
+  "ruleSpaceId": "RSPACE-NETWORK-001",
+  "observerId": "OBSERVER-NETWORK-RULIAL-CORE",
+  "sampling": {
+    "design": "deterministic Latin hypercube in local-rule coordinates with fixed topology blocks",
+    "lhsSeed": 20260824,
+    "pointCount": 24,
+    "discoverySeeds": [
+      71011,
+      71023,
+      71039
+    ],
+    "validationSeeds": [
+      72019,
+      72031
+    ],
+    "topologies": [
+      "ring",
+      "small_world",
+      "erdos_renyi"
+    ],
+    "dimensions": [
+      {
+        "name": "threshold",
+        "min": 0.25,
+        "max": 0.75
+      },
+      {
+        "name": "coupling",
+        "min": 0.5,
+        "max": 2.5
+      },
+      {
+        "name": "memory",
+        "min": 0.0,
+        "max": 1.5
+      },
+      {
+        "name": "temperature",
+        "min": 0.08,
+        "max": 0.5
+      }
+    ]
+  },
+  "simulation": {
+    "n_nodes": 72,
+    "steps": 220,
+    "mean_degree": 6,
+    "tail_fraction": 0.25,
+    "discoveryRunCount": 216,
+    "holdoutRunCount": 144,
+    "totalRunCount": 360
+  },
+  "featureScaling": {
+    "OBS-NETWORK-ACTIVITY": 0.9992718855218854,
+    "OBS-SHANNON": 0.6729156095062215,
+    "OBS-NETWORK-ORDER": 0.4188832641052266,
+    "OBS-SWITCH-RATE": 0.3292803030303028,
+    "OBS-TRANSITION-RATE": 0.12356671740233367,
+    "OBS-METASTABLE-DWELL": 0.8864944291297954
+  },
+  "discovery": {
+    "pairwiseRuleVsObservableSpearman": 0.2348939084773334,
+    "localEdgeCount": 61,
+    "localSensitivityMedian": 1.1086110245108238,
+    "localSensitivityQ95": 3.8872245630687603,
+    "localSensitivityQ95OverMedian": 3.5063917615143723,
+    "topCandidateEdges": [
+      {
+        "pairKey": "NET-006|NET-021",
+        "leftRuleId": "NET-006",
+        "rightRuleId": "NET-021",
+        "ruleDistance": 0.11288448407724287,
+        "discoveryObservableDistance": 0.8446052179674007,
+        "holdoutObservableDistance": 0.9017006713746674,
+        "discoverySensitivity": 7.482031076914584,
+        "holdoutSensitivity": 7.987817623878809
+      },
+      {
+        "pairKey": "NET-006|NET-008",
+        "leftRuleId": "NET-006",
+        "rightRuleId": "NET-008",
+        "ruleDistance": 0.14555587100926853,
+        "discoveryObservableDistance": 0.9568321604343659,
+        "holdoutObservableDistance": 1.000080774227703,
+        "discoverySensitivity": 6.573641817398337,
+        "holdoutSensitivity": 6.870769054475453
+      },
+      {
+        "pairKey": "NET-008|NET-014",
+        "leftRuleId": "NET-008",
+        "rightRuleId": "NET-014",
+        "ruleDistance": 0.15473228139378611,
+        "discoveryObservableDistance": 0.6438621904126258,
+        "holdoutObservableDistance": 0.6303397054510333,
+        "discoverySensitivity": 4.161136801014573,
+        "holdoutSensitivity": 4.07374401626542
+      },
+      {
+        "pairKey": "NET-006|NET-015",
+        "leftRuleId": "NET-006",
+        "rightRuleId": "NET-015",
+        "ruleDistance": 0.2968308479270904,
+        "discoveryObservableDistance": 1.1538481631387136,
+        "holdoutObservableDistance": 1.1765598352395945,
+        "discoverySensitivity": 3.8872245630687603,
+        "holdoutSensitivity": 3.9637384168662586
+      },
+      {
+        "pairKey": "NET-003|NET-006",
+        "leftRuleId": "NET-003",
+        "rightRuleId": "NET-006",
+        "ruleDistance": 0.27715779746007013,
+        "discoveryObservableDistance": 1.0708590525759896,
+        "holdoutObservableDistance": 1.1132445255467738,
+        "discoverySensitivity": 3.8637161299070693,
+        "holdoutSensitivity": 4.016645159359653
+      },
+      {
+        "pairKey": "NET-006|NET-007",
+        "leftRuleId": "NET-006",
+        "rightRuleId": "NET-007",
+        "ruleDistance": 0.2574371721841495,
+        "discoveryObservableDistance": 0.8612163217966732,
+        "holdoutObservableDistance": 0.918589523968683,
+        "discoverySensitivity": 3.345345640996357,
+        "holdoutSensitivity": 3.568208569784938
+      },
+      {
+        "pairKey": "NET-007|NET-014",
+        "leftRuleId": "NET-007",
+        "rightRuleId": "NET-014",
+        "ruleDistance": 0.17092855881273006,
+        "discoveryObservableDistance": 0.530705781929507,
+        "holdoutObservableDistance": 0.5654130252200592,
+        "discoverySensitivity": 3.104839738986802,
+        "holdoutSensitivity": 3.3078909056942774
+      },
+      {
+        "pairKey": "NET-014|NET-016",
+        "leftRuleId": "NET-014",
+        "rightRuleId": "NET-016",
+        "ruleDistance": 0.26911349909142085,
+        "discoveryObservableDistance": 0.8119471935550056,
+        "holdoutObservableDistance": 0.7757776015866978,
+        "discoverySensitivity": 3.0171180423735566,
+        "holdoutSensitivity": 2.882715301186573
+      }
+    ]
+  },
+  "validation": {
+    "pairwiseRuleVsObservableSpearman": 0.23666974026376028,
+    "geometryStabilitySpearman": 0.9924632688212478,
+    "localEdgeStabilitySpearman": 0.9831032855251808,
+    "top10LocalEdgeJaccard": 0.75
+  },
+  "topologyBlocks": {
+    "discovery": [
+      {
+        "topology": "ring",
+        "ruleObservableSpearman": 0.23021760534238953,
+        "meanObservableDistance": 0.47935895952140256
+      },
+      {
+        "topology": "small_world",
+        "ruleObservableSpearman": 0.2254117700106714,
+        "meanObservableDistance": 0.46941175503282995
+      },
+      {
+        "topology": "erdos_renyi",
+        "ruleObservableSpearman": 0.25564041952855376,
+        "meanObservableDistance": 0.4640165807699884
+      }
+    ],
+    "holdout": [
+      {
+        "topology": "ring",
+        "ruleObservableSpearman": 0.19167709035296399,
+        "meanObservableDistance": 0.4890310618220884
+      },
+      {
+        "topology": "small_world",
+        "ruleObservableSpearman": 0.22298496107031063,
+        "meanObservableDistance": 0.4794096286978084
+      },
+      {
+        "topology": "erdos_renyi",
+        "ruleObservableSpearman": 0.2502832472516149,
+        "meanObservableDistance": 0.4767160362450017
+      }
+    ],
+    "crossTopologyDiscovery": [
+      {
+        "leftTopology": "ring",
+        "rightTopology": "small_world",
+        "geometrySpearman": 0.9876050552368155
+      },
+      {
+        "leftTopology": "ring",
+        "rightTopology": "erdos_renyi",
+        "geometrySpearman": 0.9810635669343118
+      },
+      {
+        "leftTopology": "small_world",
+        "rightTopology": "erdos_renyi",
+        "geometrySpearman": 0.9882890841569087
+      }
+    ],
+    "spread": {
+      "meanWithinRuleAcrossTopologyDistance": 0.03938446057616519,
+      "medianWithinRuleAcrossTopologyDistance": 0.044371841167553994,
+      "meanLocalRuleObservableDistance": 0.35603688204526635,
+      "topologyToLocalRuleDistanceRatio": 0.11061904696479695
+    },
+    "interpretation": "Topology is a blocked interaction-structure factor, not a coordinate in the RUL-008 rule metric. Aggregate profiles average over all three preregistered topology families."
+  },
+  "interpretationBoundary": [
+    "RUL-008 is a network-dynamics substrate benchmark, not evidence of universal rulial laws.",
+    "Topology blocks are fixed before outcome analysis and are not tuned to improve replication metrics.",
+    "The local rule-space metric covers threshold, coupling, memory, and stochastic temperature only.",
+    "Macrostate thresholds are operational coarse-grainings of network activity and are not semantic PCC validation.",
+    "Any future three-substrate comparison must reuse the already-frozen RUL-007 structural criteria without retuning them to RUL-008 outcomes."
+  ]
+}

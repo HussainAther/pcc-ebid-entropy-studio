@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-network/1.0.0",
+  "title": "RUL-008 topology-blocked network rulial report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "sampling", "simulation", "discovery", "validation", "topologyBlocks", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-network/1.0.0"},
+    "experimentId": {"const": "RUL-008"},
+    "ruleSpaceId": {"const": "RSPACE-NETWORK-001"},
+    "observerId": {"const": "OBSERVER-NETWORK-RULIAL-CORE"},
+    "sampling": {"type": "object", "required": ["design", "lhsSeed", "pointCount", "discoverySeeds", "validationSeeds", "topologies", "dimensions"]},
+    "simulation": {"type": "object", "required": ["n_nodes", "steps", "mean_degree", "discoveryRunCount", "holdoutRunCount", "totalRunCount"]},
+    "discovery": {"type": "object", "required": ["pairwiseRuleVsObservableSpearman", "localEdgeCount", "localSensitivityQ95OverMedian", "topCandidateEdges"]},
+    "validation": {"type": "object", "required": ["pairwiseRuleVsObservableSpearman", "geometryStabilitySpearman", "localEdgeStabilitySpearman", "top10LocalEdgeJaccard"]},
+    "topologyBlocks": {"type": "object", "required": ["discovery", "holdout", "crossTopologyDiscovery", "spread", "interpretation"]},
+    "interpretationBoundary": {"type": "array", "items": {"type": "string"}}
+  }
+}

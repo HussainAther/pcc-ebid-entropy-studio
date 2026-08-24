@@ -171,3 +171,15 @@ npm run ruliology:cross-substrate
 The command reuses the committed ECA discovery/holdout artifacts and the frozen RUL-006 Boids discovery design, then adds complete held-out Boids coverage at all 32 rule coordinates (64 new simulations). It writes `data/ruliology/cross-substrate/` with a versioned report, compact summary, substrate metrics, held-out Boids profiles, and checksum.
 
 RUL-007 compares dimensionless structural summaries rather than raw cross-system observables. Its five criteria are frozen in the script and failures are retained. The current benchmark passes 2/5 criteria across both substrates, so it is a mixed cross-substrate result rather than evidence of universality.
+
+### RUL-008 network rulial benchmark
+
+Entropy Studio now includes a topology-blocked stochastic network substrate. A deterministic 24-point Latin hypercube samples threshold, neighbor coupling, node memory, and stochastic temperature. Each local rule is evaluated on fixed ring, small-world, and matched-degree Erdos-Renyi graphs, with three discovery and two disjoint validation seeds.
+
+Run:
+
+```bash
+npm run ruliology:network
+```
+
+The benchmark writes `entropy-rulial-network/1.0.0` artifacts to `data/ruliology/network-rulial/`. Topology is retained as an explicit experimental block rather than hidden inside the local rule metric. The committed result shows strong held-out stability, but no cross-substrate universality claim is made until the pre-existing RUL-007 contract is applied unchanged to all three substrates.
