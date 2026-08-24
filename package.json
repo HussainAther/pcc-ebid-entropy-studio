@@ -33,7 +33,8 @@
     "ruliology:alife:fitness-gradient": "python3 scripts/run-rulial-alife-fitness-gradient.py --output-dir data/ruliology/alife-fitness-gradient",
     "ruliology:alife:contrastive-gradient": "python3 scripts/run-rulial-alife-contrastive-gradient.py --output-dir data/ruliology/alife-contrastive-gradient",
     "ruliology:alife:invasion-gradient": "python3 scripts/run-rulial-alife-invasion-gradient.py",
-    "ruliology:alife:lineage-motion": "python3 scripts/run-rulial-alife-lineage-motion.py"
+    "ruliology:alife:lineage-motion": "python3 scripts/run-rulial-alife-lineage-motion.py",
+    "ruliology:alife:lineage-transport": "python3 scripts/run-rulial-alife-lineage-transport.py"
   },
   "dependencies": {
     "next": "16.2.6",

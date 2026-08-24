@@ -67,3 +67,7 @@ Registry status distinguishes metadata availability from actual validation. A re
 ### RUL-025 lineage-resolved replay
 
 `ENGINE-LOCAL-ALIFE` now supports non-invasive founder-lineage snapshots through `record_lineages`. RUL-025 uses this only for deterministic replay of the frozen RUL-021 scarcity and neutral conditions; enabling the diagnostic consumes no random numbers and must reproduce the committed source motion exactly. Entrypoint: `python3 scripts/run-rulial-alife-lineage-motion.py`.
+
+### RUL-026 time-resolved lineage transport
+
+`ENGINE-LOCAL-ALIFE` supports interval-by-interval founder-lineage transport analysis via deterministic replay with `record_lineages`. Entrypoint: `python3 scripts/run-rulial-alife-lineage-transport.py`. The runner introduces no new seed/parameter conditions and verifies exact replay against RUL-021 before interpreting time-resolved lineage flow.

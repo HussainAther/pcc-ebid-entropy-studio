@@ -270,6 +270,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-ALIFE-LINEAGE-TRANSPORT",
+    name: "ALife time-resolved lineage transport observer",
+    description: "RUL-026 observer treating founder-lineage abundance as transported probability mass through time and decomposing every recorded centroid increment into within-lineage motion and between-lineage reweighting.",
+    observableIds: ["OBS-CUMULATIVE-LINEAGE-TURNOVER", "OBS-REWEIGHTING-PATH-TORTUOSITY", "OBS-LINEAGE-REWEIGHTING-SHARE", "OBS-LINEAGE-DIVERSITY"],
+    coarseGraining: "Founder identities define a time-dependent discrete mass distribution; each recorded lineage also carries a normalized rule centroid.",
+    temporalResolution: "Every 5 simulation steps from the final pre-shock snapshot through 160 post-shock steps in deterministic RUL-021 replays.",
+    spatialResolution: "Founder-lineage abundance and rule centroid trajectories inside the agent-resolved ALife ecology.",
+    projectId,
+  },
+  {
     id: "OBSERVER-NETWORK-RULIAL-CORE",
     name: "Network rulial core observer",
     description: "Frozen RUL-008 observer combining network activity, state entropy, edge agreement, node switching, and operational macrostate residence summaries.",

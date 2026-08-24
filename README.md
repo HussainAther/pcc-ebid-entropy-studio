@@ -360,3 +360,11 @@ npm run ruliology:alife:lineage-motion
 ```
 
 Outputs are written to `data/ruliology/alife-lineage-motion/`.
+
+## RUL-026 — Time-resolved lineage transport through rule space
+
+RUL-026 extends the RUL-025 endpoint decomposition to every adjacent recorded post-shock lineage snapshot while preserving the exact frozen RUL-021 scarcity and neutral-bottleneck seed/parameter conditions. No new unique simulation conditions are introduced; 24 deterministic replays add only observational lineage logging at the existing five-step cadence.
+
+Each interval is decomposed exactly into within-lineage rule-centroid motion and between-lineage abundance reweighting. The primary time-resolved observables are cumulative lineage total-variation turnover, cumulative reweighting path share, reweighting path tortuosity, and dominant-lineage switches. All six frozen criteria pass: scarcity has median cumulative reweighting share `0.839`, median reweighting tortuosity `4.12`, 11/12 runs switch dominant lineage, and paired scarcity-minus-neutral cumulative turnover is `+0.201`. These are transport descriptors, not proof of adaptive selection.
+
+Run with `npm run ruliology:alife:lineage-transport`. Outputs are written to `data/ruliology/alife-lineage-transport/`.

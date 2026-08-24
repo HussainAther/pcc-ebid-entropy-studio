@@ -70,3 +70,7 @@ RUL-023 adds `OBS-CONTRASTIVE-FITNESS-GRADIENT-ALIGNMENT`, the cosine between re
 
 - `OBS-LINEAGE-REWEIGHTING-SHARE`: norm share of the exact two-time population-centroid decomposition attributable to changing founder-lineage abundances rather than within-lineage centroid change.
 - `OBS-LINEAGE-DIRECTIONAL-COHERENCE`: mean pairwise cosine among nonzero rule-centroid motion vectors of surviving founder lineages; low values indicate that a whole-population centroid hides divergent subpopulation directions.
+
+### RUL-026 temporal lineage observables
+
+`OBS-CUMULATIVE-LINEAGE-TURNOVER` sums total-variation changes in founder-lineage abundance across adjacent post-shock snapshots. `OBS-REWEIGHTING-PATH-TORTUOSITY` compares cumulative interval reweighting distance with the net reweighting vector, exposing cancellation and sequential redirection hidden by endpoint summaries. Both depend on the frozen recording cadence and are descriptive rather than causal.

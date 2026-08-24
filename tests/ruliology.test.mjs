@@ -696,3 +696,31 @@ test("committed RUL-025 preserves the mixed lineage-reweighting result", () => {
   assert.equal(summary.results.allReplayFinalPopulationsMatch, true);
   assert.ok(summary.results.scarcity.maxDecompositionError <= 1e-12);
 });
+
+test("RUL-026 registers time-resolved ALife lineage transport", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const spaces = readFileSync(new URL("../app/data/ruleSpaces.ts", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  const studio = readFileSync(new URL("../app/studio.tsx", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife-lineage-transport.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-026/);
+  assert.match(research, /RUL-026/);
+  assert.match(spaces, /OBSERVER-ALIFE-LINEAGE-TRANSPORT/);
+  assert.match(observables, /OBS-CUMULATIVE-LINEAGE-TURNOVER/);
+  assert.match(observables, /OBS-REWEIGHTING-PATH-TORTUOSITY/);
+  assert.match(script, /interval_decomposition/);
+  assert.match(studio, /RUL-026 time-resolved lineage transport/);
+});
+
+test("committed RUL-026 preserves the supported temporal-transport result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-lineage-transport/alife-lineage-transport-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-026");
+  assert.equal(summary.primaryTest.criteriaPassed, 6);
+  assert.equal(summary.primaryTest.criteriaTotal, 6);
+  assert.equal(summary.primaryTest.pilotSupported, true);
+  assert.ok(summary.results.scarcity.medianCumulativeReweightingShare >= 0.60);
+  assert.ok(summary.results.scarcity.medianReweightingPathTortuosity >= 1.50);
+  assert.ok(summary.results.scarcity.runsWithDominantLineageSwitch >= 6);
+  assert.ok(summary.results.medianScarcityMinusNeutralCumulativeTurnover >= 0.10);
+  assert.equal(summary.results.maxReplayPostShockDeltaAbsError, 0);
+});

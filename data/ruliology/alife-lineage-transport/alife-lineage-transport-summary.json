@@ -1,0 +1,100 @@
+{
+  "design": {
+    "burnInSteps": 180,
+    "conditions": [
+      "scarcity_mutable",
+      "neutral_bottleneck_mutable"
+    ],
+    "intervalDecomposition": "Delta_mu_t = W_t + B_t using the symmetric lineage decomposition on every adjacent recorded snapshot",
+    "postShockSteps": 160,
+    "primaryCriteria": {
+      "deterministicReplayMatchesRUL021": "replayed post-shock deltas match source within 1e-12 and all final populations match",
+      "exactIntervalDecomposition": "maximum interval reconstruction error <= 1e-9",
+      "scarcityCumulativeTransportMostlyReweighting": "median cumulative scarcity reweighting path share >= 0.60",
+      "scarcityExceedsNeutralTemporalTurnover": "median paired scarcity-minus-neutral cumulative lineage total-variation turnover >= +0.10",
+      "scarcityReweightingPathIsNontrivial": "median scarcity cumulative reweighting path / norm(net reweighting vector) >= 1.50",
+      "scarcityShowsSequentialDominance": "at least half of scarcity seeds change dominant founder lineage at least once post-shock"
+    },
+    "recordEvery": 5,
+    "ruleDimensions": [
+      "forage_weight",
+      "hazard_avoidance",
+      "exploration",
+      "reproduction_threshold"
+    ],
+    "seedCount": 12,
+    "seeds": [
+      14003,
+      14011,
+      14029,
+      14041,
+      14057,
+      14071,
+      14087,
+      14101,
+      14119,
+      14137,
+      14153,
+      14173
+    ]
+  },
+  "experimentId": "RUL-026",
+  "interpretationBoundary": "RUL-026 is a time-resolved descriptive transport analysis of founder-lineage mass in the engineered ALife system. Sequential dominance, turnover, and path tortuosity do not by themselves establish adaptive selection, and scarcity-specific claims require comparison with the matched neutral bottleneck.",
+  "observerId": "OBSERVER-ALIFE-LINEAGE-TRANSPORT",
+  "primaryTest": {
+    "criteria": {
+      "deterministicReplayMatchesRUL021": true,
+      "exactIntervalDecomposition": true,
+      "scarcityCumulativeTransportMostlyReweighting": true,
+      "scarcityExceedsNeutralTemporalTurnover": true,
+      "scarcityReweightingPathIsNontrivial": true,
+      "scarcityShowsSequentialDominance": true
+    },
+    "criteriaPassed": 6,
+    "criteriaTotal": 6,
+    "pilotSupported": true
+  },
+  "results": {
+    "allReplayFinalPopulationsMatch": true,
+    "maxReplayPostShockDeltaAbsError": 0.0,
+    "medianScarcityMinusNeutralCumulativeTurnover": 0.2013630627815135,
+    "neutral": {
+      "maxIntervalDecompositionError": 2.98775589569075e-16,
+      "medianCentroidPathTortuosity": 3.6995888872352465,
+      "medianCentroidStepReversalFraction": 0.5694444444444444,
+      "medianCumulativeLineageTurnoverTV": 1.77937749399202,
+      "medianCumulativeReweightingShare": 0.7259651565703208,
+      "medianDominantLineageSwitchCount": 4.0,
+      "medianReweightingPathTortuosity": 4.09554009588285,
+      "medianTransientSweepCount": 0.0,
+      "medianUniqueDominantLineageCount": 3.0,
+      "runCount": 12,
+      "runsWithDominantLineageSwitch": 10,
+      "runsWithTransientSweep": 0
+    },
+    "scarcity": {
+      "maxIntervalDecompositionError": 3.4882826242443e-16,
+      "medianCentroidPathTortuosity": 3.6729718502274826,
+      "medianCentroidStepReversalFraction": 0.445,
+      "medianCumulativeLineageTurnoverTV": 1.9509647765593199,
+      "medianCumulativeReweightingShare": 0.8393459692862477,
+      "medianDominantLineageSwitchCount": 3.0,
+      "medianReweightingPathTortuosity": 4.117193157270394,
+      "medianTransientSweepCount": 0.0,
+      "medianUniqueDominantLineageCount": 3.0,
+      "runCount": 12,
+      "runsWithDominantLineageSwitch": 11,
+      "runsWithTransientSweep": 0
+    }
+  },
+  "ruleSpaceId": "RSPACE-ALIFE-001",
+  "schemaVersion": "entropy-rulial-alife-lineage-transport/1.0.0",
+  "source": {
+    "deterministicReplayRuns": 24,
+    "endpointExperimentId": "RUL-025",
+    "motionExperimentId": "RUL-021",
+    "newUniqueSimulationConditions": 0,
+    "replayPurpose": "time-resolved non-invasive founder-lineage transport logging on frozen RUL-021 conditions",
+    "sourceArtifact": "data/ruliology/alife-selection-control/alife-selection-control-report.json"
+  }
+}
