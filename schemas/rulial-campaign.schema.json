@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-campaign.schema.json",
+  "title": "Entropy Studio Rulial Campaign",
+  "type": "object",
+  "required": ["schemaVersion", "id", "ruleSpaceId", "observerIds", "sampling", "initialConditions", "perturbations", "observableIds"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-campaign/1.0.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "ruleSpaceId": { "type": "string", "minLength": 1 },
+    "observerIds": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "sampling": { "type": "object" },
+    "initialConditions": { "type": "array" },
+    "perturbations": { "type": "array" },
+    "observableIds": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "preregistered": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

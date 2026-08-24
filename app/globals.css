@@ -35,3 +35,7 @@ body{background:var(--surface);color:var(--text);font-family:Inter,ui-sans-serif
 @media(max-width:1120px){.dashboard-welcome,.dashboard-grid-primary{grid-template-columns:1fr}.health-grid{grid-template-columns:repeat(3,1fr)}.health-card:nth-child(3){border-right:0}.health-card:nth-child(-n+3){border-bottom:1px solid var(--stroke)}.campaign-stack{grid-template-columns:1fr}}
 @media(max-width:800px){.dashboard-grid-secondary{grid-template-columns:1fr}.health-grid{grid-template-columns:repeat(2,1fr)}.health-card{border-bottom:1px solid var(--stroke)}.health-card:nth-child(odd){border-right:1px solid var(--stroke)}.health-card:nth-child(even){border-right:0}.health-card:last-child{border-bottom:0}.dashboard-actions{flex-direction:column;align-items:stretch}.dashboard-primary{max-width:none}}
 @media(max-width:520px){.dashboard-welcome h1{font-size:39px}.dashboard-welcome{gap:14px}.dashboard-panel,.focus-card{padding:17px}.health-grid{grid-template-columns:1fr}.health-card,.health-card:nth-child(odd){border-right:0}.campaign-meta{flex-direction:column}.empty-evidence{grid-template-columns:1fr}.activity-list button{grid-template-columns:34px minmax(0,1fr) 10px}.activity-list time{display:none}.dashboard-section-head>small{display:none}}
+
+.rulial-table{grid-template-columns:.7fr 1fr 1fr 1.7fr}
+.rulial-atlas .analysis-grid{margin-top:12px}
+@media(max-width:800px){.rulial-table{grid-template-columns:1fr}.rulial-table>*{min-width:0}}

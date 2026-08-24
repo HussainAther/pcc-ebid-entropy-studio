@@ -1,3 +1,5 @@
+import type { ObserverDefinition, RuleSpaceDefinition } from "./ruliology";
+
 export type EntityId = string;
 
 export type ResearchView =
@@ -5,6 +7,7 @@ export type ResearchView =
   | "corpus"
   | "observables"
   | "engines"
+  | "ruliology"
   | "graph"
   | "hypotheses"
   | "experiments"
@@ -186,7 +189,10 @@ export type ObservableCategory =
   | "rate"
   | "stability"
   | "spatial"
-  | "benchmark";
+  | "benchmark"
+  | "complexity"
+  | "memory"
+  | "transition";
 
 export type ObservableImplementationStatus =
   | "implemented"
@@ -420,6 +426,8 @@ export interface ResearchWorkspace {
   observables: ObservableDefinition[];
   repositories: RepositoryDefinition[];
   engines: ResearchEngine[];
+  ruleSpaces: RuleSpaceDefinition[];
+  observers: ObserverDefinition[];
   graph: {
     nodes: GraphNode[];
     edges: GraphEdge[];

@@ -32,3 +32,9 @@ Registry status distinguishes metadata availability from actual validation. A re
 ## PCC-Boids validated adapter
 
 `ENGINE-PCC-BOIDS` now exposes a validated deterministic CLI contract and emits `entropy-run/1.0.0`. The adapter bundle lives in `adapters/pcc-boids/`; its artifacts can be imported through the Simulation Bench after schema and registry validation.
+
+## Ruliology engines
+
+`ENGINE-LOCAL-ECA` is the calibration implementation for the finite `RSPACE-ECA-256` rule space. It is registered as **available**, not yet as a campaign-validated engine: the Rulial Atlas can exercise deterministic ECA trajectories, but the general campaign orchestrator must not silently route ECA campaigns through the replicator runner. A dedicated rulial campaign execution path is required before `CAMPAIGN-RUL-ECA-001` is promoted to ready/validated.
+
+`ENGINE-PCC-BOIDS` is also mapped to `RSPACE-BOIDS-001`. The existing single-axis noise sweep remains a valid narrow benchmark; `CAMPAIGN-RUL-BOIDS-001` is a specified multidimensional extension and should use a frozen space-filling design plus held-out boundary validation before interpretation.

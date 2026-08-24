@@ -39,3 +39,7 @@ Experiments reference observables by stable ID through `observableIds`. They sho
 ## Adding an observable
 
 Add one `ObservableDefinition` to `createPccObservables`. Use a stable uppercase ID, link actual source IDs, distinguish implemented code from a mathematical specification, and declare failure modes before using the observable in an experiment.
+
+## Ruliology additions
+
+The registry now includes planned or implemented quantities for trajectory compression, perturbation growth, recovery time, mutual information, autocorrelation time, macrostate occupancy, transition rate, metastable dwell time, and rule sensitivity. These definitions are intentionally estimator-aware: no compression statistic is labeled exact algorithmic complexity, and no finite perturbation-growth statistic is labeled a Lyapunov exponent without the required assumptions.

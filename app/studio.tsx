@@ -13,6 +13,8 @@ import { buildManuscript } from "./lib/publicationEngine";
 import { buildReproducibilityPackage } from "./lib/packageEngine";
 import { campaignRunCount, executeCampaign, type CampaignReport } from "./lib/campaignOrchestrator";
 import { buildMissionControlViewModel, type DashboardTone } from "./lib/missionControl";
+import { ecaInstabilitySignature } from "./lib/elementaryCA";
+import { enumerateFiniteRuleSpace } from "./lib/ruleSpaceExplorer";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -194,6 +196,47 @@ function Engines() {
       </section>
     </div>
     <section className="paper"><SectionHead eyebrow="Repository responsibilities" title="Clear ownership boundaries"/><div className="table-head"><span>Repository</span><span>Role</span><span>Status</span><span>Responsibility</span></div>{workspace.repositories.map(repo=><div className="source-row" key={repo.id}><b>{repo.fullName}</b><code>{repo.role}</code><span>{repo.status}</span><small>{repo.description}</small></div>)}</section>
+  </div>;
+}
+
+function RulialAtlas() {
+  const workspace = useWorkspace();
+  const [selectedId, setSelectedId] = useState(workspace.ruleSpaces[0]?.id ?? "");
+  const selected = workspace.ruleSpaces.find(item => item.id === selectedId) ?? workspace.ruleSpaces[0];
+  const eca = workspace.ruleSpaces.find(item => item.id === "RSPACE-ECA-256");
+  const ecaRules = eca ? enumerateFiniteRuleSpace(eca) : [];
+  const initial = Array.from({ length: 129 }, (_, index) => index === 64 ? 1 : 0);
+  const benchmarkRules = [0, 30, 54, 90, 110, 184, 255];
+  const signatures = benchmarkRules.map(rule => ecaInstabilitySignature(rule, initial, 96));
+
+  if (!selected) return <div className="view"><Notice title="No rule spaces">Register a rule space before opening the Rulial Atlas.</Notice></div>;
+
+  return <div className="view rulial-atlas">
+    <SectionHead eyebrow="04 · Rulial Atlas" title="Rule spaces, observers, and instability profiles"/>
+    <p className="lede">Ruliology is treated here as an operational research layer: a declared rule space generates trajectories in state space, and frozen observers map those trajectories into registered EBID/PCC observables. The current atlas is infrastructure plus calibration data, not evidence of universality.</p>
+    <div className="stats compact"><Stat label="Rule spaces" value={String(workspace.ruleSpaces.length).padStart(2,"0")} foot="registered families"/><Stat label="Observers" value={String(workspace.observers.length).padStart(2,"0")} foot="frozen measurement views"/><Stat label="ECA rules" value={String(ecaRules.length)} foot="complete finite benchmark"/><Stat label="Rulial experiments" value={String(workspace.experiments.filter(item=>item.id.startsWith("RUL-")).length).padStart(2,"0")} foot="registered tests"/></div>
+    <div className="observable-layout">
+      <div className="observable-list">{workspace.ruleSpaces.map(space=><button key={space.id} className={selected.id===space.id?"active":""} onClick={()=>setSelectedId(space.id)}><div><code>{space.id}</code><span className={`implementation ${space.enumerable?"implemented":"specified"}`}>{space.representation}</span></div><b>{space.name}</b><small>{space.engineId} · {space.enumerable ? `${space.size ?? "?"} rules` : `${space.dimensions.length} dimensions`}</small><p>{space.description}</p></button>)}</div>
+      <section className="paper observable-detail">
+        <div className="observable-title"><div><code>{selected.id}</code><span>{selected.representation}</span></div><span className={`implementation ${selected.enumerable?"implemented":"specified"}`}>{selected.enumerable?"enumerable":"sampled"}</span></div>
+        <h2>{selected.name}</h2><p>{selected.description}</p>
+        <div className="two-col"><div><label>State space</label><p>{selected.stateSpace}</p></div><div><label>Transition rule</label><p>{selected.transitionDescription}</p></div></div>
+        <label>Rule coordinates</label><div className="method-list">{selected.dimensions.map(dimension=><div key={dimension.id}><span>{dimension.kind}</span><b>{dimension.name} · {dimension.symbol}</b><small>{dimension.description}{dimension.min!==undefined&&dimension.max!==undefined?` · [${dimension.min}, ${dimension.max}]`:""}</small></div>)}</div>
+        <label>Registered observables</label><p>{selected.observableIds.join(" · ")}</p>
+        {selected.canonicalization&&<><label>Canonicalization</label><p>{selected.canonicalization}</p></>}
+      </section>
+    </div>
+    <section className="paper">
+      <SectionHead eyebrow="Observer registry" title="Measurement views are first-class objects"/>
+      <div className="analysis-grid">{workspace.observers.map(observer=><article className="analysis-card" key={observer.id}><div><code>{observer.id}</code><span className="implementation specified">frozen definition</span></div><h3>{observer.name}</h3><p>{observer.description}</p><small>{observer.observableIds.join(" · ")}</small><p><b>Coarse-graining:</b> {observer.coarseGraining}</p></article>)}</div>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-001 calibration preview" title="Elementary CA instability signatures"/>
+      <p>This deterministic preview uses a single centered-cell initial condition and a matched one-cell perturbation. It exists to exercise the rule-space plumbing; the registered campaign still requires the frozen multi-condition ensemble before scientific interpretation.</p>
+      <div className="table-head rulial-table"><span>Rule</span><span>Mean entropy</span><span>Terminal entropy</span><span>Perturbation distance</span></div>
+      {signatures.map(signature=><div className="source-row rulial-table" key={signature.rule}><b>Rule {signature.rule}</b><code>{signature.meanEntropy.toFixed(4)}</code><span>{signature.terminalEntropy.toFixed(4)}</span><small>{signature.meanPerturbationDistance.toFixed(4)} mean · {signature.terminalPerturbationDistance.toFixed(4)} terminal</small></div>)}
+    </section>
+    <Notice title="Scientific boundary">External CA class labels are intentionally absent from the feature construction. Compare against them only after the EBID profiles, metrics, clustering choices, and validation criteria are frozen.</Notice>
   </div>;
 }
 
@@ -491,7 +534,7 @@ export function Studio() {
   const [runs,setRuns]=useState<ExperimentRun[]>([]);
   const workspace=getWorkspace(workspaceId);
   const { project, navigation } = workspace;
-  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,observables:<Observables/>,engines:<Engines/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,orchestrator:<Orchestrator/>,figures:<Figures/>,statistics:<Statistics/>,publications:<Publications/>,datasets:<Datasets/>,review:<Review/>}[view];
+  const content={overview:<Overview onNavigate={setView}/>,corpus:<Corpus/>,observables:<Observables/>,engines:<Engines/>,ruliology:<RulialAtlas/>,graph:<Graph/>,hypotheses:<Hypotheses/>,experiments:<Experiments/>,simulation:<Simulation/>,orchestrator:<Orchestrator/>,figures:<Figures/>,statistics:<Statistics/>,publications:<Publications/>,datasets:<Datasets/>,review:<Review/>}[view];
 
   function selectWorkspace(nextId: string) {
     const entry = workspaceRegistry.find(item => item.id === nextId);
@@ -502,7 +545,7 @@ export function Studio() {
 
   const navGroups = [
     { label: "Research", ids: ["overview", "corpus", "hypotheses", "experiments", "orchestrator", "simulation"] },
-    { label: "Analysis", ids: ["observables", "statistics", "figures", "graph"] },
+    { label: "Analysis", ids: ["observables", "ruliology", "statistics", "figures", "graph"] },
     { label: "Publication", ids: ["publications", "datasets", "review"] },
     { label: "Infrastructure", ids: ["engines"] },
   ];

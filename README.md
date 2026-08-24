@@ -103,3 +103,21 @@ pnpm dev
 ```
 
 Open `http://localhost:3000`. The repository intentionally uses pnpm as its single package manager.
+
+## Ruliology layer
+
+Entropy Studio now treats rule spaces and observers as first-class research objects. The initial program is documented in `RULIOLOGY.md` and begins with the complete 256-rule elementary cellular-automaton family before extending the same contracts to Boids and other engines.
+
+Key additions:
+
+- `app/models/ruliology.ts` - rule-space, observer, profile, equivalence, and transition types.
+- `app/data/ruleSpaces.ts` - registered ECA, Boids, and replicator rule spaces plus frozen observer definitions.
+- `app/lib/elementaryCA.ts` - deterministic ECA calibration engine with matched single-cell perturbations.
+- `app/lib/ruleSpaceExplorer.ts` - finite rule enumeration and normalized rule distance.
+- `app/lib/rulialAnalysis.ts` - observable-profile distance, equivalence components, and sensitivity detection.
+- `app/lib/crossSystemAnalysis.ts` - shared-observable summaries across rule spaces.
+- `schemas/rule-space.schema.json`, `schemas/rulial-profile.schema.json`, and `schemas/rulial-campaign.schema.json` - versioned rulial artifact contracts.
+- `examples/ruliology/eca-atlas.json` - non-frozen RUL-001 campaign template.
+- `04 · Rulial Atlas` - Studio workspace for browsing rule spaces, observers, and a deterministic ECA plumbing preview.
+
+The scientific boundary is explicit: the ECA preview verifies infrastructure only. Claims about classes, phase boundaries, observer dependence, PCC regimes, or cross-system universality require frozen campaigns and held-out validation.

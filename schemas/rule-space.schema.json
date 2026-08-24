@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rule-space.schema.json",
+  "title": "Entropy Studio Rule Space",
+  "type": "object",
+  "required": ["schemaVersion", "id", "engineId", "representation", "dimensions", "stateSpace", "transitionDescription", "observableIds"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rule-space/1.0.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "engineId": { "type": "string", "minLength": 1 },
+    "representation": { "enum": ["finite", "parameterized", "programmatic"] },
+    "enumerable": { "type": "boolean" },
+    "size": { "type": "integer", "minimum": 1 },
+    "stateSpace": { "type": "string", "minLength": 1 },
+    "transitionDescription": { "type": "string", "minLength": 1 },
+    "dimensions": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["id", "name", "kind"], "properties": { "id": {"type":"string"}, "name": {"type":"string"}, "kind": {"enum":["discrete","continuous","categorical"]} } } },
+    "observableIds": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

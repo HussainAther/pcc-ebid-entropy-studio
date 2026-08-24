@@ -2,6 +2,7 @@ import type { ResearchWorkspace } from "../models/research";
 import { createPccObservables } from "./observables";
 import { createEvidenceGraph } from "./evidenceGraph";
 import { repositories, researchEngines } from "./engines";
+import { observers, ruleSpaces } from "./ruleSpaces";
 
 const projectId = "project-pcc-ebid";
 
@@ -28,8 +29,8 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     sourceArtifacts: 3344,
     trackedClaims: 28,
     claimsNeedingEvidence: 4,
-    experiments: 7,
-    reproducibleExperiments: 3,
+    experiments: 11,
+    reproducibleExperiments: 4,
     openQuestions: 12,
   },
   navigation: [
@@ -37,16 +38,17 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "corpus", index: "01", label: "Literature corpus", note: "sources + methods" },
     { id: "observables", index: "02", label: "Observable registry", note: "definitions + estimators" },
     { id: "engines", index: "03", label: "Repository + engines", note: "execution ecosystem" },
-    { id: "graph", index: "04", label: "Knowledge graph", note: "claims + relations" },
-    { id: "hypotheses", index: "05", label: "Hypothesis ledger", note: "testable questions" },
-    { id: "experiments", index: "06", label: "Experiment design", note: "controls + metrics" },
-    { id: "simulation", index: "07", label: "Simulation bench", note: "execute + compare" },
-    { id: "orchestrator", index: "08", label: "Experiment orchestrator", note: "campaign automation" },
-    { id: "figures", index: "09", label: "Figure Studio", note: "reproducible graphics" },
-    { id: "statistics", index: "10", label: "Statistics Studio", note: "registered analyses" },
-    { id: "publications", index: "11", label: "Publication Studio", note: "papers + manuscript" },
-    { id: "datasets", index: "12", label: "Dataset Builder", note: "release packages" },
-    { id: "review", index: "13", label: "Critical review", note: "claims + limitations" },
+    { id: "ruliology", index: "04", label: "Rulial Atlas", note: "rule spaces + observers" },
+    { id: "graph", index: "05", label: "Knowledge graph", note: "claims + relations" },
+    { id: "hypotheses", index: "06", label: "Hypothesis ledger", note: "testable questions" },
+    { id: "experiments", index: "07", label: "Experiment design", note: "controls + metrics" },
+    { id: "simulation", index: "08", label: "Simulation bench", note: "execute + compare" },
+    { id: "orchestrator", index: "09", label: "Experiment orchestrator", note: "campaign automation" },
+    { id: "figures", index: "10", label: "Figure Studio", note: "reproducible graphics" },
+    { id: "statistics", index: "11", label: "Statistics Studio", note: "registered analyses" },
+    { id: "publications", index: "12", label: "Publication Studio", note: "papers + manuscript" },
+    { id: "datasets", index: "13", label: "Dataset Builder", note: "release packages" },
+    { id: "review", index: "14", label: "Critical review", note: "claims + limitations" },
   ],
   lifecycle: [
     { index: "01", title: "Corpus", description: "Extract methods, equations, assumptions", view: "corpus" },
@@ -84,6 +86,8 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
   observables: createPccObservables(projectId),
   repositories,
   engines: researchEngines,
+  ruleSpaces,
+  observers,
   graph: {
     nodes: [
       { id: "pcc", label: "PCC", kind: "framework", x: 50, y: 50, projectId },
@@ -113,12 +117,28 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
       id: "H-BOIDS-001", title: "Entropy precedes polarization collapse", statement: "During a preregistered PCC-Boids chaos sweep, heading entropy crosses its declared rise threshold at or before global polarization crosses its collapse threshold.", disconfirmingOutcome: "Reject for this benchmark if the first declared entropy-rise threshold occurs at a higher chaos level than polarization collapse across the preregistered sweep and seed ensemble.", evidence: "hypothesis", assumptions: ["Sweep levels and thresholds are fixed before execution.", "Tail averaging is identical at every chaos level.", "The same model parameters are used except for chaos and derived seed."], derivedFromIds: ["SRC-BOIDS", "C-027"], projectId,
     },
     {
+      id: "H-RUL-001", title: "Finite rule-space instability structure", statement: "Elementary cellular automata exhibit reproducible structure in registered EBID-style observable profiles across a frozen ensemble of initial conditions and single-cell perturbations.", disconfirmingOutcome: "Treat the benchmark as unsupported if apparent classes or neighborhoods are not stable to held-out initial conditions, estimator choices, and perturbation locations.", evidence: "hypothesis", assumptions: ["All 256 rules are enumerated.", "Initial-condition and perturbation ensembles are frozen before clustering.", "Observer definitions are fixed before comparing classes."], derivedFromIds: ["SRC-README"], projectId,
+    },
+    {
+      id: "H-RUL-002", title: "Rulial neighborhood sensitivity", statement: "Small changes in a rule representation do not uniformly imply small changes in EBID observable profiles; high-sensitivity boundaries can be localized reproducibly.", disconfirmingOutcome: "Reject the strong form if observable distance is smooth and approximately monotone with the declared rule distance across the benchmark under sensitivity analyses.", evidence: "hypothesis", assumptions: ["Rule and observable distances are declared before analysis.", "Feature normalization is frozen."], derivedFromIds: ["SRC-README"], projectId,
+    },
+    {
+      id: "H-RUL-003", title: "Observer-dependent rulial equivalence", statement: "Some rule pairs are observationally equivalent under one preregistered observer but distinguishable under another.", disconfirmingOutcome: "The benchmark does not support observer dependence if equivalence partitions remain invariant across meaningfully distinct frozen observers within declared tolerances.", evidence: "hypothesis", assumptions: ["Observers differ in declared measurements or coarse-graining rather than outcome-tuned thresholds."], derivedFromIds: ["SRC-README"], projectId,
+    },
+    {
+      id: "H-RUL-005", title: "Boids rulial phase structure", statement: "A multidimensional sweep over flocking-rule parameters contains reproducible regions and transition boundaries in registered EBID/PCC observables that survive held-out seeds and local resampling.", disconfirmingOutcome: "Do not claim a stable rulial landscape if apparent regions or boundaries disappear under held-out seeds, alternative preregistered sampling designs, or modest estimator changes.", evidence: "hypothesis", assumptions: ["Sampling design is fixed before boundary analysis.", "Feature scaling and transition criteria are preregistered.", "Validation points are held out from exploratory boundary discovery."], derivedFromIds: ["SRC-BOIDS"], projectId,
+    },
+    {
       id: "H-011", title: "Cross-domain invariance", statement: "The same correspondence persists across replicator, physical, and learning toy systems.", disconfirmingOutcome: "Currently underspecified: domain mapping and equivalence criteria require revision.", evidence: "speculation", assumptions: ["Domain mappings preserve the relevant local dynamics."], derivedFromIds: ["C-027"], projectId,
     },
   ],
   experiments: [
     { id: "E-007", engineId: "ENGINE-LOCAL-REPLICATOR", title: "Local entropy-growth recovery", hypothesisId: "H-003", model: "cyclic_dissipative_replicator", observableIds: ["OBS-DEFICIT", "OBS-KL", "OBS-QUADRATIC", "OBS-LOG-SLOPE"], controls: ["stable ε < 0", "neutral ε = 0", "bad observable |x₀|"], primaryMetric: "absolute slope error |β̂ − 2λ|max", status: "active", projectId },
     { id: "E-BOIDS-001", engineId: "ENGINE-PCC-BOIDS", title: "Boids order-disorder transition under chaos", hypothesisId: "H-BOIDS-001", model: "pcc_boids_noise_sweep", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-TRANSITION-LEAD"], controls: ["fixed Pressure and Control", "fixed domain and agent count", "seeded initial conditions", "preregistered thresholds"], primaryMetric: "entropy transition lead Kcollapse - Kentropy", status: "active", projectId },
+    { id: "RUL-001", engineId: "ENGINE-LOCAL-ECA", title: "Elementary CA instability atlas", hypothesisId: "H-RUL-001", model: "elementary_cellular_automata_256", observableIds: ["OBS-SHANNON", "OBS-HAMMING", "OBS-PERTURB-GROWTH", "OBS-COMPRESSION", "OBS-AUTOCORR-TIME"], controls: ["complete enumeration of rules 0-255", "frozen initial-condition ensemble", "matched single-cell perturbations", "periodic boundaries", "held-out validation initial conditions"], primaryMetric: "stability of EBID profile structure under held-out conditions", status: "active", projectId },
+    { id: "RUL-002", engineId: "ENGINE-LOCAL-ECA", title: "Rulial neighborhood sensitivity", hypothesisId: "H-RUL-002", model: "eca_rule_neighbor_comparison", observableIds: ["OBS-RULE-SENSITIVITY", "OBS-HAMMING", "OBS-PERTURB-GROWTH"], controls: ["frozen rule metric", "frozen feature scaling", "same initial-condition ensemble per rule"], primaryMetric: "observable-distance / rule-distance sensitivity", status: "active", projectId },
+    { id: "RUL-003", engineId: "ENGINE-LOCAL-ECA", title: "Observer-dependent EBID equivalence classes", hypothesisId: "H-RUL-003", model: "eca_observer_equivalence", observableIds: ["OBS-SHANNON", "OBS-HAMMING", "OBS-MUTUAL-INFO", "OBS-AUTOCORR-TIME"], controls: ["observers frozen before clustering", "epsilon sensitivity analysis", "post-hoc comparison to external CA classes only"], primaryMetric: "partition stability and cross-observer disagreement", status: "active", projectId },
+    { id: "RUL-005", engineId: "ENGINE-PCC-BOIDS", title: "Boids multidimensional rulial landscape", hypothesisId: "H-RUL-005", model: "pcc_boids_rule_space", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-METASTABLE-DWELL", "OBS-TRANSITION-RATE"], controls: ["held-out validation seeds", "fixed domain and population", "frozen sampling design", "predeclared feature scaling", "boundary resampling independent of discovery points"], primaryMetric: "held-out stability of discovered rule-space regimes and transition boundaries", status: "draft", projectId },
   ],
   campaigns: [
     {
@@ -142,6 +162,54 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
         { id: "STEP-04", kind: "evidence", label: "Update evidence summary", dependsOn: ["STEP-01", "STEP-02"], description: "Summarize support, challenge, and inconclusive counts without changing authored claims." },
         { id: "STEP-05", kind: "manuscript", label: "Refresh manuscript", dependsOn: ["STEP-02", "STEP-03"], description: "Rebuild the evidence-linked manuscript scaffold from campaign outputs." },
         { id: "STEP-06", kind: "package", label: "Assemble release package", dependsOn: ["STEP-02", "STEP-03", "STEP-05"], description: "Build the versioned reproducibility payload and SHA-256 integrity record." },
+      ],
+    },
+    {
+      id: "CAMPAIGN-RUL-ECA-001",
+      title: "Elementary CA rulial atlas campaign",
+      description: "Enumerate the complete ECA rule space over frozen seeds/initial conditions, compute registered instability profiles, test neighborhood sensitivity, and export the first reproducible rulial benchmark.",
+      experimentId: "RUL-001",
+      seeds: [11, 29, 47, 83],
+      parameterAxes: [{ name: "rule", values: Array.from({ length: 256 }, (_, index) => index) }],
+      fixedParameters: { width: 257, steps: 256, boundary: "periodic", perturbation: "single-center-cell" },
+      analysisIds: [],
+      figureIds: [],
+      paperIds: [],
+      datasetIds: [],
+      status: "specified",
+      projectId,
+      steps: [
+        { id: "RSTEP-01", kind: "execute", label: "Enumerate ECA rules", dependsOn: [], description: "Execute all 256 rules against the frozen initial-condition and perturbation ensemble." },
+        { id: "RSTEP-02", kind: "analyze", label: "Build rulial profiles", dependsOn: ["RSTEP-01"], description: "Compute registered EBID feature vectors without external class labels." },
+        { id: "RSTEP-03", kind: "analyze", label: "Test neighborhood sensitivity", dependsOn: ["RSTEP-02"], description: "Compare declared rule distance to observable-profile distance and run metric sensitivity checks." },
+        { id: "RSTEP-04", kind: "package", label: "Freeze benchmark package", dependsOn: ["RSTEP-02", "RSTEP-03"], description: "Export rule-space definition, observer definitions, runs, profiles, preregistration metadata, and checksums." },
+      ],
+    },
+    {
+      id: "CAMPAIGN-RUL-BOIDS-001",
+      title: "Boids multidimensional rulial landscape",
+      description: "A structured pilot design that varies separation, alignment, cohesion, chaos, and neighborhood radius, then reserves independent points for boundary validation instead of treating a single noise axis as the full rule space.",
+      experimentId: "RUL-005",
+      seeds: [12345, 22345, 32345],
+      parameterAxes: [
+        { name: "separation", values: [0.5, 1.0, 1.5] },
+        { name: "alignment", values: [0.5, 1.0, 1.5] },
+        { name: "cohesion", values: [0.5, 1.0, 1.5] },
+        { name: "chaos", values: [0.0, 0.15, 0.35, 0.55] },
+        { name: "neighborhoodRadius", values: [0.1, 0.2, 0.35] }
+      ],
+      fixedParameters: { pressure: 0.4, control: 1.0, steps: 600, tailFraction: 0.25, samplingDesign: "pilot-factorial-replace-with-LHS-before-freeze" },
+      analysisIds: [],
+      figureIds: [],
+      paperIds: [],
+      datasetIds: [],
+      status: "specified",
+      projectId,
+      steps: [
+        { id: "BRSTEP-01", kind: "import", label: "Generate/import pilot rule-space runs", dependsOn: [], description: "Execute with the external PCC-Boids adapter after replacing this pilot grid with the frozen sampling design." },
+        { id: "BRSTEP-02", kind: "analyze", label: "Discover candidate regimes", dependsOn: ["BRSTEP-01"], description: "Map registered observable profiles without tuning PCC labels to desired boundaries." },
+        { id: "BRSTEP-03", kind: "analyze", label: "Validate candidate boundaries", dependsOn: ["BRSTEP-02"], description: "Evaluate held-out seeds and independently sampled points near candidate boundaries." },
+        { id: "BRSTEP-04", kind: "package", label: "Freeze boids rulial package", dependsOn: ["BRSTEP-03"], description: "Export sampling design, rule coordinates, observer definitions, run artifacts, profiles, and validation outcomes." }
       ],
     },
     {

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-profile.schema.json",
+  "title": "Entropy Studio Rulial Profile",
+  "type": "object",
+  "required": ["schemaVersion", "rule", "observerId", "features", "sampleCount", "seedCount", "provenance"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-profile/1.0.0" },
+    "rule": {
+      "type": "object",
+      "required": ["ruleSpaceId", "ruleId", "values"],
+      "properties": {
+        "ruleSpaceId": { "type": "string" },
+        "ruleId": { "type": "string" },
+        "values": { "type": "object" }
+      }
+    },
+    "observerId": { "type": "string" },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["observableId", "value"],
+        "properties": {
+          "observableId": { "type": "string" },
+          "value": { "type": "number" }
+        }
+      }
+    },
+    "sampleCount": { "type": "integer", "minimum": 1 },
+    "seedCount": { "type": "integer", "minimum": 1 },
+    "provenance": {
+      "type": "object",
+      "required": ["sourceRevision", "observableRegistryVersion", "createdAt"],
+      "properties": {
+        "sourceRevision": { "type": "string" },
+        "observableRegistryVersion": { "type": "string" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}
