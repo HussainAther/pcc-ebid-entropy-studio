@@ -137,3 +137,24 @@ The external-classification comparison is intentionally left unrun until a prove
 ### RUL-004 observer-dependence benchmark
 
 Entropy Studio can now test observer dependence without re-simulating the underlying system. `npm run ruliology:eca:observers` simulates a 16-seed ECA ensemble once, reprojects the same stored run summaries through four frozen observer definitions, calibrates each observer's equivalence tolerance from disjoint split halves, and writes candidate quotient classes plus cross-observer comparisons under `data/ruliology/eca-observer-dependence/`.
+
+
+### RUL-005 observer-space geometry
+
+After generating the fixed-trajectory RUL-004 observer dataset, enumerate all 31 non-empty subsets of the five-feature ECA observer basis and compare observer distance to induced rulial geometry/quotient distance:
+
+```bash
+npm run ruliology:eca:observer-geometry
+```
+
+The analysis reuses the existing 4,096 source runs and writes a 31-node / 465-pair observer lattice analysis to `data/ruliology/eca-observer-geometry/`.
+
+### RUL-006 Boids rule-space stress test
+
+Run the frozen multidimensional Boids benchmark with:
+
+```bash
+npm run ruliology:boids
+```
+
+It writes `data/ruliology/boids-rulial/` with the discovery profiles, local candidate boundaries, held-out endpoint tests, adaptive boundary probes, a compact Studio summary, and a provenance-oriented full report. RUL-006 is intentionally a stress test rather than a claimed universal flocking phase diagram.

@@ -12,7 +12,9 @@
     "ruliology:eca": "node --experimental-strip-types scripts/run-rulial-eca.ts",
     "ruliology:eca:quick": "node --experimental-strip-types scripts/run-rulial-eca.ts --quick",
     "ruliology:eca:validate": "node --experimental-strip-types scripts/analyze-rulial-eca.ts",
-    "ruliology:eca:observers": "node --experimental-strip-types scripts/analyze-rulial-observers.ts"
+    "ruliology:eca:observers": "node --experimental-strip-types scripts/analyze-rulial-observers.ts",
+    "ruliology:eca:observer-geometry": "node --experimental-strip-types scripts/analyze-rulial-observer-geometry.ts",
+    "ruliology:boids": "python3 scripts/run-rulial-boids.py --output-dir data/ruliology/boids-rulial"
   },
   "dependencies": {
     "next": "16.2.6",

@@ -285,13 +285,11 @@ export function runEcaRulialCampaign(options: EcaRulialCampaignOptions = {}): Ec
   };
 }
 
-export function reprofileEcaCampaign(
+export function reprofileEcaCampaignWithObserver(
   source: EcaRulialCampaignReport,
-  observerId: string,
+  observer: ObserverDefinition,
   seeds: number[] = source.configuration.seeds,
 ): EcaRulialCampaignReport {
-  const observer = observers.find(item => item.id === observerId);
-  if (!observer) throw new Error(`Unknown observer ${observerId}.`);
   const allowedSeeds = new Set(seeds);
   const runs = source.runs.filter(run => allowedSeeds.has(run.seed));
   const actualSeeds = [...new Set(runs.map(run => run.seed))].sort((a, b) => a - b);
@@ -329,6 +327,16 @@ export function reprofileEcaCampaign(
       `Profiles were reprojected from the same stored ECA run summaries under ${observer.id}; no trajectories were re-simulated for this observer.`,
     ],
   };
+}
+
+export function reprofileEcaCampaign(
+  source: EcaRulialCampaignReport,
+  observerId: string,
+  seeds: number[] = source.configuration.seeds,
+): EcaRulialCampaignReport {
+  const observer = observers.find(item => item.id === observerId);
+  if (!observer) throw new Error(`Unknown observer ${observerId}.`);
+  return reprofileEcaCampaignWithObserver(source, observer, seeds);
 }
 
 export function profilesToCsv(profiles: RulialProfileArtifact[]): string {

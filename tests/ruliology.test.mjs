@@ -113,3 +113,51 @@ test("committed RUL-004 holds 4,096 runs fixed across four observers", () => {
   assert.ok(summary.pairConsensus.observerSensitivePairs > 0);
   assert.ok(summary.observers.every(observer => observer.splitGeometrySpearman > 0.8));
 });
+
+
+test("RUL-005 enumerates the complete finite observer lattice", async () => {
+  const { enumerateEcaSubsetObservers } = await import("../app/lib/rulialObserverGeometry.ts");
+  const observers = enumerateEcaSubsetObservers();
+  assert.equal(observers.length, 31);
+  assert.equal(new Set(observers.map(observer => observer.id)).size, 31);
+  assert.deepEqual(observers[0].observableIds, ["OBS-SHANNON"]);
+  assert.equal(observers.at(-1).observableIds.length, 5);
+});
+
+test("committed RUL-005 observer geometry uses the fixed 4,096-run RUL-004 source", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/eca-observer-geometry/observer-geometry-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.sourceSimulation.runCount, 4096);
+  assert.equal(summary.sourceSimulation.ruleCount, 256);
+  assert.equal(summary.observerSpace.nodeCount, 31);
+  assert.equal(summary.observerSpace.pairCount, 465);
+  assert.equal(summary.observerSpace.oneFeatureEdgeCount, 75);
+  assert.ok(summary.summary.structuralVsQuotientSpearman > 0);
+  assert.ok(summary.summary.structuralVsGeometrySpearman > 0);
+  assert.ok(summary.summary.quotientVsGeometrySpearman > 0.7);
+  assert.equal(summary.summary.permutationReplicates, 1000);
+  assert.ok(summary.summary.structuralVsQuotientPermutationP <= 0.05);
+  assert.ok(summary.summary.structuralVsGeometryPermutationP <= 0.05);
+});
+
+test("RUL-006 registers a continuous Boids rule space and frozen observer", () => {
+  assert.match(spaces, /RSPACE-BOIDS-001/);
+  assert.match(spaces, /OBSERVER-BOIDS-RULIAL-CORE/);
+  assert.match(spaces, /OBS-SPEED-VARIANCE/);
+  assert.match(studio, /RUL-006 cross-substrate stress test/);
+});
+
+test("committed RUL-006 uses held-out seeds and independently simulated boundary probes", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/boids-rulial/boids-rulial-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-006");
+  assert.equal(summary.sampling.discoveryPointCount, 32);
+  assert.deepEqual(summary.sampling.discoverySeeds, [12345, 22345, 32345]);
+  assert.deepEqual(summary.sampling.validationSeeds, [42345, 52345]);
+  assert.equal(summary.sampling.boundaryProbeCount, 8);
+  assert.equal(summary.simulation.discoveryRunCount, 96);
+  assert.ok(summary.simulation.validationEndpointRunCount > 0);
+  assert.equal(summary.simulation.boundaryProbeRunCount, 16);
+  assert.equal(summary.validation.candidateCount, 8);
+  assert.ok(Number.isFinite(summary.discovery.pairwiseRuleVsObservableSpearman));
+  assert.ok(Number.isFinite(summary.validation.candidateSensitivitySpearman));
+  assert.ok(summary.validation.retentionFraction >= 0 && summary.validation.retentionFraction <= 1);
+});

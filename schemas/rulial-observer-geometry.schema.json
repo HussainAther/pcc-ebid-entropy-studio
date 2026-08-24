@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-observer-geometry.schema.json",
+  "title": "Entropy Studio Rulial Observer Geometry Report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerSpace", "sourceSimulation", "nodes", "pairs", "distanceLevels", "summary", "notes"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-observer-geometry/1.0.0" },
+    "experimentId": { "const": "RUL-005-ECA-OBSERVER-GEOMETRY-001" },
+    "ruleSpaceId": { "const": "RSPACE-ECA-256" },
+    "observerSpace": {
+      "type": "object",
+      "required": ["basisObservableIds", "representation", "nodeCount", "pairCount", "oneFeatureEdgeCount"],
+      "properties": {
+        "basisObservableIds": { "type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": { "type": "string" } },
+        "representation": { "type": "string", "minLength": 1 },
+        "nodeCount": { "const": 31 },
+        "pairCount": { "const": 465 },
+        "oneFeatureEdgeCount": { "const": 75 }
+      }
+    },
+    "sourceSimulation": {
+      "type": "object",
+      "required": ["campaignId", "runCount", "ruleCount", "seeds", "policy"],
+      "properties": {
+        "runCount": { "const": 4096 },
+        "ruleCount": { "const": 256 },
+        "seeds": { "type": "array", "minItems": 16, "items": { "type": "integer" }, "uniqueItems": true },
+        "policy": { "type": "string", "minLength": 1 }
+      }
+    },
+    "nodes": { "type": "array", "minItems": 31, "maxItems": 31 },
+    "pairs": { "type": "array", "minItems": 465, "maxItems": 465 },
+    "distanceLevels": { "type": "array", "minItems": 5, "maxItems": 5 },
+    "summary": {
+      "type": "object",
+      "required": ["structuralVsQuotientSpearman", "structuralVsGeometrySpearman", "quotientVsGeometrySpearman", "meanOneFeatureQuotientDistance", "medianOneFeatureQuotientDistance", "maxOneFeatureQuotientDistance", "maxOneFeaturePair", "permutationReplicates", "structuralVsQuotientPermutationP", "structuralVsGeometryPermutationP"]
+    },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

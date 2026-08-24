@@ -25,9 +25,10 @@ Two rules may therefore be observationally equivalent for one observer and disti
 - **RUL-001 - Elementary CA Instability Atlas**: enumerate all 256 elementary cellular automata and construct EBID-style instability profiles across frozen initial conditions and perturbations.
 - **RUL-002 - Rulial Neighborhood Sensitivity**: compare distance in rule representation against distance in observable profiles.
 - **RUL-003 - EBID Equivalence Classes**: cluster or quotient rules using preregistered observable-distance criteria, then compare post hoc with external CA classifications.
-- **RUL-004 - PCC Regime Atlas**: test preregistered macro-regime criteria without defining Pressure, Chaos, or Control from the outcomes being explained.
-- **RUL-005 - Boids Rulial Landscape**: extend the validated noise sweep into a structured multi-parameter rule-space campaign.
-- **RUL-006 - Cross-System Universality Challenge**: test whether any instability structure survives transfer across CA, Boids, and replicator systems.
+- **RUL-004 - Observer-Dependent Quotient Structure**: hold ECA trajectories fixed and test whether distinct frozen observers induce distinct candidate quotients of rule space.
+- **RUL-005 - Observer-Space Geometry**: enumerate a finite lattice of observer feature subsets and test whether nearby observers induce nearby rulial geometries and quotient candidates.
+- **RUL-006 - Boids Rulial Landscape**: extend the validated noise sweep into a structured multi-parameter rule-space campaign.
+- **RUL-007 - Cross-System Universality Challenge**: test whether any instability structure survives transfer across CA, Boids, and replicator systems.
 
 ## Guardrails
 
@@ -115,3 +116,52 @@ Run with:
 ```bash
 npm run ruliology:eca:observers
 ```
+
+
+## RUL-005 — Geometry of observers acting on rule space
+
+RUL-005 turns the qualitative RUL-004 observer-dependence result into a finite, reproducible observer-space experiment. It reuses the **same 4,096 ECA rule-seed run summaries** generated for RUL-004 and never resimulates a trajectory per observer.
+
+The frozen observer basis contains five registered coordinates:
+
+- `OBS-SHANNON`
+- `OBS-HAMMING`
+- `OBS-PERTURB-GROWTH`
+- `OBS-AUTOCORR-TIME`
+- `OBS-COMPRESSION`
+
+Every non-empty feature subset is treated as a declared observer, producing 31 observer nodes. Observer structure is the 5-dimensional Boolean subset lattice, with normalized Hamming distance
+
+`d_O(O_i, O_j) = |feature symmetric difference| / 5`.
+
+This gives 465 observer pairs and 75 one-feature lattice edges. Each observer independently calibrates its resolution epsilon from the median same-rule split-half EBID distance. Two rule pairs are compared in two ways:
+
+1. **Quotient-proxy distance**: `1 - Jaccard(E_i, E_j)`, where `E_i` is the set of rule pairs observationally indistinguishable at observer `i`'s epsilon.
+2. **Geometry distance**: `(1 - Spearman(D_i, D_j)) / 2`, where `D_i` is the full vector of 32,640 rule-pair distances induced by observer `i`.
+
+Run with:
+
+```bash
+npm run ruliology:eca:observer-geometry
+```
+
+Outputs are written under `data/ruliology/eca-observer-geometry/`:
+
+- `observer-geometry-report.json` — complete 31-node / 465-pair analysis;
+- `observer-geometry-summary.json` — compact Studio payload and leading one-feature edges;
+- `observer-nodes.csv` — observer resolution and quotient-size diagnostics;
+- `observer-pairs.csv` — structural, quotient-proxy, and geometry distances for every observer pair.
+
+The primary question is deliberately modest: **does increasing structural distance between declared observers tend to increase the distance between the rulial structures they induce?** A positive association is evidence of structured observer dependence in this finite measurement lattice, not evidence that all possible observers possess a universal metric geometry. Because the 465 observer-pair entries are not independent, RUL-005 uses a deterministic matrix-label permutation test over observer identities rather than a naive independent-pairs significance test.
+
+## RUL-006 — multidimensional Boids rulial stress test
+
+RUL-006 is the first cross-substrate challenge after the finite ECA program. It does **not** assume that ECA findings transfer to flocking. The rule space is a frozen five-dimensional continuous design over separation, alignment, cohesion, stochastic chaos, and neighborhood radius.
+
+The discovery stage uses a deterministic 32-point Latin hypercube (design seed `20260824`) and three simulation seeds per point. A six-feature Boids observer records tail polarization, heading entropy, spatial occupancy entropy, speed variance, macrostate transition rate, and normalized dwell time. Feature distances use fixed 5–95% discovery ranges so a numerically large coordinate cannot dominate simply because of units.
+
+Candidate local sensitivity boundaries are selected only from the discovery design. Their endpoints are then re-run with two disjoint validation seeds, and eight new transverse midpoint probes are simulated near those discovery-selected edges. These adaptive probes are new rule coordinates, not reused discovery points.
+
+The current committed pilot contains 134 simulations: 96 discovery runs, 22 held-out endpoint runs, and 16 boundary-probe runs. The global rule-distance / observable-distance association is modest rather than deterministic, while the discovery ranking of the eight selected local sensitivity edges has a positive held-out rank association. Only half of the selected edges remain above the discovery local-distance 75th percentile under the held-out seeds. That mixed result is useful: local rulial sensitivity is present, but the exact boundary set is not yet stable enough to call a phase diagram.
+
+The operational polarization bins (`A >= 0.75`, `0.40 <= A < 0.75`, `A < 0.40`) are deliberately described as control-like, pressure-like, and chaos-like summaries only. They are not evidence that PCC semantics have been derived from flocking dynamics.

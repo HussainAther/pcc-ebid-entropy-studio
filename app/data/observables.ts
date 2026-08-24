@@ -121,6 +121,18 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-BOIDS-001"], tags: ["boids", "spatial", "clustering"], projectId,
     },
     {
+      id: "OBS-SPEED-VARIANCE", slug: "speed-variance", name: "Speed variance", symbol: "Var(v)", category: "stability",
+      description: "Variance of agent speed magnitudes across the flock.",
+      formula: "Var(v) = N^-1 Σᵢ (||vᵢ|| - mean||v||)^2",
+      interpretation: "Captures speed dispersion that polarization alone can miss; it is used as one component of the frozen RUL-006 Boids observer.",
+      requiredInputs: ["agent velocity vectors"], output: "nonnegative scalar",
+      estimator: "Compute speed magnitude per agent, then population variance; RUL-006 reports the mean over the final 25% of each trajectory.",
+      validWhen: ["velocity units and integration settings are fixed across comparisons"],
+      failureModes: ["Insensitive to heading disorder", "Can be dominated by speed clipping"],
+      implementationStatus: "implemented", implementationPath: "adapters/pcc-boids/pcc_boids/rulial.py",
+      sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-006"], tags: ["boids", "ruliology", "dispersion"], projectId,
+    },
+    {
       id: "OBS-TRANSITION-LEAD", slug: "entropy-transition-lead", name: "Entropy transition lead", symbol: "Lentropy", category: "benchmark",
       description: "Difference between the polarization-collapse threshold and the heading-entropy rise threshold during a preregistered noise sweep.",
       formula: "Lentropy = Kcollapse - Kentropy",
@@ -207,7 +219,7 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       estimator: "Count only transitions satisfying the declared persistence criterion and divide by observation duration.",
       validWhen: ["macrostate and persistence definitions are frozen"],
       failureModes: ["Flicker at classification boundaries", "Sampling-rate dependence"],
-      implementationStatus: "planned", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: [], tags: ["PCC", "ruliology", "regime switching"], projectId,
+      implementationStatus: "implemented", implementationPath: "adapters/pcc-boids/pcc_boids/rulial.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-006"], tags: ["PCC", "ruliology", "regime switching"], projectId,
     },
     {
       id: "OBS-METASTABLE-DWELL", slug: "metastable-dwell-time", name: "Metastable dwell time", symbol: "tau_dwell", category: "transition",
@@ -218,7 +230,7 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       estimator: "Measure contiguous residence durations after applying the frozen persistence rule; report the distribution and declared summary.",
       validWhen: ["macrostate mapping is fixed"],
       failureModes: ["Threshold-dependent state splitting", "Insufficient transitions"],
-      implementationStatus: "planned", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: [], tags: ["PCC", "ruliology", "metastability"], projectId,
+      implementationStatus: "implemented", implementationPath: "adapters/pcc-boids/pcc_boids/rulial.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-006"], tags: ["PCC", "ruliology", "metastability"], projectId,
     },
     {
       id: "OBS-RULE-SENSITIVITY", slug: "rule-sensitivity", name: "Rule sensitivity", symbol: "S_R", category: "benchmark",

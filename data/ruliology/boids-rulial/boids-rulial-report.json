@@ -1,0 +1,259 @@
+{
+  "discovery": {
+    "localEdgeCount": 80,
+    "localObservableDistanceQ75": 0.4406513907961386,
+    "pairwiseRuleVsObservableSpearman": 0.3125829266901507,
+    "topCandidateEdges": [
+      {
+        "leftRuleId": "BOIDS-D-002",
+        "observableDistance": 0.5874830436402461,
+        "rightRuleId": "BOIDS-D-024",
+        "ruleDistance": 0.10256860772556708,
+        "sensitivity": 5.727708084057431
+      },
+      {
+        "leftRuleId": "BOIDS-D-024",
+        "observableDistance": 0.614618711125487,
+        "rightRuleId": "BOIDS-D-025",
+        "ruleDistance": 0.17663787202776668,
+        "sensitivity": 3.479540961798225
+      },
+      {
+        "leftRuleId": "BOIDS-D-019",
+        "observableDistance": 0.6838081385714238,
+        "rightRuleId": "BOIDS-D-025",
+        "ruleDistance": 0.2110877630479966,
+        "sensitivity": 3.239449453144952
+      },
+      {
+        "leftRuleId": "BOIDS-D-014",
+        "observableDistance": 0.8008066519071251,
+        "rightRuleId": "BOIDS-D-023",
+        "ruleDistance": 0.2476843142529059,
+        "sensitivity": 3.2331746736672073
+      },
+      {
+        "leftRuleId": "BOIDS-D-002",
+        "observableDistance": 0.6401472668001573,
+        "rightRuleId": "BOIDS-D-019",
+        "ruleDistance": 0.2134089925110839,
+        "sensitivity": 2.999626488405402
+      },
+      {
+        "leftRuleId": "BOIDS-D-000",
+        "observableDistance": 0.5971723464080585,
+        "rightRuleId": "BOIDS-D-007",
+        "ruleDistance": 0.2151171698051349,
+        "sensitivity": 2.7760329263768693
+      },
+      {
+        "leftRuleId": "BOIDS-D-017",
+        "observableDistance": 0.7975643724047414,
+        "rightRuleId": "BOIDS-D-018",
+        "ruleDistance": 0.31152513905042284,
+        "sensitivity": 2.5601926535875785
+      },
+      {
+        "leftRuleId": "BOIDS-D-000",
+        "observableDistance": 0.5881535492781357,
+        "rightRuleId": "BOIDS-D-022",
+        "ruleDistance": 0.2404936173135901,
+        "sensitivity": 2.445609808060796
+      }
+    ]
+  },
+  "experimentId": "RUL-006",
+  "featureScaling": {
+    "OBS-HEADING-ENTROPY": 0.22348603226073716,
+    "OBS-METASTABLE-DWELL": 0.0444444444444444,
+    "OBS-POLARIZATION": 0.00883080795816793,
+    "OBS-SPATIAL": 0.5468415313732371,
+    "OBS-SPEED-VARIANCE": 0.009673323491114346,
+    "OBS-TRANSITION-RATE": 0.0033500837520938024
+  },
+  "interpretationBoundary": [
+    "The rule-space sample is finite and does not establish a universal Boids phase diagram.",
+    "PCC-like macrostate bins are frozen operational summaries of polarization, not semantic proof of pressure, chaos, or control.",
+    "Candidate boundaries are discovery-selected; held-out seeds and independently simulated probe points are used only as a stress test.",
+    "Cross-substrate comparison to ECA is descriptive until a common preregistered statistic is frozen and independently validated."
+  ],
+  "ruleSpaceId": "RSPACE-BOIDS-001",
+  "sampling": {
+    "boundaryProbeCount": 8,
+    "candidateEdgeCount": 8,
+    "design": "deterministic Latin hypercube discovery plus adaptive transverse midpoint probes",
+    "dimensions": [
+      {
+        "id": "separation",
+        "max": 1.8,
+        "min": 0.4
+      },
+      {
+        "id": "alignment",
+        "max": 1.8,
+        "min": 0.2
+      },
+      {
+        "id": "cohesion",
+        "max": 1.4,
+        "min": 0.2
+      },
+      {
+        "id": "chaos",
+        "max": 0.6,
+        "min": 0.0
+      },
+      {
+        "id": "neighborhood_radius",
+        "max": 20.0,
+        "min": 8.0
+      }
+    ],
+    "discoveryPointCount": 32,
+    "discoverySeeds": [
+      12345,
+      22345,
+      32345
+    ],
+    "validationSeeds": [
+      42345,
+      52345
+    ]
+  },
+  "schemaVersion": "entropy-rulial-boids/1.0.0",
+  "simulation": {
+    "boundaryProbeRunCount": 16,
+    "discoveryRunCount": 96,
+    "dt": 0.2,
+    "height": 100.0,
+    "max_speed": 2.5,
+    "n_agents": 40,
+    "pressure": 0.35,
+    "separation_radius": 3.0,
+    "steps": 200,
+    "tail_fraction": 0.25,
+    "totalRunCount": 134,
+    "validationEndpointRunCount": 22,
+    "width": 100.0
+  },
+  "validation": {
+    "candidateCount": 8,
+    "candidateSensitivitySpearman": 0.6904761904761906,
+    "retainedCandidateCount": 4,
+    "retentionFraction": 0.5,
+    "rows": [
+      {
+        "holdoutObservableDistance": 0.8756889394121905,
+        "holdoutSensitivity": 8.537592142765424,
+        "leftRuleId": "BOIDS-D-002",
+        "observableDistance": 0.5874830436402461,
+        "probeDistanceToLeft": 0.1230081386736731,
+        "probeDistanceToRight": 0.8662301871704136,
+        "probeMidpointResidual": 0.43707561133105305,
+        "probeRuleId": "BOIDS-V-000",
+        "retainedAboveDiscoveryLocalQ75": true,
+        "rightRuleId": "BOIDS-D-024",
+        "ruleDistance": 0.10256860772556708,
+        "sensitivity": 5.727708084057431
+      },
+      {
+        "holdoutObservableDistance": 0.8734134447954087,
+        "holdoutSensitivity": 4.944655609631167,
+        "leftRuleId": "BOIDS-D-024",
+        "observableDistance": 0.614618711125487,
+        "probeDistanceToLeft": 0.16977423025798852,
+        "probeDistanceToRight": 0.8722086506039315,
+        "probeMidpointResidual": 0.4517442288913786,
+        "probeRuleId": "BOIDS-V-001",
+        "retainedAboveDiscoveryLocalQ75": true,
+        "rightRuleId": "BOIDS-D-025",
+        "ruleDistance": 0.17663787202776668,
+        "sensitivity": 3.479540961798225
+      },
+      {
+        "holdoutObservableDistance": 0.2672336362633766,
+        "holdoutSensitivity": 1.265983553023932,
+        "leftRuleId": "BOIDS-D-019",
+        "observableDistance": 0.6838081385714238,
+        "probeDistanceToLeft": 0.20713618435776218,
+        "probeDistanceToRight": 0.07036103969157986,
+        "probeMidpointResidual": 0.07793961316782404,
+        "probeRuleId": "BOIDS-V-002",
+        "retainedAboveDiscoveryLocalQ75": false,
+        "rightRuleId": "BOIDS-D-025",
+        "ruleDistance": 0.2110877630479966,
+        "sensitivity": 3.239449453144952
+      },
+      {
+        "holdoutObservableDistance": 0.5467326345985809,
+        "holdoutSensitivity": 2.207376903328332,
+        "leftRuleId": "BOIDS-D-014",
+        "observableDistance": 0.8008066519071251,
+        "probeDistanceToLeft": 0.35618428767077603,
+        "probeDistanceToRight": 0.19866979672400756,
+        "probeMidpointResidual": 0.09186579354238425,
+        "probeRuleId": "BOIDS-V-003",
+        "retainedAboveDiscoveryLocalQ75": true,
+        "rightRuleId": "BOIDS-D-023",
+        "ruleDistance": 0.2476843142529059,
+        "sensitivity": 3.2331746736672073
+      },
+      {
+        "holdoutObservableDistance": 0.39123716540286824,
+        "holdoutSensitivity": 1.8332740377964551,
+        "leftRuleId": "BOIDS-D-002",
+        "observableDistance": 0.6401472668001573,
+        "probeDistanceToLeft": 0.8972327485275693,
+        "probeDistanceToRight": 0.8829065140304247,
+        "probeMidpointResidual": 0.8683367024810875,
+        "probeRuleId": "BOIDS-V-004",
+        "retainedAboveDiscoveryLocalQ75": false,
+        "rightRuleId": "BOIDS-D-019",
+        "ruleDistance": 0.2134089925110839,
+        "sensitivity": 2.999626488405402
+      },
+      {
+        "holdoutObservableDistance": 0.12193202133272013,
+        "holdoutSensitivity": 0.5668167791681759,
+        "leftRuleId": "BOIDS-D-000",
+        "observableDistance": 0.5971723464080585,
+        "probeDistanceToLeft": 0.060229408186807595,
+        "probeDistanceToRight": 0.06336222881033705,
+        "probeMidpointResidual": 0.010213832219229805,
+        "probeRuleId": "BOIDS-V-005",
+        "retainedAboveDiscoveryLocalQ75": false,
+        "rightRuleId": "BOIDS-D-007",
+        "ruleDistance": 0.2151171698051349,
+        "sensitivity": 2.7760329263768693
+      },
+      {
+        "holdoutObservableDistance": 1.0161094643565063,
+        "holdoutSensitivity": 3.261725417902922,
+        "leftRuleId": "BOIDS-D-017",
+        "observableDistance": 0.7975643724047414,
+        "probeDistanceToLeft": 0.3092423891492427,
+        "probeDistanceToRight": 0.7200404976979508,
+        "probeMidpointResidual": 0.22118990912156256,
+        "probeRuleId": "BOIDS-V-006",
+        "retainedAboveDiscoveryLocalQ75": true,
+        "rightRuleId": "BOIDS-D-018",
+        "ruleDistance": 0.31152513905042284,
+        "sensitivity": 2.5601926535875785
+      },
+      {
+        "holdoutObservableDistance": 0.12706794141059835,
+        "holdoutSensitivity": 0.5283630510863369,
+        "leftRuleId": "BOIDS-D-000",
+        "observableDistance": 0.5881535492781357,
+        "probeDistanceToLeft": 0.11052109144501548,
+        "probeDistanceToRight": 0.11062363291452507,
+        "probeMidpointResidual": 0.09049687548816655,
+        "probeRuleId": "BOIDS-V-007",
+        "retainedAboveDiscoveryLocalQ75": false,
+        "rightRuleId": "BOIDS-D-022",
+        "ruleDistance": 0.2404936173135901,
+        "sensitivity": 2.445609808060796
+      }
+    ]
+  }
+}

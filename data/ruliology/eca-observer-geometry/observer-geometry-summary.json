@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "entropy-rulial-observer-geometry/1.0.0",
+  "experimentId": "RUL-005-ECA-OBSERVER-GEOMETRY-001",
+  "createdAt": "2026-08-24T19:41:22.437Z",
+  "observerSpace": {
+    "basisObservableIds": [
+      "OBS-SHANNON",
+      "OBS-HAMMING",
+      "OBS-PERTURB-GROWTH",
+      "OBS-AUTOCORR-TIME",
+      "OBS-COMPRESSION"
+    ],
+    "representation": "Non-empty subsets of the five-feature ECA observer basis; structural distance is normalized Hamming distance between feature-inclusion bit vectors.",
+    "nodeCount": 31,
+    "pairCount": 465,
+    "oneFeatureEdgeCount": 75
+  },
+  "sourceSimulation": {
+    "campaignId": "CAMPAIGN-RUL-ECA-001",
+    "runCount": 4096,
+    "ruleCount": 256,
+    "seeds": [
+      223,
+      227,
+      229,
+      233,
+      239,
+      241,
+      251,
+      257,
+      263,
+      269,
+      271,
+      277,
+      281,
+      283,
+      293,
+      307
+    ],
+    "policy": "Reuse the single frozen RUL-004 source simulation population. No trajectories are generated per subset observer."
+  },
+  "summary": {
+    "structuralVsQuotientSpearman": 0.5209832648001431,
+    "structuralVsGeometrySpearman": 0.5005628443200834,
+    "quotientVsGeometrySpearman": 0.8498845088687159,
+    "meanOneFeatureQuotientDistance": 0.5133412965643264,
+    "medianOneFeatureQuotientDistance": 0.5351223362273085,
+    "maxOneFeatureQuotientDistance": 0.954000357973868,
+    "maxOneFeaturePair": [
+      "OBSERVER-ECA-SUBSET-00100",
+      "OBSERVER-ECA-SUBSET-00101"
+    ],
+    "permutationReplicates": 1000,
+    "structuralVsQuotientPermutationP": 0.000999000999000999,
+    "structuralVsGeometryPermutationP": 0.000999000999000999
+  },
+  "distanceLevels": [
+    {
+      "structuralDistance": 0.2,
+      "pairCount": 75,
+      "meanQuotientDistance": 0.5133412965643264,
+      "medianQuotientDistance": 0.5351223362273085,
+      "meanGeometryDistance": 0.11685210969352662
+    },
+    {
+      "structuralDistance": 0.4,
+      "pairCount": 150,
+      "meanQuotientDistance": 0.719064857119542,
+      "medianQuotientDistance": 0.7102243411581932,
+      "meanGeometryDistance": 0.20856821940904516
+    },
+    {
+      "structuralDistance": 0.6,
+      "pairCount": 150,
+      "meanQuotientDistance": 0.8111939313112912,
+      "medianQuotientDistance": 0.8199192001886516,
+      "meanGeometryDistance": 0.2824605133067161
+    },
+    {
+      "structuralDistance": 0.8,
+      "pairCount": 75,
+      "meanQuotientDistance": 0.8662489602195054,
+      "medianQuotientDistance": 0.8685744568097509,
+      "meanGeometryDistance": 0.34523664193035525
+    },
+    {
+      "structuralDistance": 1,
+      "pairCount": 15,
+      "meanQuotientDistance": 0.9024188016870655,
+      "medianQuotientDistance": 0.8912493677288822,
+      "meanGeometryDistance": 0.3996207055550732
+    }
+  ],
+  "topOneFeatureEdges": [
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-00100",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-00101",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.954000357973868,
+      "geometryDistance": 0.5403012308532487,
+      "coassignmentJaccard": 0.04599964202613209,
+      "geometrySpearman": -0.08060246170649742,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-01100",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-01101",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.9333877107123436,
+      "geometryDistance": 0.3024194124781241,
+      "coassignmentJaccard": 0.06661228928765633,
+      "geometrySpearman": 0.39516117504375176,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-01000",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-11000",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.9325953259532596,
+      "geometryDistance": 0.40015926928376055,
+      "coassignmentJaccard": 0.06740467404674047,
+      "geometrySpearman": 0.19968146143247884,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-01000",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-01001",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.918123614873184,
+      "geometryDistance": 0.29674735953688397,
+      "coassignmentJaccard": 0.08187638512681605,
+      "geometrySpearman": 0.40650528092623206,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-00100",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-10100",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.9062447114570993,
+      "geometryDistance": 0.5304811035214767,
+      "coassignmentJaccard": 0.09375528854290066,
+      "geometrySpearman": -0.06096220704295334,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-01100",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-11100",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.8966989186112693,
+      "geometryDistance": 0.40468229295805824,
+      "coassignmentJaccard": 0.10330108138873079,
+      "geometrySpearman": 0.19063541408388357,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-01000",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-01010",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.8685798743687646,
+      "geometryDistance": 0.3716404593732476,
+      "coassignmentJaccard": 0.13142012563123537,
+      "geometrySpearman": 0.25671908125350484,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-01010",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-01011",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.8394495412844036,
+      "geometryDistance": 0.2773494042928353,
+      "coassignmentJaccard": 0.16055045871559634,
+      "geometrySpearman": 0.4453011914143294,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-01110",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-01111",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.8391332895600788,
+      "geometryDistance": 0.27734274733389647,
+      "coassignmentJaccard": 0.1608667104399212,
+      "geometrySpearman": 0.44531450533220707,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-00100",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-01100",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.8255831452219714,
+      "geometryDistance": 0.44101432207438906,
+      "coassignmentJaccard": 0.1744168547780286,
+      "geometrySpearman": 0.11797135585122183,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-00110",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-00111",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.8191603875134553,
+      "geometryDistance": 0.3114416760162738,
+      "coassignmentJaccard": 0.18083961248654468,
+      "geometrySpearman": 0.3771166479674524,
+      "oneFeatureNeighbor": true
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-SUBSET-00010",
+      "rightObserverId": "OBSERVER-ECA-SUBSET-00011",
+      "structuralDistance": 0.2,
+      "featureSymmetricDifference": 1,
+      "quotientDistance": 0.8182149362477231,
+      "geometryDistance": 0.31229362951869843,
+      "coassignmentJaccard": 0.18178506375227688,
+      "geometrySpearman": 0.3754127409626031,
+      "oneFeatureNeighbor": true
+    }
+  ],
+  "notes": [
+    "RUL-005 asks whether nearby observers induce nearby rulial quotients on one fixed ECA trajectory population.",
+    "Observer space is an explicitly finite Boolean feature lattice, not a claim that all scientifically possible observers reduce to feature subsets.",
+    "Quotient-proxy distance is one minus Jaccard overlap of pairwise observational-indistinguishability sets at each observer's epsilon; geometry distance is (1 - Spearman)/2 over all rule-pair distances. The pairwise relation is not assumed transitive.",
+    "Each subset observer calibrates epsilon independently from median same-rule split-half variability, so quotient differences reflect feature choice plus empirical observer resolution.",
+    "Association significance is assessed with a deterministic one-sided matrix-label permutation test over observer identities, avoiding a naive independent-pairs p-value for the 465 dependent observer-pair entries.",
+    "With 31 observers, there are 465 observer pairs and 75 one-feature lattice edges; these provide more than the six pairwise comparisons available in RUL-004."
+  ]
+}

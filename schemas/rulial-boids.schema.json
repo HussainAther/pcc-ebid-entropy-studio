@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-boids/1.0.0",
+  "title": "RUL-006 Boids rulial stress-test report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "sampling", "simulation", "discovery", "validation", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-boids/1.0.0"},
+    "experimentId": {"const": "RUL-006"},
+    "ruleSpaceId": {"const": "RSPACE-BOIDS-001"},
+    "sampling": {
+      "type": "object",
+      "required": ["design", "discoveryPointCount", "discoverySeeds", "validationSeeds", "candidateEdgeCount", "boundaryProbeCount", "dimensions"]
+    },
+    "simulation": {
+      "type": "object",
+      "required": ["n_agents", "steps", "totalRunCount"]
+    },
+    "discovery": {
+      "type": "object",
+      "required": ["pairwiseRuleVsObservableSpearman", "localEdgeCount", "localObservableDistanceQ75", "topCandidateEdges"]
+    },
+    "validation": {
+      "type": "object",
+      "required": ["candidateSensitivitySpearman", "retainedCandidateCount", "candidateCount", "retentionFraction", "rows"]
+    },
+    "interpretationBoundary": {"type": "array", "items": {"type": "string"}}
+  }
+}

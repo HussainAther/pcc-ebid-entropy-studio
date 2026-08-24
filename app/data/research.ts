@@ -126,7 +126,10 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
       id: "H-RUL-003", title: "Observer-dependent rulial equivalence", statement: "Some rule pairs are observationally equivalent under one preregistered observer but distinguishable under another.", disconfirmingOutcome: "The benchmark does not support observer dependence if equivalence partitions remain invariant across meaningfully distinct frozen observers within declared tolerances.", evidence: "hypothesis", assumptions: ["Observers differ in declared measurements or coarse-graining rather than outcome-tuned thresholds."], derivedFromIds: ["SRC-README"], projectId,
     },
     {
-      id: "H-RUL-005", title: "Boids rulial phase structure", statement: "A multidimensional sweep over flocking-rule parameters contains reproducible regions and transition boundaries in registered EBID/PCC observables that survive held-out seeds and local resampling.", disconfirmingOutcome: "Do not claim a stable rulial landscape if apparent regions or boundaries disappear under held-out seeds, alternative preregistered sampling designs, or modest estimator changes.", evidence: "hypothesis", assumptions: ["Sampling design is fixed before boundary analysis.", "Feature scaling and transition criteria are preregistered.", "Validation points are held out from exploratory boundary discovery."], derivedFromIds: ["SRC-BOIDS"], projectId,
+      id: "H-RUL-005", title: "Observer-space continuity", statement: "Within a frozen finite observer lattice, greater structural distance between observers is associated with greater divergence in the rulial geometries and candidate quotients they induce on one fixed trajectory population.", disconfirmingOutcome: "Do not claim structured observer geometry if observer structural distance has no reproducible association with quotient or full-geometry distance, or if the association disappears under frozen alternative resolution rules.", evidence: "hypothesis", assumptions: ["All observers reuse identical stored trajectories.", "Observer structure is declared before outcome analysis.", "Each observer resolution is calibrated by the same split-half rule."], derivedFromIds: ["SRC-README"], projectId,
+    },
+    {
+      id: "H-RUL-006", title: "Boids rulial phase structure", statement: "A multidimensional sweep over flocking-rule parameters contains reproducible regions and transition boundaries in registered EBID/PCC observables that survive held-out seeds and local resampling.", disconfirmingOutcome: "Do not claim a stable rulial landscape if apparent regions or boundaries disappear under held-out seeds, alternative preregistered sampling designs, or modest estimator changes.", evidence: "hypothesis", assumptions: ["Sampling design is fixed before boundary analysis.", "Feature scaling and transition criteria are preregistered.", "Validation points are held out from exploratory boundary discovery."], derivedFromIds: ["SRC-BOIDS"], projectId,
     },
     {
       id: "H-011", title: "Cross-domain invariance", statement: "The same correspondence persists across replicator, physical, and learning toy systems.", disconfirmingOutcome: "Currently underspecified: domain mapping and equivalence criteria require revision.", evidence: "speculation", assumptions: ["Domain mappings preserve the relevant local dynamics."], derivedFromIds: ["C-027"], projectId,
@@ -139,7 +142,8 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "RUL-002", engineId: "ENGINE-LOCAL-ECA", title: "Rulial neighborhood sensitivity", hypothesisId: "H-RUL-002", model: "eca_rule_neighbor_comparison", observableIds: ["OBS-RULE-SENSITIVITY", "OBS-HAMMING", "OBS-PERTURB-GROWTH"], controls: ["frozen rule metric", "frozen feature scaling", "same initial-condition ensemble per rule"], primaryMetric: "observable-distance / rule-distance sensitivity", status: "active", projectId },
     { id: "RUL-003", engineId: "ENGINE-LOCAL-ECA", title: "Observer-dependent EBID equivalence classes", hypothesisId: "H-RUL-003", model: "eca_observer_equivalence", observableIds: ["OBS-SHANNON", "OBS-HAMMING", "OBS-MUTUAL-INFO", "OBS-AUTOCORR-TIME"], controls: ["observers frozen before clustering", "epsilon sensitivity analysis", "post-hoc comparison to external CA classes only"], primaryMetric: "partition stability and cross-observer disagreement", status: "active", projectId },
     { id: "RUL-004", engineId: "ENGINE-LOCAL-ECA", title: "Observer-induced rulial quotient structure", hypothesisId: "H-RUL-003", model: "eca_fixed_trajectory_observer_projection", observableIds: ["OBS-SHANNON", "OBS-HAMMING", "OBS-PERTURB-GROWTH", "OBS-COMPRESSION", "OBS-AUTOCORR-TIME"], controls: ["same stored trajectories for every observer", "16-seed expanded ensemble", "disjoint eight-seed split halves", "observer-specific epsilon from same-rule split-half variability", "complete-link candidate classes"], primaryMetric: "cross-observer geometry and equivalence-partition disagreement", status: "active", projectId },
-    { id: "RUL-005", engineId: "ENGINE-PCC-BOIDS", title: "Boids multidimensional rulial landscape", hypothesisId: "H-RUL-005", model: "pcc_boids_rule_space", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-METASTABLE-DWELL", "OBS-TRANSITION-RATE"], controls: ["held-out validation seeds", "fixed domain and population", "frozen sampling design", "predeclared feature scaling", "boundary resampling independent of discovery points"], primaryMetric: "held-out stability of discovered rule-space regimes and transition boundaries", status: "draft", projectId },
+    { id: "RUL-005", engineId: "ENGINE-LOCAL-ECA", title: "Observer-space geometry on a fixed ECA population", hypothesisId: "H-RUL-005", model: "eca_observer_subset_lattice", observableIds: ["OBS-SHANNON", "OBS-HAMMING", "OBS-PERTURB-GROWTH", "OBS-COMPRESSION", "OBS-AUTOCORR-TIME"], controls: ["same 4,096 stored trajectories for all 31 observers", "all non-empty subsets of a frozen five-feature basis", "normalized Hamming observer distance", "observer-specific epsilon from median split-half self-distance", "no external CA labels"], primaryMetric: "Spearman association between observer structural distance and induced quotient/geometry distance", status: "active", projectId },
+    { id: "RUL-006", engineId: "ENGINE-PCC-BOIDS", title: "Boids multidimensional rulial landscape", hypothesisId: "H-RUL-006", model: "pcc_boids_rule_space", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE", "OBS-METASTABLE-DWELL", "OBS-TRANSITION-RATE"], controls: ["32-point deterministic Latin hypercube discovery design", "held-out validation seeds", "fixed 40-agent periodic domain", "frozen robust-range feature scaling", "adaptive boundary probes simulated only after discovery"], primaryMetric: "held-out rank stability of local rule sensitivity plus boundary-candidate retention", status: "active", projectId },
   ],
   campaigns: [
     {
@@ -190,26 +194,20 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
       id: "CAMPAIGN-RUL-BOIDS-001",
       title: "Boids multidimensional rulial landscape",
       description: "A structured pilot design that varies separation, alignment, cohesion, chaos, and neighborhood radius, then reserves independent points for boundary validation instead of treating a single noise axis as the full rule space.",
-      experimentId: "RUL-005",
+      experimentId: "RUL-006",
       seeds: [12345, 22345, 32345],
-      parameterAxes: [
-        { name: "separation", values: [0.5, 1.0, 1.5] },
-        { name: "alignment", values: [0.5, 1.0, 1.5] },
-        { name: "cohesion", values: [0.5, 1.0, 1.5] },
-        { name: "chaos", values: [0.0, 0.15, 0.35, 0.55] },
-        { name: "neighborhoodRadius", values: [0.1, 0.2, 0.35] }
-      ],
-      fixedParameters: { pressure: 0.4, control: 1.0, steps: 600, tailFraction: 0.25, samplingDesign: "pilot-factorial-replace-with-LHS-before-freeze" },
+      parameterAxes: [],
+      fixedParameters: { discoveryPoints: 32, samplingDesign: "deterministic-LHS-seed-20260824", separationRange: "0.4..1.8", alignmentRange: "0.2..1.8", cohesionRange: "0.2..1.4", chaosRange: "0.0..0.6", neighborhoodRadiusRange: "8.0..20.0", pressure: 0.35, nAgents: 40, steps: 200, tailFraction: 0.25, validationSeeds: "42345,52345", adaptiveBoundaryProbes: 8 },
       analysisIds: [],
       figureIds: [],
       paperIds: [],
       datasetIds: [],
-      status: "specified",
+      status: "completed",
       projectId,
       steps: [
-        { id: "BRSTEP-01", kind: "import", label: "Generate/import pilot rule-space runs", dependsOn: [], description: "Execute with the external PCC-Boids adapter after replacing this pilot grid with the frozen sampling design." },
-        { id: "BRSTEP-02", kind: "analyze", label: "Discover candidate regimes", dependsOn: ["BRSTEP-01"], description: "Map registered observable profiles without tuning PCC labels to desired boundaries." },
-        { id: "BRSTEP-03", kind: "analyze", label: "Validate candidate boundaries", dependsOn: ["BRSTEP-02"], description: "Evaluate held-out seeds and independently sampled points near candidate boundaries." },
+        { id: "BRSTEP-01", kind: "import", label: "Generate/import pilot rule-space runs", dependsOn: [], description: "Execute the frozen 32-point Latin hypercube through the PCC-Boids adapter using three discovery seeds." },
+        { id: "BRSTEP-02", kind: "analyze", label: "Discover candidate regimes", dependsOn: ["BRSTEP-01"], description: "Build six-feature collective-dynamics profiles, compute normalized rule/observable distances, and rank local sensitivity edges." },
+        { id: "BRSTEP-03", kind: "analyze", label: "Validate candidate boundaries", dependsOn: ["BRSTEP-02"], description: "Re-run selected edge endpoints with two held-out seeds and simulate adaptive transverse midpoint probes near the candidate boundaries." },
         { id: "BRSTEP-04", kind: "package", label: "Freeze boids rulial package", dependsOn: ["BRSTEP-03"], description: "Export sampling design, rule coordinates, observer definitions, run artifacts, profiles, and validation outcomes." }
       ],
     },
