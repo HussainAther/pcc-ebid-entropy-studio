@@ -16,6 +16,7 @@ import { buildMissionControlViewModel, type DashboardTone } from "./lib/missionC
 import { ecaInstabilitySignature } from "./lib/elementaryCA";
 import { enumerateFiniteRuleSpace } from "./lib/ruleSpaceExplorer";
 import ecaAtlas from "../data/ruliology/eca-atlas/atlas.json";
+import ecaValidation from "../data/ruliology/eca-validation/validation-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -213,6 +214,8 @@ function RulialAtlas() {
   const atlasProfileByRule = new Map(atlasProfiles.map(profile => [profile.rule.ruleId, profile]));
   const atlasPreview = benchmarkRules.map(rule => atlasProfileByRule.get(String(rule))).filter(Boolean);
   const sensitiveEdges = ecaAtlas.highSensitivityTransitions.slice(0, 8);
+  const robustEdges = ecaValidation.neighborhoodSensitivity.robustTransitions.slice(0, 8);
+  const candidateClasses = ecaValidation.equivalence.nonSingletonClasses.slice(0, 8);
 
   if (!selected) return <div className="view"><Notice title="No rule spaces">Register a rule space before opening the Rulial Atlas.</Notice></div>;
 
@@ -247,6 +250,22 @@ function RulialAtlas() {
       <p>Edges compare rules separated by exactly one output bit in the 8-bit ECA truth table. Observable distance uses preregistered fixed feature scales rather than raw mixed-unit values.</p>
       <div className="table-head rulial-table"><span>Edge</span><span>Rule distance</span><span>Observable distance</span><span>Observer</span></div>
       {sensitiveEdges.map(edge=><div className="source-row rulial-table" key={`${edge.fromRuleId}-${edge.toRuleId}`}><b>{edge.fromRuleId} ↔ {edge.toRuleId}</b><code>{edge.syntacticDistance.toFixed(3)}</code><span>{edge.observableDistance.toFixed(4)}</span><small>{edge.observerId}</small></div>)}
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-002 held-out validation" title="Neighborhood sensitivity survives new initial conditions"/>
+      <p>The original four-seed atlas is evaluated against four disjoint held-out seeds. Rankings are compared without refitting the original profiles. A robust edge must remain in the top 5% of one-bit observable distances in both ensembles.</p>
+      <div className="stats compact"><Stat label="All-pair ρ" value={Number(ecaValidation.stability.allPairDistanceSpearman).toFixed(3)} foot="Spearman, calibration vs holdout"/><Stat label="One-bit ρ" value={Number(ecaValidation.stability.oneBitEdgeDistanceSpearman).toFixed(3)} foot="edge ranking stability"/><Stat label="Top-tail overlap" value={Number(ecaValidation.stability.topFivePercentEdgeJaccard).toFixed(3)} foot="Jaccard of top 5% edges"/><Stat label="Robust edges" value={String(ecaValidation.stability.robustTopTailEdgeCount)} foot="top 5% in both ensembles"/></div>
+      <div className="table-head rulial-table"><span>Edge</span><span>Calibration</span><span>Holdout</span><span>Joint rank</span></div>
+      {robustEdges.map(edge=><div className="source-row rulial-table" key={`robust-${edge.fromRuleId}-${edge.toRuleId}`}><b>{edge.fromRuleId} ↔ {edge.toRuleId}</b><code>{edge.calibrationDistance.toFixed(4)}</code><span>{edge.holdoutDistance.toFixed(4)}</span><small>pctl {Math.min(edge.calibrationPercentile, edge.holdoutPercentile).toFixed(3)} minimum</small></div>)}
+      <p><small>Bootstrap: {ecaValidation.bootstrap.bootstrapReplicates.toLocaleString()} percentile resamples per rule-feature at {(ecaValidation.bootstrap.confidence*100).toFixed(0)}% confidence. With four calibration seeds, these intervals are diagnostic rather than precision estimates.</small></p>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-003 observer-dependent classes" title="Held-out candidate EBID equivalence classes"/>
+      <p>Candidate classes use complete-link clustering on the stricter joint distance max(calibration, holdout). The epsilon threshold is the median same-rule calibration-to-holdout distance, so every pair in a class must remain close under both independent initial-condition ensembles.</p>
+      <div className="stats compact"><Stat label="ε" value={Number(ecaValidation.equivalence.epsilon).toFixed(4)} foot="median same-rule shift"/><Stat label="Classes" value={String(ecaValidation.equivalence.classCount)} foot="complete partition"/><Stat label="Non-singletons" value={String(ecaValidation.equivalence.nonSingletonClassCount)} foot="candidate equivalence groups"/><Stat label="Cluster stability" value={Number(ecaValidation.stability.clustering.coassignmentJaccard).toFixed(3)} foot="calibration/holdout pair Jaccard"/></div>
+      <div className="table-head rulial-table"><span>Class</span><span>Size</span><span>Max joint d</span><span>Members</span></div>
+      {candidateClasses.map(group=><div className="source-row rulial-table" key={group.id}><b>{group.id}</b><code>{group.size}</code><span>{group.maximumJointDistance.toFixed(4)}</span><small>{group.memberRuleIds.join(" · ")}</small></div>)}
+      <Notice title="Post-hoc comparison not run">{ecaValidation.externalClassification.reason} A provenance-bearing external label table can be compared only after these metrics and thresholds are frozen.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

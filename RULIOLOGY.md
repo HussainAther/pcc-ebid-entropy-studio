@@ -60,3 +60,37 @@ The complete benchmark currently freezes 256 ECA rules × 4 seeded Bernoulli ini
 The rule geometry is the 8-dimensional Hamming hypercube of ECA transition tables: two rules are neighbors only when exactly one of the eight local outputs differs. This produces 1024 undirected one-bit edges across the complete 256-rule family. Observable distances use fixed, declared feature scales before cross-feature Euclidean comparison.
 
 The generated atlas is a benchmark dataset, not a discovered universal taxonomy. External cellular-automaton classes remain excluded from feature construction and may only be compared post hoc.
+
+## RUL-002 / RUL-003 held-out validation
+
+The first rule-space atlas is now followed by an independent initial-condition validation pass. Run:
+
+```bash
+npm run ruliology:eca:validate
+```
+
+The analysis keeps the frozen RUL-001 calibration ensemble (`11, 29, 47, 83`) untouched and generates a disjoint holdout ensemble (`101, 131, 173, 211`) with the same width, horizon, density, periodic boundary, perturbation policy, observer, and feature scaling.
+
+RUL-002 reports:
+
+- calibration-to-holdout EBID self-distance for every rule;
+- Spearman stability of all 32,640 pairwise rule distances;
+- Spearman stability of the 1,024 one-bit edge distances;
+- top-5% edge-set overlap;
+- robust high-sensitivity edges that remain in the top 5% in both ensembles.
+
+RUL-003 reports observer-dependent **candidate** equivalence classes. The primary epsilon is frozen from the median same-rule calibration-to-holdout EBID distance. Classes use complete-link clustering on `max(d_calibration, d_holdout)`, so every pair in a class must remain within epsilon in both ensembles. q25/q50/q75 threshold sensitivity is exported, along with calibration-only versus holdout-only cluster coassignment Jaccard.
+
+Profile uncertainty is estimated with deterministic percentile bootstrap intervals (2,000 replicates per rule-feature) over the four frozen calibration seeds. Because four initial conditions are a small ensemble, the intervals are explicitly treated as diagnostic rather than high-precision uncertainty estimates.
+
+Outputs are written under `data/ruliology/eca-validation/`:
+
+- `validation-report.json` - complete RUL-002/003 validation artifact;
+- `validation-summary.json` - compact Studio payload;
+- `holdout-report.json` - all 1,024 held-out runs and profiles;
+- `bootstrap-intervals.csv` - per-rule feature uncertainty;
+- `self-distances.csv` - same-rule calibration/holdout shifts;
+- `robust-transitions.csv` - one-bit edge replication table;
+- `equivalence-classes.csv` - candidate observer-dependent classes.
+
+External cellular-automaton class labels remain deliberately absent. Whole-population Wolfram-class assignments are not uniquely canonical, so post-hoc comparison is gated on a provenance-bearing frozen label table supplied after the EBID metrics, thresholds, and validation criteria are fixed.

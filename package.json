@@ -10,7 +10,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "lint": "eslint .",
     "ruliology:eca": "node --experimental-strip-types scripts/run-rulial-eca.ts",
-    "ruliology:eca:quick": "node --experimental-strip-types scripts/run-rulial-eca.ts --quick"
+    "ruliology:eca:quick": "node --experimental-strip-types scripts/run-rulial-eca.ts --quick",
+    "ruliology:eca:validate": "node --experimental-strip-types scripts/analyze-rulial-eca.ts"
   },
   "dependencies": {
     "next": "16.2.6",
