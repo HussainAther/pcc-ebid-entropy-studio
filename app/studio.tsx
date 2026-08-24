@@ -27,6 +27,7 @@ import boidsResolution from "../data/ruliology/boids-resolution/boids-resolution
 import boidsObserverValidation from "../data/ruliology/boids-observer-validation/boids-observer-validation-summary.json";
 import observerConditioning from "../data/ruliology/observer-conditioning/observer-conditioning-summary.json";
 import observerInformation from "../data/ruliology/observer-information/observer-information-summary.json";
+import prospectiveObserverSelection from "../data/ruliology/prospective-observer-selection/prospective-observer-selection-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -363,6 +364,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Substrate</span><span>Reliability↔geometry ρ</span><span>Signal↔geometry ρ</span><span>Median reliability</span></div>
       {observerInformation.substrates.map(item=><div className="source-row rulial-table" key={`rul013-${item.substrate}`}><b>{item.substrate}</b><code>{Number(item.reliabilityVsGeometrySpearman).toFixed(3)}</code><span>{Number(item.signalToUncertaintyVsGeometrySpearman).toFixed(3)}</span><small>{Number(item.medianReliability).toFixed(3)}</small></div>)}
       <Notice title="A better conditioning model, still provisional">The primary reliability association is strong and survives within-substrate permutation; the robust signal-to-uncertainty diagnostic agrees. Degeneracy is informative but weaker as a pooled scalar. RUL-013 therefore refines, rather than erases, RUL-012: low raw movement alone was insufficient, while discrimination relative to independent-pool uncertainty is much more predictive. A prospective RUL-014 is still required before treating this as a design rule.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-014 prospective observer selection" title="The RUL-013 selector improves directionally but misses the frozen primary margins"/>
+      <p>RUL-014 converts RUL-013 into an explicit prospective design rule: include Boids coordinates with frozen ICC-like reliability at least 0.80, then test that selected observer on a new 48-point rule-space sample and two new four-seed pools. All three observer views use the same 384 newly simulated trajectories.</p>
+      <div className="stats compact"><Stat label="New runs" value={String(prospectiveObserverSelection.simulation.totalNewRunCount)} foot="48 rules × 8 new seeds"/><Stat label="Selected geometry ρ" value={Number(prospectiveObserverSelection.observers.find(item=>item.observerId === "rul013_selected")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="RUL-013-selected observer"/><Stat label="Full-core geometry ρ" value={Number(prospectiveObserverSelection.observers.find(item=>item.observerId === "full_core")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="six-feature baseline"/><Stat label="Primary test" value={prospectiveObserverSelection.primaryProspectiveTest.prospectiveSelectionSupported ? "PASS" : "CHALLENGED"} foot="+0.05 geometry and local margins"/></div>
+      <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
+      {prospectiveObserverSelection.observers.map(item=><div className="source-row rulial-table" key={`rul014-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
+      <Notice title="Directional prediction, frozen primary challenge">The RUL-013-selected four-feature observer improves complete geometry and local-edge stability relative to full-core, and its top-boundary overlap improves substantially. But the gains of roughly +0.045 and +0.016 do not reach the preregistered +0.05 primary margins. The rejected low-reliability coordinates are near-zero or negative controls. Keep the primary outcome challenged rather than relaxing the threshold after the fact.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

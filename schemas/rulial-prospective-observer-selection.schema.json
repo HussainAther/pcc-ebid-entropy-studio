@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-prospective-observer-selection/1.0.0",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "selectionSource", "design", "simulation", "observers", "primaryProspectiveTest"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-prospective-observer-selection/1.0.0"},
+    "experimentId": {"const": "RUL-014"},
+    "selectionSource": {
+      "type": "object",
+      "required": ["experimentId", "criterion", "selectedFeatures", "rejectedFeatures"],
+      "properties": {"experimentId": {"const": "RUL-013"}}
+    },
+    "simulation": {
+      "type": "object",
+      "required": ["totalNewRunCount"],
+      "properties": {"totalNewRunCount": {"type": "integer", "minimum": 1}}
+    },
+    "observers": {"type": "array", "minItems": 3},
+    "primaryProspectiveTest": {
+      "type": "object",
+      "required": ["geometryMargin", "localMargin", "selectedMinusFullGeometry", "selectedMinusFullLocal", "prospectiveSelectionSupported"],
+      "properties": {"prospectiveSelectionSupported": {"type": "boolean"}}
+    }
+  }
+}

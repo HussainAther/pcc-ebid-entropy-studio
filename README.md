@@ -229,3 +229,14 @@ The frozen primary test is supported: ICC-like reliability is strongly positivel
 Degeneracy is retained as a secondary diagnostic. The pooled degeneracy association is weaker (`rho ≈ -0.198`), although the Boids transition-rate and metastable-dwell coordinates remain conspicuous low-reliability, low-support cases. This motivates a prospective observer-selection experiment rather than retroactively changing any frozen RUL-006 through RUL-012 observer.
 
 Run with `npm run ruliology:observer-information`. Outputs live under `data/ruliology/observer-information/`.
+
+
+## RUL-014 — Prospective observer selection from RUL-013
+
+RUL-014 tests whether the information-conditioning result from RUL-013 can be turned into a prospective measurement-design rule. Before generating any RUL-014 outcomes, the selector is frozen to include Boids coordinates whose RUL-013 ICC-like reliability is at least `0.80`. That rule selects spatial entropy, speed variance, polarization, and heading entropy, while rejecting transition rate and metastable dwell.
+
+The experiment then generates a completely new 48-point Boids Latin-hypercube design and two disjoint four-seed pools, for **384 new simulations**. Three observers are projected from those identical trajectories: the full six-feature core, the RUL-013-selected four-feature observer, and the two rejected coordinates as a negative-control observer. The primary success margin is fixed at `+0.05` for both complete-geometry and local-edge split-half Spearman stability.
+
+The selected observer improves in the predicted direction, but the frozen primary criterion is **challenged**: geometry improves by about `+0.045` and local-edge stability by about `+0.016`, both below the preregistered `+0.05` margins. The secondary top-10% boundary Jaccard improves strongly (`+0.283`), and the rejected-coordinate control is near-zero/negative in geometry stability. The correct interpretation is therefore not that RUL-013 failed, nor that the selector is validated, but that the simple hard-threshold selection rule has directional predictive value without meeting the stronger prospective effect-size criterion on this sample.
+
+Run with `npm run ruliology:observer-selection`. Outputs live under `data/ruliology/prospective-observer-selection/`.

@@ -344,3 +344,35 @@ test("committed RUL-013 supports discrimination-to-uncertainty conditioning", ()
   assert.ok(summary.secondary.signalToUncertaintyVsGeometrySpearman >= 0.60);
   assert.ok(summary.secondary.signalToUncertaintyPermutationP <= 0.05);
 });
+
+test("RUL-014 freezes an algorithmic RUL-013 observer selector before new simulations", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-prospective-observer-selection.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-014/);
+  assert.match(research, /RUL-014/);
+  assert.match(spaces, /OBSERVER-BOIDS-RUL013-SELECTED-PROSPECTIVE/);
+  assert.match(script, /SELECTION_RELIABILITY_MIN = 0\.80/);
+  assert.match(script, /DESIGN_POINT_COUNT = 48/);
+  assert.match(script, /PRIMARY_GEOMETRY_MARGIN = 0\.05/);
+  assert.match(script, /PRIMARY_LOCAL_MARGIN = 0\.05/);
+  assert.match(studio, /RUL-014 prospective observer selection/);
+});
+
+test("committed RUL-014 preserves the challenged prospective effect-size criterion", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/prospective-observer-selection/prospective-observer-selection-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-014");
+  assert.equal(summary.design.rulePointCount, 48);
+  assert.equal(summary.simulation.totalNewRunCount, 384);
+  assert.equal(new Set(summary.design.seedPools.A.concat(summary.design.seedPools.B)).size, 8);
+  assert.ok(summary.design.newRuleCoordinateCheckAgainstRUL006AndRUL011.minimum > 0);
+  assert.deepEqual(new Set(summary.selectedFeatures), new Set(["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE"]));
+  assert.deepEqual(new Set(summary.rejectedFeatures), new Set(["OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"]));
+  const full = summary.observers.find(row => row.observerId === "full_core");
+  const selected = summary.observers.find(row => row.observerId === "rul013_selected");
+  const rejected = summary.observers.find(row => row.observerId === "rul013_rejected_control");
+  assert.ok(selected.geometryStabilitySpearman > full.geometryStabilitySpearman);
+  assert.ok(selected.localEdgeStabilitySpearman > full.localEdgeStabilitySpearman);
+  assert.ok(selected.geometryStabilitySpearman > rejected.geometryStabilitySpearman);
+  assert.equal(summary.primaryProspectiveTest.prospectiveSelectionSupported, false);
+  assert.equal(summary.secondaryChecks.jaccardCriterionPassed, true);
+});

@@ -1,0 +1,112 @@
+{
+  "experimentId": "RUL-014",
+  "selectionRule": "Boids coordinates with ICC-like reliability >= 0.80",
+  "selectedFeatures": [
+    "OBS-SPATIAL",
+    "OBS-SPEED-VARIANCE",
+    "OBS-POLARIZATION",
+    "OBS-HEADING-ENTROPY"
+  ],
+  "rejectedFeatures": [
+    "OBS-METASTABLE-DWELL",
+    "OBS-TRANSITION-RATE"
+  ],
+  "design": {
+    "rulePointCount": 48,
+    "latinHypercubeSeed": 2026082414,
+    "localNeighborK": 4,
+    "seedPools": {
+      "A": [
+        97001,
+        97013,
+        97031,
+        97049
+      ],
+      "B": [
+        98003,
+        98017,
+        98029,
+        98051
+      ]
+    },
+    "newRuleCoordinateCheckAgainstRUL006AndRUL011": {
+      "minimum": 0.05868165826885663,
+      "median": 0.13718639937780042,
+      "maximum": 0.20028106819977226
+    },
+    "config": {
+      "n_agents": 40,
+      "steps": 200,
+      "dt": 0.2,
+      "width": 100.0,
+      "height": 100.0,
+      "separation_radius": 3.0,
+      "max_speed": 2.5,
+      "pressure": 0.35,
+      "tail_fraction": 0.25,
+      "stochastic_noise_scale": 1.0
+    }
+  },
+  "simulation": {
+    "poolARunCount": 192,
+    "poolBRunCount": 192,
+    "totalNewRunCount": 384
+  },
+  "observers": [
+    {
+      "observerId": "full_core",
+      "featureCount": 6,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "geometryStabilitySpearman": 0.8102970710672184,
+      "localEdgeStabilitySpearman": 0.8747816350391899,
+      "top10LocalEdgeJaccard": 0.2727272727272727
+    },
+    {
+      "observerId": "rul013_selected",
+      "featureCount": 4,
+      "features": [
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY"
+      ],
+      "geometryStabilitySpearman": 0.855171025130079,
+      "localEdgeStabilitySpearman": 0.890457487001085,
+      "top10LocalEdgeJaccard": 0.5555555555555556
+    },
+    {
+      "observerId": "rul013_rejected_control",
+      "featureCount": 2,
+      "features": [
+        "OBS-METASTABLE-DWELL",
+        "OBS-TRANSITION-RATE"
+      ],
+      "geometryStabilitySpearman": -0.030215576030693726,
+      "localEdgeStabilitySpearman": -0.04977761194440302,
+      "top10LocalEdgeJaccard": 0.16666666666666666
+    }
+  ],
+  "primaryProspectiveTest": {
+    "geometryMargin": 0.05,
+    "localMargin": 0.05,
+    "selectedMinusFullGeometry": 0.044873954062860655,
+    "selectedMinusFullLocal": 0.015675851961895026,
+    "geometryCriterionPassed": false,
+    "localCriterionPassed": false,
+    "prospectiveSelectionSupported": false
+  },
+  "secondaryChecks": {
+    "jaccardMargin": 0.1,
+    "selectedMinusFullTop10Jaccard": 0.2828282828282829,
+    "jaccardCriterionPassed": true,
+    "selectedMinusRejectedGeometry": 0.8853866011607727,
+    "selectedMinusRejectedLocal": 0.940235098945488
+  }
+}
