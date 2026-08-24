@@ -353,3 +353,25 @@ npm run ruliology:cross-substrate-objectives
 
 Outputs are written to `data/ruliology/cross-substrate-objectives/`.
 
+
+## RUL-020 — Mutable-rule ALife ecological response
+
+RUL-020 is the first Entropy Studio experiment in which the rule distribution itself is a dynamical object rather than a fixed experimental coordinate. Each agent carries a bounded heritable rule vector
+
+\[
+r=(w_f,w_h,\eta_e,E_r)
+\]
+
+for resource seeking, hazard avoidance, stochastic exploration, and reproduction threshold. Population dynamics can therefore be written schematically as
+
+\[
+(X_t,\mathcal P(R_t))\rightarrow (X_{t+1},\mathcal P(R_{t+1})),
+\]
+
+where \(X_t\) is ecological state and \(\mathcal P(R_t)\) is the population distribution over rules.
+
+The frozen pilot uses 12 matched seeds and three conditions: `stable_mutable`, `scarcity_mutable`, and `scarcity_frozen`. Scarcity reduces resource regeneration at step 130 of 260. The frozen-rule control disables offspring mutation but retains selection on standing initial variation, so population mean rules may still move without mutation.
+
+The primary pilot criteria were fixed as: scarcity-mutable median normalized rule-centroid displacement exceeds stable-mutable by at least 0.015; exceeds scarcity-frozen by at least 0.010; mean pairwise post-shock direction cosine is at least 0.20; and no more than 25% of seeds go extinct. All four criteria are satisfied in the committed artifact. This is a model-specific pilot result, not a biological-evolution or universal-adaptation claim.
+
+The main conceptual addition is a shift from static rule geometry to **rule-space trajectories**: centroid displacement, cumulative centroid path length, occupied rule-space diversity, lineage diversity, and demographic recovery can now be studied together.

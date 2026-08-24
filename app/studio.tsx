@@ -32,6 +32,7 @@ import informationWeightedObserver from "../data/ruliology/information-weighted-
 import interactionObserverValidation from "../data/ruliology/interaction-informed-observer-validation/interaction-informed-observer-validation-summary.json";
 import objectiveDependentObserver from "../data/ruliology/objective-dependent-observer/objective-dependent-observer-summary.json";
 import crossSubstrateObjectives from "../data/ruliology/cross-substrate-objectives/cross-substrate-objectives-summary.json";
+import alifeRuleMotion from "../data/ruliology/alife-rule-motion/alife-rule-motion-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -418,6 +419,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Substrate</span><span>Global↔local rank ρ</span><span>Global↔boundary rank ρ</span><span>Pareto front</span></div>
       {crossSubstrateObjectives.substrates.map(item=><div className="source-row rulial-table" key={`rul019-${item.substrate}`}><b>{item.substrate}</b><code>{Number(item.objectiveDependence.geometryRankAssociation).toFixed(3)}</code><span>{Number(item.objectiveDependence.globalBoundaryRankAssociation).toFixed(3)}</span><small>{item.paretoFrontObserverIds.length} non-dominated observer subset{item.paretoFrontObserverIds.length === 1 ? "" : "s"}</small></div>)}
       <Notice title="Cross-substrate recurrence, not feature identity">All three substrates separate observer objectives, and in all three the global/local geometry rankings are more aligned than boundary-recovery rankings. The optimum feature identities differ by substrate, so RUL-019 supports task-dependent observer geometry at the structural level rather than a universal feature recipe.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-020 mutable-rule ALife" title="The population now moves through rule space during the simulation"/>
+      <p>RUL-020 introduces the first Entropy Studio substrate where the operative rule distribution changes endogenously. Agents inherit four-dimensional behavioral rules controlling foraging, hazard avoidance, exploration, and reproduction threshold; offspring mutate those rules unless mutation is explicitly disabled. A resource-regeneration shock begins halfway through the matched scarcity conditions.</p>
+      <div className="stats compact"><Stat label="Runs" value={String(alifeRuleMotion.simulation.runCount)} foot="12 seeds × 3 matched conditions"/><Stat label="Scarcity mutable ΔR" value={Number(alifeRuleMotion.conditions.scarcity_mutable.medianRuleDisplacement).toFixed(3)} foot="median normalized centroid displacement"/><Stat label="Stable mutable ΔR" value={Number(alifeRuleMotion.conditions.stable_mutable.medianRuleDisplacement).toFixed(3)} foot="background ecological drift"/><Stat label="Pilot criteria" value={`${alifeRuleMotion.primaryTest.criteriaPassed}/${alifeRuleMotion.primaryTest.criteriaTotal}`} foot={alifeRuleMotion.primaryTest.pilotSupported ? "supported pilot" : "challenged pilot"}/></div>
+      <div className="table-head rulial-table"><span>Condition</span><span>Rule displacement</span><span>Rule path length</span><span>Direction cosine</span></div>
+      {Object.entries(alifeRuleMotion.conditions).map(([condition,item])=><div className="source-row rulial-table" key={`rul020-${condition}`}><b>{condition}</b><code>{Number(item.medianRuleDisplacement).toFixed(3)}</code><span>{Number(item.medianRulePathLength).toFixed(3)}</span><small>{Number(item.directionalReproducibility).toFixed(3)}</small></div>)}
+      <Notice title="Motion through rule space, not a biological claim">Scarcity-mutable runs move farther than stable-mutable and scarcity-frozen controls and show positive directional reproducibility across seeds, while all frozen-seed populations remain extant. The no-mutation control still moves because selection can reweight standing initial variation. Treat RUL-020 as an engineered ALife demonstration that rule distributions can become dynamical state variables—not as evidence of universal adaptation, biological evolution, or a PCC derivation.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

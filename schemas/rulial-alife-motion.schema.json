@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-alife-motion/1.0.0",
+  "title": "RUL-020 mutable-rule ALife motion report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "design", "simulation", "conditions", "primaryTest", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-alife-motion/1.0.0"},
+    "experimentId": {"const": "RUL-020"},
+    "ruleSpaceId": {"const": "RSPACE-ALIFE-001"},
+    "observerId": {"const": "OBSERVER-ALIFE-RULE-MOTION"},
+    "design": {"type": "object", "required": ["seedCount", "seeds", "conditions", "ruleDimensions", "primaryCriteria"]},
+    "simulation": {"type": "object", "required": ["runCount", "steps", "shockStep", "initialPopulation", "populationCap"]},
+    "conditions": {
+      "type": "object",
+      "required": ["stable_mutable", "scarcity_mutable", "scarcity_frozen"]
+    },
+    "primaryTest": {"type": "object", "required": ["criteriaPassed", "criteriaTotal", "pilotSupported"]},
+    "interpretationBoundary": {"type": "array", "items": {"type": "string"}}
+  }
+}

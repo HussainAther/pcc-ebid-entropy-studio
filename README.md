@@ -291,3 +291,13 @@ npm run ruliology:cross-substrate-objectives
 
 Outputs are written to `data/ruliology/cross-substrate-objectives/`.
 
+
+### RUL-020: mutable-rule ALife
+
+Entropy Studio now includes a first artificial-life ecology in which agents inherit and mutate a four-dimensional behavioral rule vector. `RUL-020` compares stable mutable ecology, resource-scarcity ecology with mutation, and a matched scarcity control with mutation disabled across 12 frozen seeds (36 runs total). The committed pilot tracks population-level rule-centroid displacement, cumulative rule-space path length, rule diversity, founder-lineage diversity, and demographic recovery. Run it with:
+
+```bash
+npm run ruliology:alife
+```
+
+The committed pilot passes all four frozen criteria, but the interpretation is intentionally narrow: it demonstrates reproducible **motion of a rule distribution inside an engineered ALife model**, not biological evolution, universal adaptation, or a PCC derivation.

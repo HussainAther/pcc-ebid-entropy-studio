@@ -514,3 +514,32 @@ test("committed RUL-019 finds recurring objective dependence without universal f
     assert.ok(substrate.objectiveDependence.geometryRankAssociation > substrate.objectiveDependence.localBoundaryRankAssociation);
   }
 });
+
+test("RUL-020 registers a mutable-rule ALife substrate and matched controls", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const engines = readFileSync(new URL("../app/data/engines.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-020/);
+  assert.match(research, /RUL-020/);
+  assert.match(spaces, /RSPACE-ALIFE-001/);
+  assert.match(spaces, /OBSERVER-ALIFE-RULE-MOTION/);
+  assert.match(engines, /ENGINE-LOCAL-ALIFE/);
+  assert.match(script, /stable_mutable/);
+  assert.match(script, /scarcity_mutable/);
+  assert.match(script, /scarcity_frozen/);
+  assert.match(studio, /RUL-020 mutable-rule ALife/);
+});
+
+test("committed RUL-020 demonstrates rule-space motion under the frozen pilot contract", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-rule-motion/alife-rule-motion-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-020");
+  assert.equal(summary.design.seedCount, 12);
+  assert.equal(summary.simulation.runCount, 36);
+  assert.deepEqual(new Set(summary.design.conditions), new Set(["stable_mutable", "scarcity_mutable", "scarcity_frozen"]));
+  assert.ok(summary.conditions.scarcity_mutable.medianRuleDisplacement > summary.conditions.stable_mutable.medianRuleDisplacement);
+  assert.ok(summary.conditions.scarcity_mutable.medianRuleDisplacement > summary.conditions.scarcity_frozen.medianRuleDisplacement);
+  assert.ok(summary.conditions.scarcity_mutable.directionalReproducibility >= 0.20);
+  assert.equal(summary.primaryTest.criteriaPassed, 4);
+  assert.equal(summary.primaryTest.criteriaTotal, 4);
+  assert.equal(summary.primaryTest.pilotSupported, true);
+});

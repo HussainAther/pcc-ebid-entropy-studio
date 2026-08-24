@@ -47,3 +47,7 @@ The registry now includes planned or implemented quantities for trajectory compr
 ## RUL-001 implemented estimators
 
 The ECA benchmark now computes ensemble summaries for Shannon entropy, normalized Hamming perturbation distance, finite-horizon perturbation-growth slope, entropy-series autocorrelation threshold time, and a frozen binary run-length compression ratio. The compression statistic is an explicitly codec-dependent proxy and must not be described as Kolmogorov complexity. Cross-feature rule-neighborhood distances use fixed scales declared in `app/lib/rulialAnalysis.ts`.
+
+## RUL-020 rule-motion observables
+
+The mutable-rule ALife pilot adds `OBS-RULE-CENTROID-DISPLACEMENT`, `OBS-RULE-DIVERSITY`, `OBS-RULE-PATH-LENGTH`, `OBS-POPULATION-RECOVERY`, and `OBS-LINEAGE-DIVERSITY`. Rule-space quantities are computed only after per-coordinate normalization to the declared `RSPACE-ALIFE-001` bounds. These are population summaries: they do not by themselves establish adaptation, biological fitness, or a universal evolutionary law.

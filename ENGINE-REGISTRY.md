@@ -46,3 +46,7 @@ Registry status distinguishes metadata availability from actual validation. A re
 ## RUL-008 local network engine
 
 `ENGINE-LOCAL-NETWORK` executes the topology-blocked stochastic binary-network benchmark through `scripts/run-rulial-network.py`. The engine samples `RSPACE-NETWORK-001`, evaluates every local rule across fixed ring, small-world, and Erdos-Renyi topology blocks, and emits `entropy-rulial-network/1.0.0`. Topology is an explicit block, not a hidden coordinate in the normalized local-rule metric.
+
+## RUL-020 mutable-rule ALife engine
+
+`ENGINE-LOCAL-ALIFE` executes `RSPACE-ALIFE-001` through `scripts/run-rulial-alife.py`. Unlike the fixed-rule ECA, Boids, and Network benchmarks, agents carry heritable rule vectors and offspring may mutate them, so the population distribution over rules is part of the system state. RUL-020 uses matched stable-mutable, scarcity-mutable, and scarcity-frozen conditions and emits `entropy-rulial-alife-motion/1.0.0`.
