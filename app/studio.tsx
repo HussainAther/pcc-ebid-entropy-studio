@@ -33,6 +33,7 @@ import interactionObserverValidation from "../data/ruliology/interaction-informe
 import objectiveDependentObserver from "../data/ruliology/objective-dependent-observer/objective-dependent-observer-summary.json";
 import crossSubstrateObjectives from "../data/ruliology/cross-substrate-objectives/cross-substrate-objectives-summary.json";
 import alifeRuleMotion from "../data/ruliology/alife-rule-motion/alife-rule-motion-summary.json";
+import alifeSelectionControl from "../data/ruliology/alife-selection-control/alife-selection-control-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -427,6 +428,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Condition</span><span>Rule displacement</span><span>Rule path length</span><span>Direction cosine</span></div>
       {Object.entries(alifeRuleMotion.conditions).map(([condition,item])=><div className="source-row rulial-table" key={`rul020-${condition}`}><b>{condition}</b><code>{Number(item.medianRuleDisplacement).toFixed(3)}</code><span>{Number(item.medianRulePathLength).toFixed(3)}</span><small>{Number(item.directionalReproducibility).toFixed(3)}</small></div>)}
       <Notice title="Motion through rule space, not a biological claim">Scarcity-mutable runs move farther than stable-mutable and scarcity-frozen controls and show positive directional reproducibility across seeds, while all frozen-seed populations remain extant. The no-mutation control still moves because selection can reweight standing initial variation. Treat RUL-020 as an engineered ALife demonstration that rule distributions can become dynamical state variables—not as evidence of universal adaptation, biological evolution, or a PCC derivation.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-021 selection vs neutral bottleneck" title="Rule motion does not cleanly exceed a depth-matched demographic bottleneck"/>
+      <p>RUL-021 adds a 180-step burn-in and a matched neutral control. For each seed, the scarcity arm is run first; its minimum post-shock population fraction then sets a one-time rule-blind random cull in a stable-resource control with mutation still enabled.</p>
+      <div className="stats compact"><Stat label="Runs" value={String(alifeSelectionControl.simulation.runCount)} foot="12 seeds × 3 matched conditions"/><Stat label="Scarcity post-shock ΔR" value={Number(alifeSelectionControl.conditions.scarcity_mutable.medianPostShockRuleDisplacement).toFixed(3)} foot="median from pre-shock centroid"/><Stat label="Neutral post-shock ΔR" value={Number(alifeSelectionControl.conditions.neutral_bottleneck_mutable.medianPostShockRuleDisplacement).toFixed(3)} foot="depth-matched random bottleneck"/><Stat label="Frozen criteria" value={`${alifeSelectionControl.primaryTest.criteriaPassed}/${alifeSelectionControl.primaryTest.criteriaTotal}`} foot={alifeSelectionControl.primaryTest.pilotSupported ? "supported" : "challenged"}/></div>
+      <div className="table-head rulial-table"><span>Condition</span><span>Post-shock displacement</span><span>Bottleneck fraction</span><span>Direction cosine</span></div>
+      {Object.entries(alifeSelectionControl.conditions).map(([condition,item])=><div className="source-row rulial-table" key={`rul021-${condition}`}><b>{condition}</b><code>{Number(item.medianPostShockRuleDisplacement).toFixed(3)}</code><span>{Number(item.medianBottleneckFraction).toFixed(3)}</span><small>{Number(item.directionalReproducibility).toFixed(3)}</small></div>)}
+      <Notice title="The neutral bottleneck explains much of the displacement">Scarcity motion is more directionally reproducible than the matched rule-blind bottleneck, but its median paired post-shock displacement does not exceed the neutral control and is larger in only 5 of 12 seeds. RUL-021 is therefore challenged on 2 of 5 frozen criteria. The control matches bottleneck depth rather than the full scarcity demographic trajectory, so the result narrows—but does not close—the selection-versus-demography question.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

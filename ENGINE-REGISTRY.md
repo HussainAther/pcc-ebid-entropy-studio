@@ -50,3 +50,7 @@ Registry status distinguishes metadata availability from actual validation. A re
 ## RUL-020 mutable-rule ALife engine
 
 `ENGINE-LOCAL-ALIFE` executes `RSPACE-ALIFE-001` through `scripts/run-rulial-alife.py`. Unlike the fixed-rule ECA, Boids, and Network benchmarks, agents carry heritable rule vectors and offspring may mutate them, so the population distribution over rules is part of the system state. RUL-020 uses matched stable-mutable, scarcity-mutable, and scarcity-frozen conditions and emits `entropy-rulial-alife-motion/1.0.0`.
+
+## RUL-021 ALife selection-control extension
+
+`ENGINE-LOCAL-ALIFE` now also supports `RUL-021` through `scripts/run-rulial-alife-selection-control.py`. The extension adds a 180-step burn-in and a per-seed neutral bottleneck control that keeps resources stable and mutation enabled while applying one random rule-blind cull matched to the paired scarcity bottleneck depth. The control matches bottleneck depth, not the full demographic trajectory.

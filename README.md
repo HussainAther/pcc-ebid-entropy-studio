@@ -301,3 +301,13 @@ npm run ruliology:alife
 ```
 
 The committed pilot passes all four frozen criteria, but the interpretation is intentionally narrow: it demonstrates reproducible **motion of a rule distribution inside an engineered ALife model**, not biological evolution, universal adaptation, or a PCC derivation.
+
+### RUL-021: selection versus a matched neutral bottleneck
+
+`RUL-021` extends the mutable-rule ALife substrate with a 180-step burn-in and a depth-matched demographic control. For each of 12 new frozen seeds, resource scarcity is compared with a stable-resource condition that retains mutation but receives a one-time **rule-blind random cull** matched to the scarcity run's realized bottleneck depth. The primary outcome is post-shock rule-centroid displacement from the pre-shock centroid, together with directional reproducibility and bottleneck-match diagnostics.
+
+```bash
+npm run ruliology:alife:selection-control
+```
+
+The committed result is intentionally preserved as **challenged (3/5 frozen criteria)**: scarcity does not exceed the neutral bottleneck in median post-shock displacement and wins in only 5/12 paired seeds, although its motion is more directionally reproducible. This narrows the interpretation of RUL-020 by showing that demographic bottlenecking alone can explain much of the observed centroid displacement.

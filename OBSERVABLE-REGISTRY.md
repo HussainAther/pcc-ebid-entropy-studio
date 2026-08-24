@@ -51,3 +51,10 @@ The ECA benchmark now computes ensemble summaries for Shannon entropy, normalize
 ## RUL-020 rule-motion observables
 
 The mutable-rule ALife pilot adds `OBS-RULE-CENTROID-DISPLACEMENT`, `OBS-RULE-DIVERSITY`, `OBS-RULE-PATH-LENGTH`, `OBS-POPULATION-RECOVERY`, and `OBS-LINEAGE-DIVERSITY`. Rule-space quantities are computed only after per-coordinate normalization to the declared `RSPACE-ALIFE-001` bounds. These are population summaries: they do not by themselves establish adaptation, biological fitness, or a universal evolutionary law.
+
+## RUL-021 ALife observables
+
+- `OBS-POSTSHOCK-RULE-DISPLACEMENT`: normalized distance between the last pre-shock population rule centroid and the final centroid.
+- `OBS-BOTTLENECK-DEPTH`: fractional demographic decline from the pre-shock reference population to the minimum post-shock population.
+
+These observables are paired in RUL-021 to distinguish intervention-associated rule motion from population-loss magnitude.

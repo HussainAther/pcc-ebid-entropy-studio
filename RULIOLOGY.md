@@ -375,3 +375,33 @@ The frozen pilot uses 12 matched seeds and three conditions: `stable_mutable`, `
 The primary pilot criteria were fixed as: scarcity-mutable median normalized rule-centroid displacement exceeds stable-mutable by at least 0.015; exceeds scarcity-frozen by at least 0.010; mean pairwise post-shock direction cosine is at least 0.20; and no more than 25% of seeds go extinct. All four criteria are satisfied in the committed artifact. This is a model-specific pilot result, not a biological-evolution or universal-adaptation claim.
 
 The main conceptual addition is a shift from static rule geometry to **rule-space trajectories**: centroid displacement, cumulative centroid path length, occupied rule-space diversity, lineage diversity, and demographic recovery can now be studied together.
+
+## RUL-021 — Selection versus matched neutral bottleneck
+
+RUL-021 attacks the largest ambiguity left by RUL-020: a population centroid can move through rule space simply because a demographic crash randomly removes lineages, even if the crash is not rule-dependent. The experiment therefore adds a fixed **180-step pre-intervention burn-in** and compares three matched conditions across 12 new seeds: `stable_mutable`, `scarcity_mutable`, and `neutral_bottleneck_mutable`.
+
+For each seed the scarcity arm is simulated first. Its realized demographic depth is summarized as
+
+\[
+b = \frac{\min_{t\ge t_s} N_t}{\bar N_{\mathrm{pre}}}.
+\]
+
+The matched neutral arm keeps stable resource regeneration and mutation enabled, but at the shock step applies a one-time random cull that is blind to the heritable rule vector and targets the same fraction \(b\). The primary rule-motion statistic is now explicitly post-shock:
+
+\[
+\Delta_R^{\mathrm{post}}=\|\bar R_T-\bar R_{t_s^-}\|_2.
+\]
+
+Five criteria were frozen before interpretation: selective scarcity must exceed neutral post-shock displacement by at least `0.015` in the median paired comparison; the excess must be positive in at least two thirds of seeds; selective directional reproducibility must exceed neutral by at least `0.10`; median absolute bottleneck-fraction mismatch must be at most `0.06`; and scarcity extinction must remain within the declared tolerance.
+
+The committed result is **challenged (3/5 criteria pass)**. Scarcity and the depth-matched neutral bottleneck have nearly identical median post-shock displacement (`0.092` vs `0.093`), and scarcity exceeds neutral in only 5 of 12 seeds. However, scarcity rule motion is more directionally reproducible (`0.195` vs `-0.064` mean pairwise cosine), bottleneck depth is matched exactly at the median, and no scarcity population goes extinct. The neutral control therefore explains much of the raw displacement observed after demographic contraction, while the directional difference leaves open a narrower hypothesis about structured selection-induced direction.
+
+The result does **not** show that scarcity has no selection effect. The neutral control matches bottleneck depth, not the complete time-varying demographic trajectory, and subsequent stable ecology can still select among randomly retained survivors. RUL-021 should be read as a successful confound challenge that narrows the next experiment rather than as a final causal decomposition.
+
+Run with:
+
+```bash
+npm run ruliology:alife:selection-control
+```
+
+Outputs are written to `data/ruliology/alife-selection-control/`.

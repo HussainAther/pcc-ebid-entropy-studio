@@ -87,7 +87,7 @@ def _lineage_diversity(founders: np.ndarray, initial_population: int) -> float:
 
 def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None = None) -> dict[str, Any]:
     cfg = {**DEFAULT_CONFIG, **(config or {})}
-    if condition not in {"stable_mutable", "scarcity_mutable", "scarcity_frozen"}:
+    if condition not in {"stable_mutable", "scarcity_mutable", "scarcity_frozen", "neutral_bottleneck_mutable"}:
         raise ValueError(f"unknown condition: {condition}")
 
     rng = np.random.default_rng(seed)
@@ -117,6 +117,8 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
     history: list[dict[str, Any]] = []
     centroid_path: list[np.ndarray] = [centroid0.copy()]
     extinct = False
+    neutral_bottleneck_applied = False
+    neutral_bottleneck_fraction = float(cfg.get("neutral_bottleneck_fraction", 1.0))
 
     for t in range(steps):
         n = len(positions)
@@ -201,6 +203,19 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
             positions[alive], headings[alive], energy[alive], ages[alive], founders[alive], rules[alive]
         )
 
+        # Neutral bottleneck control: stable ecology + one rule-blind random cull at
+        # the shock step.  The target fraction is derived outside this simulation
+        # from the matched scarcity run for the same seed.  Mutation remains on.
+        if condition == "neutral_bottleneck_mutable" and t == shock_step and not neutral_bottleneck_applied and len(rules):
+            target = max(2, int(round(len(rules) * neutral_bottleneck_fraction)))
+            target = min(target, len(rules))
+            if target < len(rules):
+                keep = np.sort(rng.choice(len(rules), size=target, replace=False))
+                positions, headings, energy, ages, founders, rules = (
+                    positions[keep], headings[keep], energy[keep], ages[keep], founders[keep], rules[keep]
+                )
+            neutral_bottleneck_applied = True
+
         if t % int(cfg["record_every"]) == 0 or t in {shock_step - 1, shock_step, steps - 1}:
             centroid, diversity = _centroid_and_diversity(rules)
             if np.all(np.isfinite(centroid)):
@@ -226,6 +241,7 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
     centroid_pre = np.array(pre_candidates[-1]["ruleCentroid"], dtype=float) if pre_candidates else centroid0.copy()
     final_delta = centroid_final - centroid0
     postshock_delta = centroid_final - centroid_pre
+    postshock_displacement = float(np.linalg.norm(postshock_delta))
     path_length = float(sum(np.linalg.norm(b - a) for a, b in zip(centroid_path[:-1], centroid_path[1:])))
 
     post_pop = [row["population"] for row in history if row["step"] >= shock_step]
@@ -233,9 +249,13 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
     reference_pop = float(np.mean(pre_pop[-5:])) if pre_pop else float(initial_population)
     final_pop = float(np.mean(post_pop[-5:])) if post_pop else float(len(rules))
     recovery = final_pop / max(reference_pop, 1.0)
+    minimum_post_pop = float(min(post_pop)) if post_pop else float(len(rules))
+    bottleneck_fraction = minimum_post_pop / max(reference_pop, 1.0)
 
     features = {
         "OBS-RULE-CENTROID-DISPLACEMENT": float(np.linalg.norm(final_delta)),
+        "OBS-POSTSHOCK-RULE-DISPLACEMENT": postshock_displacement,
+        "OBS-BOTTLENECK-DEPTH": float(1.0 - min(1.0, bottleneck_fraction)),
         "OBS-RULE-DIVERSITY": float(diversity_final),
         "OBS-RULE-PATH-LENGTH": path_length,
         "OBS-POPULATION-RECOVERY": float(recovery),
@@ -253,6 +273,12 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
         "finalCentroid": centroid_final.tolist(),
         "finalDelta": final_delta.tolist(),
         "postShockDelta": postshock_delta.tolist(),
+        "postShockDisplacement": postshock_displacement,
+        "preShockReferencePopulation": reference_pop,
+        "minimumPostShockPopulation": minimum_post_pop,
+        "bottleneckFraction": bottleneck_fraction,
+        "neutralBottleneckApplied": neutral_bottleneck_applied,
+        "neutralBottleneckFractionRequested": neutral_bottleneck_fraction if condition == "neutral_bottleneck_mutable" else None,
         "initialDiversity": diversity0,
         "features": features,
         "history": history,
@@ -309,4 +335,75 @@ def run_experiment(seeds: list[int], config: dict[str, Any] | None = None) -> di
         "criteriaPassed": int(sum(criteria.values())),
         "criteriaTotal": len(criteria),
         "runs": all_runs,
+    }
+
+
+def run_selection_bottleneck_experiment(seeds: list[int], config: dict[str, Any] | None = None) -> dict[str, Any]:
+    """RUL-021 matched selective-pressure vs neutral-bottleneck experiment.
+
+    For each seed, scarcity_mutable is simulated first.  Its minimum post-shock
+    population fraction (relative to the pre-shock reference population) defines
+    the depth of a rule-blind one-time cull in the matched neutral condition.
+    Both arms retain mutation.  A stable mutable arm estimates background drift.
+    """
+    cfg = {**DEFAULT_CONFIG, **(config or {})}
+    scarcity_runs: list[dict[str, Any]] = []
+    stable_runs: list[dict[str, Any]] = []
+    neutral_runs: list[dict[str, Any]] = []
+
+    for seed in seeds:
+        scarcity = simulate_condition(seed, "scarcity_mutable", cfg)
+        scarcity_runs.append(scarcity)
+        stable_runs.append(simulate_condition(seed, "stable_mutable", cfg))
+
+        target_fraction = float(np.clip(scarcity["bottleneckFraction"], 0.02, 1.0))
+        neutral_cfg = {**cfg, "neutral_bottleneck_fraction": target_fraction}
+        neutral = simulate_condition(seed, "neutral_bottleneck_mutable", neutral_cfg)
+        neutral_runs.append(neutral)
+
+    def post_summary(runs: list[dict[str, Any]]) -> dict[str, Any]:
+        post_disp = np.array([float(r["postShockDisplacement"]) for r in runs], dtype=float)
+        bottleneck = np.array([float(r["bottleneckFraction"]) for r in runs], dtype=float)
+        return {
+            **_summary(runs),
+            "medianPostShockRuleDisplacement": float(np.median(post_disp)),
+            "meanPostShockRuleDisplacement": float(np.mean(post_disp)),
+            "medianBottleneckFraction": float(np.median(bottleneck)),
+        }
+
+    summaries = {
+        "stable_mutable": post_summary(stable_runs),
+        "scarcity_mutable": post_summary(scarcity_runs),
+        "neutral_bottleneck_mutable": post_summary(neutral_runs),
+    }
+
+    paired_excess = np.array([
+        float(s["postShockDisplacement"]) - float(n["postShockDisplacement"])
+        for s, n in zip(scarcity_runs, neutral_runs)
+    ])
+    neutral_match_error = np.array([
+        abs(float(s["bottleneckFraction"]) - float(n["bottleneckFraction"]))
+        for s, n in zip(scarcity_runs, neutral_runs)
+    ])
+
+    criteria = {
+        "selectiveExceedsNeutralPostShockMotion": float(np.median(paired_excess)) >= 0.015,
+        "selectiveExcessPositiveInMajority": int(np.sum(paired_excess > 0)) >= math.ceil(2 * len(seeds) / 3),
+        "selectiveDirectionExceedsNeutral": summaries["scarcity_mutable"]["directionalReproducibility"] - summaries["neutral_bottleneck_mutable"]["directionalReproducibility"] >= 0.10,
+        "neutralBottleneckMatched": float(np.median(neutral_match_error)) <= 0.06,
+        "selectivePopulationPersists": summaries["scarcity_mutable"]["extinctionCount"] <= max(1, len(seeds) // 4),
+    }
+
+    return {
+        "config": cfg,
+        "seeds": seeds,
+        "conditions": summaries,
+        "pairedExcessPostShockDisplacement": paired_excess.tolist(),
+        "pairedExcessMedian": float(np.median(paired_excess)),
+        "pairedExcessPositiveCount": int(np.sum(paired_excess > 0)),
+        "neutralBottleneckMatchErrorMedian": float(np.median(neutral_match_error)),
+        "criteria": criteria,
+        "criteriaPassed": int(sum(criteria.values())),
+        "criteriaTotal": len(criteria),
+        "runs": stable_runs + scarcity_runs + neutral_runs,
     }

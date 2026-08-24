@@ -543,3 +543,35 @@ test("committed RUL-020 demonstrates rule-space motion under the frozen pilot co
   assert.equal(summary.primaryTest.criteriaTotal, 4);
   assert.equal(summary.primaryTest.pilotSupported, true);
 });
+
+test("RUL-021 registers the ALife selection versus neutral bottleneck control", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const engines = readFileSync(new URL("../app/data/engines.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife-selection-control.py", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-021/);
+  assert.match(research, /RUL-021/);
+  assert.match(spaces, /OBSERVER-ALIFE-SELECTION-CONTROL/);
+  assert.match(engines, /RUL-021/);
+  assert.match(observables, /OBS-POSTSHOCK-RULE-DISPLACEMENT/);
+  assert.match(observables, /OBS-BOTTLENECK-DEPTH/);
+  assert.match(script, /neutral_bottleneck_mutable/);
+  assert.match(script, /burnInSteps/);
+  assert.match(studio, /RUL-021 selection vs neutral bottleneck/);
+});
+
+test("committed RUL-021 preserves the challenged matched-bottleneck result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-selection-control/alife-selection-control-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-021");
+  assert.equal(summary.design.seedCount, 12);
+  assert.equal(summary.design.burnInSteps, 180);
+  assert.equal(summary.simulation.runCount, 36);
+  assert.deepEqual(new Set(summary.design.conditions), new Set(["stable_mutable", "scarcity_mutable", "neutral_bottleneck_mutable"]));
+  assert.equal(summary.primaryTest.criteriaPassed, 3);
+  assert.equal(summary.primaryTest.criteriaTotal, 5);
+  assert.equal(summary.primaryTest.pilotSupported, false);
+  assert.ok(summary.pairedComparison.medianSelectiveMinusNeutralPostShockDisplacement < 0);
+  assert.equal(summary.pairedComparison.positiveSeedCount, 5);
+  assert.ok(summary.conditions.scarcity_mutable.directionalReproducibility > summary.conditions.neutral_bottleneck_mutable.directionalReproducibility);
+  assert.ok(summary.pairedComparison.medianNeutralBottleneckMatchError <= 0.06);
+});
