@@ -486,3 +486,31 @@ test("committed RUL-018 separates global, local, and boundary observer objective
   assert.ok(summary.objectiveOptima.find(x => x.objective === "boundary_recovery").coOptimalObserverCount > 1);
 });
 
+
+test("RUL-019 extends objective-dependent observer geometry across three frozen substrates", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-cross-substrate-objectives.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-019/);
+  assert.match(research, /RUL-019/);
+  assert.match(script, /newUniqueSimulationRunCount':0/);
+  assert.match(script, /load_eca/);
+  assert.match(script, /load_network/);
+  assert.match(studio, /RUL-019 cross-substrate observer objectives/);
+});
+
+test("committed RUL-019 finds recurring objective dependence without universal feature identity", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/cross-substrate-objectives/cross-substrate-objectives-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-019");
+  assert.equal(summary.source.newUniqueSimulationRunCount, 0);
+  assert.equal(summary.substrates.length, 3);
+  assert.deepEqual(new Set(summary.substrates.map(item => item.substrate)), new Set(["ECA", "Boids", "Network"]));
+  assert.equal(summary.crossSubstrate.objectiveDependenceAcrossAllSubstrates, true);
+  assert.equal(summary.crossSubstrate.noSingleAllObjectiveOptimumAcrossAllSubstrates, true);
+  assert.equal(summary.crossSubstrate.boundaryRankDecouplingAcrossAllSubstrates, true);
+  for (const substrate of summary.substrates) {
+    assert.equal(substrate.objectiveDependence.objectiveDependenceDetected, true);
+    assert.equal(substrate.objectiveDependence.allObjectivesShareAtLeastOneOptimum, false);
+    assert.ok(substrate.objectiveDependence.geometryRankAssociation > substrate.objectiveDependence.globalBoundaryRankAssociation);
+    assert.ok(substrate.objectiveDependence.geometryRankAssociation > substrate.objectiveDependence.localBoundaryRankAssociation);
+  }
+});

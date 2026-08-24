@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "entropy-rulial-cross-substrate-objectives/1.0.0",
+  "experimentId": "RUL-019",
+  "source": {
+    "newUniqueSimulationRunCount": 0,
+    "sourceSha256": {
+      "campaign-report.json": "d211660fbe4b872367382c9f15a2da0b0e15b31f3abcd44de3bbbd6ddfe18a63",
+      "holdout-report.json": "0b413961c2a5b4bf09fca9b8a712f41f314181b4de49cb039d86361ca2d151ea",
+      "objective-dependent-observer-report.json": "7f09e7ad8c87a5cfa604071f5685f676d6f69d7415bacc4a3175fce63023e996",
+      "network-rulial-report.json": "28db1e65a3a6f93d0ed9d713937724c792b106169827b5be51cde6831c56c23c"
+    }
+  },
+  "design": {
+    "substrates": [
+      "ECA",
+      "Boids",
+      "Network"
+    ],
+    "objectives": [
+      {
+        "id": "global_geometry",
+        "metric": "geometryStabilitySpearman"
+      },
+      {
+        "id": "local_geometry",
+        "metric": "localEdgeStabilitySpearman"
+      },
+      {
+        "id": "boundary_recovery",
+        "metric": "top10LocalEdgeJaccard"
+      }
+    ],
+    "observerEnumeration": "all non-empty subsets of each substrate native core observer feature basis",
+    "featureScaling": "discovery-pool per-coordinate range within substrate; reused for holdout distances",
+    "boundaryDefinition": "top 10% of a frozen local rule-neighbor graph per substrate"
+  },
+  "substrates": [
+    {
+      "substrate": "ECA",
+      "featureCount": 5,
+      "observerSubsetCount": 31,
+      "ruleCount": 256,
+      "localEdgeCount": 1024,
+      "objectiveOptima": [
+        {
+          "objective": "global_geometry",
+          "metric": "geometryStabilitySpearman",
+          "score": 0.9922359879134881,
+          "representativeObserverId": "ECA-OBSSET-10001",
+          "representativeFeatures": [
+            "OBS-SHANNON",
+            "OBS-COMPRESSION"
+          ],
+          "representativeFeatureCount": 2,
+          "coOptimalObserverCount": 1,
+          "coOptimalObserverIds": [
+            "ECA-OBSSET-10001"
+          ]
+        },
+        {
+          "objective": "local_geometry",
+          "metric": "localEdgeStabilitySpearman",
+          "score": 0.9902415989583861,
+          "representativeObserverId": "ECA-OBSSET-10000",
+          "representativeFeatures": [
+            "OBS-SHANNON"
+          ],
+          "representativeFeatureCount": 1,
+          "coOptimalObserverCount": 1,
+          "coOptimalObserverIds": [
+            "ECA-OBSSET-10000"
+          ]
+        },
+        {
+          "objective": "boundary_recovery",
+          "metric": "top10LocalEdgeJaccard",
+          "score": 0.9619047619047619,
+          "representativeObserverId": "ECA-OBSSET-00001",
+          "representativeFeatures": [
+            "OBS-COMPRESSION"
+          ],
+          "representativeFeatureCount": 1,
+          "coOptimalObserverCount": 1,
+          "coOptimalObserverIds": [
+            "ECA-OBSSET-00001"
+          ]
+        }
+      ],
+      "objectiveRankAssociations": [
+        {
+          "objectiveA": "global_geometry",
+          "objectiveB": "local_geometry",
+          "spearman": 0.9616935483870969
+        },
+        {
+          "objectiveA": "global_geometry",
+          "objectiveB": "boundary_recovery",
+          "spearman": 0.6225806451612904
+        },
+        {
+          "objectiveA": "local_geometry",
+          "objectiveB": "boundary_recovery",
+          "spearman": 0.5806451612903226
+        }
+      ],
+      "paretoFrontObserverIds": [
+        "ECA-OBSSET-00001",
+        "ECA-OBSSET-10000",
+        "ECA-OBSSET-10001"
+      ],
+      "objectiveDependence": {
+        "allObjectivesShareAtLeastOneOptimum": false,
+        "commonOptimalObserverIds": [],
+        "globalAndLocalOptimaDiffer": true,
+        "objectiveDependenceDetected": true,
+        "geometryRankAssociation": 0.9616935483870969,
+        "globalBoundaryRankAssociation": 0.6225806451612904,
+        "localBoundaryRankAssociation": 0.5806451612903226,
+        "boundaryMoreDecoupledThanGlobalLocal": true
+      }
+    },
+    {
+      "substrate": "Boids",
+      "featureCount": 6,
+      "observerSubsetCount": 63,
+      "ruleCount": 40,
+      "localEdgeCount": null,
+      "objectiveOptima": [
+        {
+          "objective": "global_geometry",
+          "metric": "geometryStabilitySpearman",
+          "representativeObserverId": "OBSSET-001100",
+          "representativeFeatures": [
+            "OBS-SPATIAL",
+            "OBS-SPEED-VARIANCE"
+          ],
+          "representativeFeatureCount": 2,
+          "score": 0.913980741636277,
+          "coOptimalObserverCount": 1,
+          "coOptimalObserverIds": [
+            "OBSSET-001100"
+          ],
+          "otherScoresForRepresentative": {
+            "local_geometry": 0.8440016458002704,
+            "boundary_recovery": 0.4666666666666667
+          }
+        },
+        {
+          "objective": "local_geometry",
+          "metric": "localEdgeStabilitySpearman",
+          "representativeObserverId": "OBSSET-000110",
+          "representativeFeatures": [
+            "OBS-SPEED-VARIANCE",
+            "OBS-TRANSITION-RATE"
+          ],
+          "representativeFeatureCount": 2,
+          "score": 0.844648210192206,
+          "coOptimalObserverCount": 1,
+          "coOptimalObserverIds": [
+            "OBSSET-000110"
+          ],
+          "otherScoresForRepresentative": {
+            "global_geometry": 0.8790316834978754,
+            "boundary_recovery": 0.5714285714285714
+          }
+        },
+        {
+          "objective": "boundary_recovery",
+          "metric": "top10LocalEdgeJaccard",
+          "representativeObserverId": "OBSSET-100000",
+          "representativeFeatures": [
+            "OBS-POLARIZATION"
+          ],
+          "representativeFeatureCount": 1,
+          "score": 0.5714285714285714,
+          "coOptimalObserverCount": 10,
+          "coOptimalObserverIds": [
+            "OBSSET-000101",
+            "OBSSET-000110",
+            "OBSSET-000111",
+            "OBSSET-010100",
+            "OBSSET-100000",
+            "OBSSET-100100",
+            "OBSSET-101000",
+            "OBSSET-110000",
+            "OBSSET-110100",
+            "OBSSET-111000"
+          ],
+          "otherScoresForRepresentative": {
+            "global_geometry": 0.7034201618952746,
+            "local_geometry": 0.7076745234036717
+          }
+        }
+      ],
+      "objectiveRankAssociations": [
+        {
+          "objectiveA": "global_geometry",
+          "objectiveB": "local_geometry",
+          "spearman": 0.9005856374807988
+        },
+        {
+          "objectiveA": "global_geometry",
+          "objectiveB": "boundary_recovery",
+          "spearman": 0.07886904761904762
+        },
+        {
+          "objectiveA": "local_geometry",
+          "objectiveB": "boundary_recovery",
+          "spearman": 0.016561059907834103
+        }
+      ],
+      "paretoFrontObserverIds": [
+        "OBSSET-000110",
+        "OBSSET-001100"
+      ],
+      "objectiveDependence": {
+        "allObjectivesShareAtLeastOneOptimum": false,
+        "commonOptimalObserverIds": [],
+        "globalAndLocalOptimaDiffer": true,
+        "minimumPairwiseObjectiveRankSpearman": 0.016561059907834103,
+        "maximumPairwiseObjectiveRankSpearman": 0.9005856374807988,
+        "paretoFrontSize": 2,
+        "objectiveDependenceDetected": true,
+        "geometryRankAssociation": 0.9005856374807988,
+        "globalBoundaryRankAssociation": 0.07886904761904762,
+        "localBoundaryRankAssociation": 0.016561059907834103,
+        "boundaryMoreDecoupledThanGlobalLocal": true
+      }
+    },
+    {
+      "substrate": "Network",
+      "featureCount": 6,
+      "observerSubsetCount": 63,
+      "ruleCount": 24,
+      "localEdgeCount": 60,
+      "objectiveOptima": [
+        {
+          "objective": "global_geometry",
+          "metric": "geometryStabilitySpearman",
+          "score": 0.9958465074210632,
+          "representativeObserverId": "NETWORK-OBSSET-001110",
+          "representativeFeatures": [
+            "OBS-NETWORK-ORDER",
+            "OBS-SWITCH-RATE",
+            "OBS-TRANSITION-RATE"
+          ],
+          "representativeFeatureCount": 3,
+          "coOptimalObserverCount": 1,
+          "coOptimalObserverIds": [
+            "NETWORK-OBSSET-001110"
+          ]
+        },
+        {
+          "objective": "local_geometry",
+          "metric": "localEdgeStabilitySpearman",
+          "score": 0.9936491775430754,
+          "representativeObserverId": "NETWORK-OBSSET-111000",
+          "representativeFeatures": [
+            "OBS-NETWORK-ACTIVITY",
+            "OBS-SHANNON",
+            "OBS-NETWORK-ORDER"
+          ],
+          "representativeFeatureCount": 3,
+          "coOptimalObserverCount": 1,
+          "coOptimalObserverIds": [
+            "NETWORK-OBSSET-111000"
+          ]
+        },
+        {
+          "objective": "boundary_recovery",
+          "metric": "top10LocalEdgeJaccard",
+          "score": 1.0,
+          "representativeObserverId": "NETWORK-OBSSET-001000",
+          "representativeFeatures": [
+            "OBS-NETWORK-ORDER"
+          ],
+          "representativeFeatureCount": 1,
+          "coOptimalObserverCount": 29,
+          "coOptimalObserverIds": [
+            "NETWORK-OBSSET-000011",
+            "NETWORK-OBSSET-000110",
+            "NETWORK-OBSSET-000111",
+            "NETWORK-OBSSET-001000",
+            "NETWORK-OBSSET-001010",
+            "NETWORK-OBSSET-001100",
+            "NETWORK-OBSSET-001101",
+            "NETWORK-OBSSET-010000",
+            "NETWORK-OBSSET-010001",
+            "NETWORK-OBSSET-010011",
+            "NETWORK-OBSSET-010100",
+            "NETWORK-OBSSET-010111",
+            "NETWORK-OBSSET-011000",
+            "NETWORK-OBSSET-011001",
+            "NETWORK-OBSSET-011010",
+            "NETWORK-OBSSET-011011",
+            "NETWORK-OBSSET-011100",
+            "NETWORK-OBSSET-011110",
+            "NETWORK-OBSSET-100001",
+            "NETWORK-OBSSET-100100",
+            "NETWORK-OBSSET-100110",
+            "NETWORK-OBSSET-101000",
+            "NETWORK-OBSSET-101101",
+            "NETWORK-OBSSET-110000",
+            "NETWORK-OBSSET-110110",
+            "NETWORK-OBSSET-111000",
+            "NETWORK-OBSSET-111010",
+            "NETWORK-OBSSET-111011",
+            "NETWORK-OBSSET-111100"
+          ]
+        }
+      ],
+      "objectiveRankAssociations": [
+        {
+          "objectiveA": "global_geometry",
+          "objectiveB": "local_geometry",
+          "spearman": 0.8064036098310292
+        },
+        {
+          "objectiveA": "global_geometry",
+          "objectiveB": "boundary_recovery",
+          "spearman": -0.04017857142857143
+        },
+        {
+          "objectiveA": "local_geometry",
+          "objectiveB": "boundary_recovery",
+          "spearman": -0.06283602150537636
+        }
+      ],
+      "paretoFrontObserverIds": [
+        "NETWORK-OBSSET-001100",
+        "NETWORK-OBSSET-001110",
+        "NETWORK-OBSSET-111000"
+      ],
+      "objectiveDependence": {
+        "allObjectivesShareAtLeastOneOptimum": false,
+        "commonOptimalObserverIds": [],
+        "globalAndLocalOptimaDiffer": true,
+        "objectiveDependenceDetected": true,
+        "geometryRankAssociation": 0.8064036098310292,
+        "globalBoundaryRankAssociation": -0.04017857142857143,
+        "localBoundaryRankAssociation": -0.06283602150537636,
+        "boundaryMoreDecoupledThanGlobalLocal": true
+      }
+    }
+  ],
+  "crossSubstrate": {
+    "substrateCount": 3,
+    "objectiveDependenceDetectedCount": 3,
+    "noUniversalOptimumCount": 3,
+    "boundaryDecouplingCount": 3,
+    "objectiveDependenceAcrossAllSubstrates": true,
+    "noSingleAllObjectiveOptimumAcrossAllSubstrates": true,
+    "boundaryRankDecouplingAcrossAllSubstrates": true
+  },
+  "interpretationBoundary": [
+    "RUL-019 adds zero unique simulations and does not alter any RUL-018 Boids result; it extends the same objective-separation analysis to ECA and Network using their frozen discovery/holdout populations.",
+    "Observer subsets are only comparable structurally within a substrate because feature bases differ across ECA, Boids, and Network.",
+    "Objective-dependent optima are descriptive of each frozen finite observer family; they do not establish a theorem over all possible observers.",
+    "Boundary recovery is discrete and may contain co-optimal ties, especially in finite local-edge graphs.",
+    "Cross-substrate recurrence is interpreted at the level of objective dependence and rank-decoupling patterns, not equality of optimum feature identities across unlike substrates."
+  ]
+}

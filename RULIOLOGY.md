@@ -337,4 +337,19 @@ RUL-018 reuses the frozen RUL-017 Boids population and introduces **zero new uni
 The optimum depends on the scientific target. Global geometry is maximized by `spatial entropy + speed variance` (rho = 0.914), while local geometry is maximized by `speed variance + transition rate` (rho = 0.845). Boundary recovery is discrete and has ten co-optimal subsets at Jaccard = 0.571; the smallest representative is `polarization` alone, and the local-geometry optimum is also boundary co-optimal. Global- and local-objective rankings are strongly related (rho = 0.901), but boundary-recovery rankings are nearly orthogonal to both (rho = 0.079 and 0.017).
 
 This is a diagnostic result, not a prospective claim that these subsets are universally optimal. It supports treating observer design as **task-dependent**: preserving the global rulial map, preserving local neighborhoods, and recovering extreme boundaries are distinct measurement goals. Run with `npm run ruliology:observer-objectives`.
+## RUL-019 — Cross-substrate objective-dependent observer geometry
+
+RUL-019 extends the RUL-018 task-dependence analysis beyond Boids without adding any new simulations. It reuses the frozen ECA calibration/holdout atlas, the RUL-018 Boids population, and the RUL-008 Network discovery/holdout population. For each substrate, every non-empty subset of the substrate's native core observer basis is evaluated under the same three objectives: complete rule-space geometry stability, local-edge geometry stability, and top-10% local-boundary recovery. ECA contributes 31 observer subsets from five coordinates; Boids and Network contribute 63 subsets each from six coordinates.
+
+The cross-substrate pattern is consistent: all three substrates show objective dependence, none has a single observer subset co-optimal for all three objectives, and boundary-recovery rankings are more decoupled from geometry rankings than global and local geometry are from each other. Global-vs-local observer ranking Spearman correlations are approximately 0.962 for ECA, 0.901 for Boids, and 0.806 for Network. By contrast, global-vs-boundary correlations are approximately 0.623, 0.079, and -0.040 respectively.
+
+The representative optima remain substrate-specific: ECA global geometry favors Shannon entropy + compression while boundary recovery favors compression alone; Boids global geometry favors spatial entropy + speed variance while local geometry favors speed variance + transition rate; Network global geometry favors order + switch rate + transition rate while boundary recovery has many co-optimal subsets. These identities are not treated as cross-substrate invariants. The recurring result is the higher-level structure: observer choice is task-dependent, geometry-preservation objectives are more closely related to each other, and extreme-boundary recovery behaves as a distinct measurement target.
+
+Run with:
+
+```bash
+npm run ruliology:cross-substrate-objectives
+```
+
+Outputs are written to `data/ruliology/cross-substrate-objectives/`.
 

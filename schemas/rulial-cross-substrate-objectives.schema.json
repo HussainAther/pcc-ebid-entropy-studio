@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-cross-substrate-objectives/1.0.0",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "source", "design", "substrates", "crossSubstrate", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-cross-substrate-objectives/1.0.0"},
+    "experimentId": {"const": "RUL-019"},
+    "source": {
+      "type": "object",
+      "required": ["newUniqueSimulationRunCount", "sourceSha256"],
+      "properties": {"newUniqueSimulationRunCount": {"const": 0}, "sourceSha256": {"type": "object"}}
+    },
+    "design": {"type": "object"},
+    "substrates": {"type": "array", "minItems": 3, "maxItems": 3},
+    "crossSubstrate": {
+      "type": "object",
+      "required": ["substrateCount", "objectiveDependenceDetectedCount", "noUniversalOptimumCount", "boundaryDecouplingCount"],
+      "properties": {"substrateCount": {"const": 3}}
+    },
+    "interpretationBoundary": {"type": "array", "items": {"type": "string"}}
+  }
+}

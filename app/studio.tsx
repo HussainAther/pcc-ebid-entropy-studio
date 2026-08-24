@@ -31,6 +31,7 @@ import prospectiveObserverSelection from "../data/ruliology/prospective-observer
 import informationWeightedObserver from "../data/ruliology/information-weighted-observer/information-weighted-observer-summary.json";
 import interactionObserverValidation from "../data/ruliology/interaction-informed-observer-validation/interaction-informed-observer-validation-summary.json";
 import objectiveDependentObserver from "../data/ruliology/objective-dependent-observer/objective-dependent-observer-summary.json";
+import crossSubstrateObjectives from "../data/ruliology/cross-substrate-objectives/cross-substrate-objectives-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -409,6 +410,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Objective</span><span>Representative optimum</span><span>Score</span><span>Co-optima</span></div>
       {objectiveDependentObserver.objectiveOptima.map(item=><div className="source-row rulial-table" key={`rul018-${item.objective}`}><b>{item.objective}</b><code>{item.representativeFeatures.join(" + ")}</code><span>{Number(item.score).toFixed(3)}</span><small>{item.coOptimalObserverCount} optimal subset{item.coOptimalObserverCount === 1 ? "" : "s"}</small></div>)}
       <Notice title="Observer choice is objective-dependent">Global geometry is best preserved by spatial entropy + speed variance, while local geometry is best preserved by speed variance + transition rate. Boundary recovery has ten tied optima. Treat this as evidence that observer construction should be matched to the scientific task, not as a post-hoc declaration of a universally optimal subset.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-019 cross-substrate observer objectives" title="Objective dependence recurs across ECA, Boids, and Networks"/>
+      <p>RUL-019 adds zero new simulations. It applies the RUL-018 three-objective analysis to each substrate's native observer basis and asks whether task-dependent observer choice is itself a recurring structural feature.</p>
+      <div className="stats compact"><Stat label="Substrates" value={String(crossSubstrateObjectives.crossSubstrate.substrateCount)} foot="ECA · Boids · Network"/><Stat label="Objective-dependent" value={`${crossSubstrateObjectives.crossSubstrate.objectiveDependenceDetectedCount}/3`} foot="all frozen native observer families"/><Stat label="No universal optimum" value={`${crossSubstrateObjectives.crossSubstrate.noUniversalOptimumCount}/3`} foot="no all-objective co-optimum"/><Stat label="Boundary decoupling" value={`${crossSubstrateObjectives.crossSubstrate.boundaryDecouplingCount}/3`} foot="geometry rankings align more strongly"/></div>
+      <div className="table-head rulial-table"><span>Substrate</span><span>Global↔local rank ρ</span><span>Global↔boundary rank ρ</span><span>Pareto front</span></div>
+      {crossSubstrateObjectives.substrates.map(item=><div className="source-row rulial-table" key={`rul019-${item.substrate}`}><b>{item.substrate}</b><code>{Number(item.objectiveDependence.geometryRankAssociation).toFixed(3)}</code><span>{Number(item.objectiveDependence.globalBoundaryRankAssociation).toFixed(3)}</span><small>{item.paretoFrontObserverIds.length} non-dominated observer subset{item.paretoFrontObserverIds.length === 1 ? "" : "s"}</small></div>)}
+      <Notice title="Cross-substrate recurrence, not feature identity">All three substrates separate observer objectives, and in all three the global/local geometry rankings are more aligned than boundary-recovery rankings. The optimum feature identities differ by substrate, so RUL-019 supports task-dependent observer geometry at the structural level rather than a universal feature recipe.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

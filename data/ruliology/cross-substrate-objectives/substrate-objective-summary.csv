@@ -1,0 +1,4 @@
+substrate,featureCount,observerSubsetCount,ruleCount,objectiveDependenceDetected,allObjectivesShareAtLeastOneOptimum,globalLocalRankSpearman,globalBoundaryRankSpearman,localBoundaryRankSpearman,boundaryMoreDecoupledThanGlobalLocal,paretoFrontSize
+ECA,5,31,256,True,False,0.9616935483870969,0.6225806451612904,0.5806451612903226,True,3
+Boids,6,63,40,True,False,0.9005856374807988,0.07886904761904762,0.016561059907834103,True,2
+Network,6,63,24,True,False,0.8064036098310292,-0.04017857142857143,-0.06283602150537636,True,3
