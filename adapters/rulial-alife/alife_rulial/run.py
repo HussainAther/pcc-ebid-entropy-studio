@@ -59,6 +59,11 @@ def to_unit(rules: np.ndarray) -> np.ndarray:
     return (rules - lo) / (hi - lo)
 
 
+def from_unit(unit_rules: np.ndarray) -> np.ndarray:
+    lo, hi = _bounds()
+    return lo + np.asarray(unit_rules, dtype=float) * (hi - lo)
+
+
 def _torus_delta(target: np.ndarray, source: np.ndarray, world: float) -> np.ndarray:
     delta = target - source
     return (delta + world / 2.0) % world - world / 2.0
@@ -108,6 +113,7 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
     energy = np.full(initial_population, float(cfg["initial_energy"]), dtype=float)
     ages = rng.integers(0, 25, size=initial_population)
     founders = np.arange(initial_population, dtype=int)
+    invasion_tags = np.zeros(initial_population, dtype=np.int8)
 
     lo, hi = _bounds()
     rule_sd = float(cfg["initial_rule_sd"]) * (hi - lo)
@@ -122,6 +128,10 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
     extinct = False
     neutral_bottleneck_applied = False
     neutral_bottleneck_fraction = float(cfg.get("neutral_bottleneck_fraction", 1.0))
+    invasion_rule_unit = cfg.get("invasion_mutant_rule_unit")
+    invasion_fraction_requested = float(cfg.get("invasion_fraction", 0.10))
+    invasion_applied = False
+    invasion_initial_fraction = 0.0
 
     for t in range(steps):
         n = len(positions)
@@ -130,6 +140,24 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
             break
 
         scarcity = condition.startswith("scarcity") and t >= shock_step
+
+        # Optional frequency-dependent invasion probe.  The resident population is
+        # the actual mixed population produced by the burn-in.  At the shock step,
+        # a small rule-blind sample is relabeled as a tagged mutant and assigned a
+        # declared rule vector.  Identical seeds therefore share the same resident
+        # population and tagged individuals across +/- finite-difference probes.
+        if invasion_rule_unit is not None and t == shock_step and not invasion_applied and n:
+            mutant_unit = np.clip(np.asarray(invasion_rule_unit, dtype=float), 0.0, 1.0)
+            if mutant_unit.shape != CENTER_RULE.shape:
+                raise ValueError("invasion_mutant_rule_unit must have one value per declared rule dimension")
+            mutant_count = max(1, int(round(n * invasion_fraction_requested)))
+            mutant_count = min(mutant_count, n)
+            mutant_idx = np.sort(rng.choice(n, size=mutant_count, replace=False))
+            rules[mutant_idx] = from_unit(mutant_unit)
+            invasion_tags[mutant_idx] = 1
+            invasion_initial_fraction = float(mutant_count / n)
+            invasion_applied = True
+
         regen = float(cfg["resource_regen"]) * (float(cfg["scarcity_multiplier"]) if scarcity else 1.0)
         resource_stock = np.minimum(float(cfg["resource_capacity"]), resource_stock + regen)
 
@@ -190,8 +218,12 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
             energy[candidates] *= 0.52
             child_ages = np.zeros(len(candidates), dtype=int)
             child_founders = founders[candidates].copy()
+            child_tags = invasion_tags[candidates].copy()
             child_rules = rules[candidates].copy()
-            if condition != "scarcity_frozen":
+            mutation_allowed = condition != "scarcity_frozen"
+            if invasion_rule_unit is not None and bool(cfg.get("freeze_mutation_after_invasion", True)) and t >= shock_step:
+                mutation_allowed = False
+            if mutation_allowed:
                 mut = rng.normal(size=child_rules.shape) * float(cfg["mutation_sd"]) * (hi - lo)
                 child_rules = np.clip(child_rules + mut, lo, hi)
             positions = np.vstack([positions, child_positions])
@@ -199,11 +231,12 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
             energy = np.concatenate([energy, child_energy])
             ages = np.concatenate([ages, child_ages])
             founders = np.concatenate([founders, child_founders])
+            invasion_tags = np.concatenate([invasion_tags, child_tags])
             rules = np.vstack([rules, child_rules])
 
         alive = (energy > 0.0) & (ages <= int(cfg["max_age"]))
-        positions, headings, energy, ages, founders, rules = (
-            positions[alive], headings[alive], energy[alive], ages[alive], founders[alive], rules[alive]
+        positions, headings, energy, ages, founders, invasion_tags, rules = (
+            positions[alive], headings[alive], energy[alive], ages[alive], founders[alive], invasion_tags[alive], rules[alive]
         )
 
         # Neutral bottleneck control: stable ecology + one rule-blind random cull at
@@ -214,8 +247,8 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
             target = min(target, len(rules))
             if target < len(rules):
                 keep = np.sort(rng.choice(len(rules), size=target, replace=False))
-                positions, headings, energy, ages, founders, rules = (
-                    positions[keep], headings[keep], energy[keep], ages[keep], founders[keep], rules[keep]
+                positions, headings, energy, ages, founders, invasion_tags, rules = (
+                    positions[keep], headings[keep], energy[keep], ages[keep], founders[keep], invasion_tags[keep], rules[keep]
                 )
             neutral_bottleneck_applied = True
 
@@ -230,6 +263,7 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
                 "ruleCentroid": centroid.tolist() if np.all(np.isfinite(centroid)) else None,
                 "ruleDiversity": diversity if math.isfinite(diversity) else None,
                 "lineageDiversity": _lineage_diversity(founders, initial_population),
+                "mutantFraction": float(np.mean(invasion_tags)) if invasion_applied and len(invasion_tags) else None,
                 "scarcityActive": bool(scarcity),
             })
 
@@ -254,6 +288,9 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
     recovery = final_pop / max(reference_pop, 1.0)
     minimum_post_pop = float(min(post_pop)) if post_pop else float(len(rules))
     bottleneck_fraction = minimum_post_pop / max(reference_pop, 1.0)
+
+    invasion_final_fraction = float(np.mean(invasion_tags)) if invasion_applied and len(invasion_tags) else 0.0
+    invasion_frequency_change = invasion_final_fraction - invasion_initial_fraction if invasion_applied else 0.0
 
     features = {
         "OBS-RULE-CENTROID-DISPLACEMENT": float(np.linalg.norm(final_delta)),
@@ -282,6 +319,10 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
         "bottleneckFraction": bottleneck_fraction,
         "neutralBottleneckApplied": neutral_bottleneck_applied,
         "neutralBottleneckFractionRequested": neutral_bottleneck_fraction if condition == "neutral_bottleneck_mutable" else None,
+        "invasionApplied": invasion_applied,
+        "invasionInitialFraction": invasion_initial_fraction if invasion_applied else None,
+        "invasionFinalFraction": invasion_final_fraction if invasion_applied else None,
+        "invasionFrequencyChange": invasion_frequency_change if invasion_applied else None,
         "initialDiversity": diversity0,
         "features": features,
         "history": history,

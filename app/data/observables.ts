@@ -310,6 +310,17 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       implementationStatus: "implemented", implementationPath: "scripts/run-rulial-alife-fitness-gradient.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-022"], tags: ["ruliology", "ALife", "fitness gradient", "directionality"], projectId,
     },
     {
+      id: "OBS-INVASION-GRADIENT-ALIGNMENT", slug: "invasion-gradient-alignment", name: "Rule motion / invasion-gradient alignment", symbol: "A_inv", category: "stability",
+      description: "Cosine alignment between realized post-shock population rule motion and a local frequency-dependent invasion gradient estimated in the actual mixed pre-shock resident population.",
+      formula: "A_inv = cos(Delta R_post, grad s_inv)",
+      interpretation: "Tests whether realized rulial motion follows directions in which a small tagged mutant gains frequency within the resident population context.",
+      requiredInputs: ["post-shock rule-motion vector", "paired +/- invasion probes", "resident population context"], output: "cosine in [-1,1]",
+      estimator: "Estimate each gradient component by central finite differences of tagged-mutant frequency change, then compute cosine alignment with the realized rule-centroid motion.",
+      validWhen: ["mutant introduction fraction and probe step are frozen", "resident burn-in is seed-matched", "tag identity is preserved after introduction"],
+      failureModes: ["Mutant extinction or fixation causing coarse scores", "Frequency dependence beyond the local probe", "Finite-population drift", "Gradient non-identifiability"],
+      implementationStatus: "implemented", implementationPath: "scripts/run-rulial-alife-invasion-gradient.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-024"], tags: ["ruliology", "ALife", "invasion", "frequency dependence"], projectId,
+    },
+    {
       id: "OBS-CONTRASTIVE-FITNESS-GRADIENT-ALIGNMENT", slug: "contrastive-fitness-gradient-alignment", name: "Rule motion / contrastive performance-gradient alignment", symbol: "A_deltaF", category: "stability",
       description: "Cosine alignment between realized post-shock rule-centroid motion and the local environmental contrast gradient grad(F_scarcity) - grad(F_stable).",
       formula: "A_deltaF = cos(Delta R_post, grad_R F_scarcity - grad_R F_stable)",

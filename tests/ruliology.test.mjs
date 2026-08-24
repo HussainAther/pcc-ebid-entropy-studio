@@ -634,3 +634,32 @@ test("committed RUL-023 preserves the challenged contrastive-gradient result", (
   assert.ok(summary.results.medianScarcityContrastiveAlignment < 0.10);
   assert.ok(summary.results.medianScarcityMinusNeutralContrastiveAlignment < 0);
 });
+
+test("RUL-024 registers frequency-dependent tagged-mutant invasion gradients", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife-invasion-gradient.py", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-024/);
+  assert.match(research, /RUL-024/);
+  assert.match(spaces, /OBSERVER-ALIFE-INVASION-GRADIENT/);
+  assert.match(observables, /OBS-INVASION-GRADIENT-ALIGNMENT/);
+  assert.match(script, /invasion_mutant_rule_unit/);
+  assert.match(script, /newInvasionProbeSimulations/);
+  assert.match(studio, /RUL-024 frequency-dependent invasion gradient/);
+});
+
+test("committed RUL-024 preserves the challenged context-dependent invasion-gradient result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-invasion-gradient/alife-invasion-gradient-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-024");
+  assert.equal(summary.source.newMotionSimulations, 0);
+  assert.equal(summary.source.newInvasionProbeSimulations, 96);
+  assert.equal(summary.design.seedCount, 12);
+  assert.equal(summary.design.invasionFraction, 0.10);
+  assert.equal(summary.primaryTest.criteriaPassed, 0);
+  assert.equal(summary.primaryTest.criteriaTotal, 4);
+  assert.equal(summary.primaryTest.pilotSupported, false);
+  assert.equal(summary.results.positiveScarcityAlignmentCount, 4);
+  assert.equal(summary.results.identifiableInvasionGradientCount, 7);
+  assert.ok(Math.abs(summary.results.medianScarcityAlignment) < 1e-12);
+  assert.ok(Math.abs(summary.results.medianScarcityMinusNeutralAlignment) < 1e-12);
+});

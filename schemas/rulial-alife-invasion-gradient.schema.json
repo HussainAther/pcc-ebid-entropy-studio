@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-alife-invasion-gradient/1.0.0",
+  "title": "RUL-024 ALife frequency-dependent invasion-gradient report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "source", "design", "results", "primaryTest", "interpretationBoundary", "seedAlignments", "probes"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-alife-invasion-gradient/1.0.0"},
+    "experimentId": {"const": "RUL-024"},
+    "ruleSpaceId": {"const": "RSPACE-ALIFE-001"},
+    "observerId": {"const": "OBSERVER-ALIFE-INVASION-GRADIENT"},
+    "source": {"type": "object", "required": ["motionExperimentId", "newMotionSimulations", "newInvasionProbeSimulations", "sourceArtifact"]},
+    "design": {"type": "object", "required": ["seedCount", "seeds", "ruleDimensions", "finiteDifferenceStepUnit", "invasionFraction", "residentContext", "mutantIntroduction", "postIntroductionMutation", "invasionScore", "primaryCriteria"]},
+    "results": {"type": "object", "required": ["medianScarcityAlignment", "medianNeutralAlignment", "medianScarcityMinusNeutralAlignment", "positiveScarcityAlignmentCount", "identifiableInvasionGradientCount", "medianGradientNorm"]},
+    "primaryTest": {"type": "object", "required": ["criteria", "criteriaPassed", "criteriaTotal", "pilotSupported"]},
+    "interpretationBoundary": {"type": "string"},
+    "seedAlignments": {"type": "array", "minItems": 12, "maxItems": 12},
+    "probes": {"type": "array", "minItems": 96, "maxItems": 96}
+  }
+}

@@ -250,6 +250,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-ALIFE-INVASION-GRADIENT",
+    name: "ALife frequency-dependent invasion observer",
+    description: "RUL-024 observer comparing realized scarcity and neutral rule-motion vectors with a local invasion gradient estimated by tagged mutant frequency change inside the actual mixed pre-shock resident population.",
+    observableIds: ["OBS-INVASION-GRADIENT-ALIGNMENT", "OBS-POSTSHOCK-RULE-DISPLACEMENT", "OBS-LINEAGE-DIVERSITY"],
+    coarseGraining: "The resident population remains heterogeneous; local rule directions are probed by introducing a 10% tagged mutant at +/-0.06 normalized units along each rule coordinate and measuring its frequency change.",
+    temporalResolution: "Frozen RUL-021 motion plus 160 post-shock steps for each invasion probe after the common 180-step burn-in.",
+    spatialResolution: "Agent-resolved mixed resident ecology with population-level tagged-mutant frequency and rule-centroid motion summaries.",
+    projectId,
+  },
+  {
     id: "OBSERVER-NETWORK-RULIAL-CORE",
     name: "Network rulial core observer",
     description: "Frozen RUL-008 observer combining network activity, state entropy, edge agreement, node switching, and operational macrostate residence summaries.",
