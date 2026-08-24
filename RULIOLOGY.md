@@ -28,7 +28,8 @@ Two rules may therefore be observationally equivalent for one observer and disti
 - **RUL-004 - Observer-Dependent Quotient Structure**: hold ECA trajectories fixed and test whether distinct frozen observers induce distinct candidate quotients of rule space.
 - **RUL-005 - Observer-Space Geometry**: enumerate a finite lattice of observer feature subsets and test whether nearby observers induce nearby rulial geometries and quotient candidates.
 - **RUL-006 - Boids Rulial Landscape**: extend the validated noise sweep into a structured multi-parameter rule-space campaign.
-- **RUL-007 - Cross-System Universality Challenge**: test whether any instability structure survives transfer across CA, Boids, and replicator systems.
+- **RUL-007 - ECA-Boids Cross-Substrate Structure Challenge**: freeze common dimensionless structural statistics and test which recur across ECA and Boids before adding a third substrate.
+- **RUL-008 - Network Rule-Space Engine**: add a graph-based substrate only after the RUL-007 comparison contract is frozen.
 
 ## Guardrails
 
@@ -165,3 +166,22 @@ Candidate local sensitivity boundaries are selected only from the discovery desi
 The current committed pilot contains 134 simulations: 96 discovery runs, 22 held-out endpoint runs, and 16 boundary-probe runs. The global rule-distance / observable-distance association is modest rather than deterministic, while the discovery ranking of the eight selected local sensitivity edges has a positive held-out rank association. Only half of the selected edges remain above the discovery local-distance 75th percentile under the held-out seeds. That mixed result is useful: local rulial sensitivity is present, but the exact boundary set is not yet stable enough to call a phase diagram.
 
 The operational polarization bins (`A >= 0.75`, `0.40 <= A < 0.75`, `A < 0.40`) are deliberately described as control-like, pressure-like, and chaos-like summaries only. They are not evidence that PCC semantics have been derived from flocking dynamics.
+
+
+## RUL-007 — ECA-Boids cross-substrate structure challenge
+
+RUL-007 freezes a first common comparison contract across the complete ECA benchmark and the 32-point Boids design. It does **not** compare raw observable distances across substrates; each system keeps its previously frozen observer and feature scaling. Instead, the experiment compares dimensionless structural summaries: global rule-distance/observable-distance rank association, discovery-to-holdout geometry stability, local-edge stability, top-10% local-boundary overlap, and the shape of the local sensitivity tail.
+
+To make the Boids replication genuinely comparable, RUL-007 adds 64 new simulations: all 32 frozen discovery coordinates are re-run under the two already frozen validation seeds. This removes the RUL-006 limitation where only discovery-selected endpoints received holdout runs. The local graph itself remains frozen from discovery (k=4 nearest neighbors), while ECA continues to use all 1,024 one-bit hypercube edges.
+
+The five frozen challenge criteria are intentionally modest and are not retuned after execution. The current result is **mixed**: 2 of 5 criteria pass in both substrates. Both systems show a positive global rule/observable association and a heavy local sensitivity tail. However, the Boids discovery-to-holdout full geometry and local-edge rank correlations fall below the frozen 0.70 threshold, and its top-10% local-edge overlap is low. ECA passes all five criteria.
+
+This means RUL-007 does **not** support a claim of cross-substrate rulial universality. It does support a narrower result: local sensitivity heterogeneity appears in both systems, while robust boundary identity is much stronger in the deterministic complete ECA space than in the sampled stochastic Boids space. The failed criteria are retained as first-class results and become the fixed benchmark that a future network substrate must face.
+
+Run the analysis with:
+
+```bash
+npm run ruliology:cross-substrate
+```
+
+Artifacts are written to `data/ruliology/cross-substrate/`.

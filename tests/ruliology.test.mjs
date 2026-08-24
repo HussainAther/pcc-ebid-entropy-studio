@@ -161,3 +161,31 @@ test("committed RUL-006 uses held-out seeds and independently simulated boundary
   assert.ok(Number.isFinite(summary.validation.candidateSensitivitySpearman));
   assert.ok(summary.validation.retentionFraction >= 0 && summary.validation.retentionFraction <= 1);
 });
+
+test("RUL-007 freezes a common ECA-Boids structural comparison contract", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-cross-substrate.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-007/);
+  assert.match(research, /RUL-007/);
+  assert.match(script, /top10LocalEdgeJaccard/);
+  assert.match(script, /q95OverMedian/);
+  assert.match(script, /failed criterion is retained/i);
+});
+
+test("committed RUL-007 adds complete Boids holdout coverage and preserves failed criteria", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/cross-substrate/cross-substrate-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-007");
+  assert.equal(summary.newSimulation.rulePointCount, 32);
+  assert.equal(summary.newSimulation.runCount, 64);
+  assert.deepEqual(summary.newSimulation.seeds, [42345, 52345]);
+  assert.equal(summary.substrates.length, 2);
+  assert.equal(summary.challenge.criterionCount, 5);
+  assert.ok(summary.challenge.crossSubstratePassCount >= 1);
+  assert.ok(summary.challenge.crossSubstratePassCount < summary.challenge.criterionCount);
+  const eca = summary.substrates.find(item => item.substrate === "ECA");
+  const boids = summary.substrates.find(item => item.substrate === "Boids");
+  assert.equal(eca.localEdgeCount, 1024);
+  assert.equal(boids.localEdgeCount, 80);
+  assert.ok(eca.localSensitivity.q95OverMedian > 1);
+  assert.ok(boids.localSensitivity.q95OverMedian > 1);
+});

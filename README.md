@@ -158,3 +158,16 @@ npm run ruliology:boids
 ```
 
 It writes `data/ruliology/boids-rulial/` with the discovery profiles, local candidate boundaries, held-out endpoint tests, adaptive boundary probes, a compact Studio summary, and a provenance-oriented full report. RUL-006 is intentionally a stress test rather than a claimed universal flocking phase diagram.
+
+
+### RUL-007 cross-substrate challenge
+
+Run the first frozen ECA-Boids structural comparison with:
+
+```bash
+npm run ruliology:cross-substrate
+```
+
+The command reuses the committed ECA discovery/holdout artifacts and the frozen RUL-006 Boids discovery design, then adds complete held-out Boids coverage at all 32 rule coordinates (64 new simulations). It writes `data/ruliology/cross-substrate/` with a versioned report, compact summary, substrate metrics, held-out Boids profiles, and checksum.
+
+RUL-007 compares dimensionless structural summaries rather than raw cross-system observables. Its five criteria are frozen in the script and failures are retained. The current benchmark passes 2/5 criteria across both substrates, so it is a mixed cross-substrate result rather than evidence of universality.

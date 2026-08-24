@@ -1,0 +1,103 @@
+{
+  "challenge": {
+    "allCriteriaPass": false,
+    "criteria": {
+      "localSensitivityTail": {
+        "boids": true,
+        "crossSubstratePass": true,
+        "definition": "Discovery local-sensitivity q95/median >= 1.5 in both substrates.",
+        "eca": true
+      },
+      "positiveGlobalRuleObservableAssociation": {
+        "boids": true,
+        "crossSubstratePass": true,
+        "definition": "Discovery Spearman rho(d_R,d_E) > 0 in both substrates.",
+        "eca": true
+      },
+      "reproducibleLocalGeometry": {
+        "boids": false,
+        "crossSubstratePass": false,
+        "definition": "Discovery-vs-holdout local-edge observable-distance Spearman >= 0.70 in both substrates.",
+        "eca": true
+      },
+      "reproducibleObservableGeometry": {
+        "boids": false,
+        "crossSubstratePass": false,
+        "definition": "Discovery-vs-holdout pairwise observable-distance Spearman >= 0.70 in both substrates.",
+        "eca": true
+      },
+      "topTailBoundaryReplication": {
+        "boids": false,
+        "crossSubstratePass": false,
+        "definition": "Top-10% local-edge Jaccard >= 0.50 between discovery and holdout in both substrates.",
+        "eca": true
+      }
+    },
+    "criterionCount": 5,
+    "crossSubstratePassCount": 2
+  },
+  "experimentId": "RUL-007",
+  "generatedAt": "2026-08-24T20:00:00.000Z",
+  "interpretationBoundary": [
+    "RUL-007 is a cross-substrate challenge, not evidence for universal laws of rule spaces.",
+    "The ECA and Boids discovery datasets existed before RUL-007, so this is not a pristine preregistration of all compared quantities; the common metric contract and challenge thresholds are frozen here before adding further substrates.",
+    "Raw observable distances are substrate-specific because the observers and feature scales differ. Only dimensionless structural summaries are compared across substrates.",
+    "Boids has only 32 sampled rule coordinates, so local-tail statistics and top-10% overlap have much lower resolution than the complete 256-rule ECA benchmark.",
+    "A failed criterion is retained as a result rather than tuned away; future substrates must use this frozen RUL-007 contract or explicitly version a new contract."
+  ],
+  "newSimulation": {
+    "purpose": "Complete held-out coverage of all 32 frozen RUL-006 discovery coordinates under the two previously frozen validation seeds.",
+    "rulePointCount": 32,
+    "runCount": 64,
+    "seeds": [
+      42345,
+      52345
+    ],
+    "substrate": "Boids"
+  },
+  "schemaVersion": "entropy-rulial-cross-substrate-summary/1.0.0",
+  "substrates": [
+    {
+      "discoveryRunCount": 1024,
+      "geometryStabilitySpearman": 0.979777916360744,
+      "globalRuleObservableSpearmanDiscovery": 0.023427787551470215,
+      "globalRuleObservableSpearmanHoldout": 0.02759371863254281,
+      "holdoutRunCount": 1024,
+      "localEdgeCount": 1024,
+      "localEdgeStabilitySpearman": 0.9755508864583767,
+      "localSensitivity": {
+        "fractionAbove2xMedian": 0.173828125,
+        "holdoutMedian": 0.9722453724347322,
+        "holdoutQ95": 3.519095921054697,
+        "median": 0.9721097346995232,
+        "q90": 2.4039486757283237,
+        "q95": 3.5008382561226186,
+        "q95OverMedian": 3.601278879492673
+      },
+      "rulePairCount": 32640,
+      "substrate": "ECA",
+      "top10LocalEdgeJaccard": 0.8899082568807339
+    },
+    {
+      "discoveryRunCount": 96,
+      "geometryStabilitySpearman": 0.6470772828564741,
+      "globalRuleObservableSpearmanDiscovery": 0.3125829266901507,
+      "globalRuleObservableSpearmanHoldout": 0.3301131323621101,
+      "holdoutRunCount": 64,
+      "localEdgeCount": 80,
+      "localEdgeStabilitySpearman": 0.6433661509610877,
+      "localSensitivity": {
+        "fractionAbove2xMedian": 0.15,
+        "holdoutMedian": 0.9849339209970154,
+        "holdoutQ95": 4.617715212237003,
+        "median": 1.1388590860545176,
+        "q90": 2.5535076397377616,
+        "q95": 3.011303897668492,
+        "q95OverMedian": 2.6441409078105558
+      },
+      "rulePairCount": 496,
+      "substrate": "Boids",
+      "top10LocalEdgeJaccard": 0.06666666666666667
+    }
+  ]
+}

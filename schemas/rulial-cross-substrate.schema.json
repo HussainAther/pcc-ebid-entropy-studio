@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy-studio.local/schemas/rulial-cross-substrate.schema.json",
+  "title": "Entropy Studio RUL-007 Cross-Substrate Report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "substrates", "challenge", "newSimulation", "comparabilityContract", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-cross-substrate/1.0.0" },
+    "experimentId": { "const": "RUL-007" },
+    "title": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "substrates": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["substrate", "rulePairCount", "localEdgeCount", "globalRuleObservableSpearmanDiscovery", "geometryStabilitySpearman", "localEdgeStabilitySpearman", "top10LocalEdgeJaccard", "localSensitivity"],
+        "properties": {
+          "substrate": { "type": "string" },
+          "discoveryRunCount": { "type": "integer", "minimum": 0 },
+          "holdoutRunCount": { "type": "integer", "minimum": 0 },
+          "rulePairCount": { "type": "integer", "minimum": 1 },
+          "localEdgeCount": { "type": "integer", "minimum": 1 },
+          "globalRuleObservableSpearmanDiscovery": { "type": "number" },
+          "globalRuleObservableSpearmanHoldout": { "type": "number" },
+          "geometryStabilitySpearman": { "type": "number" },
+          "localEdgeStabilitySpearman": { "type": "number" },
+          "top10LocalEdgeJaccard": { "type": "number", "minimum": 0, "maximum": 1 },
+          "localSensitivity": {
+            "type": "object",
+            "required": ["median", "q95", "q95OverMedian", "fractionAbove2xMedian"],
+            "properties": {
+              "median": { "type": "number" },
+              "q90": { "type": "number" },
+              "q95": { "type": "number" },
+              "q95OverMedian": { "type": "number" },
+              "fractionAbove2xMedian": { "type": "number", "minimum": 0, "maximum": 1 },
+              "holdoutMedian": { "type": "number" },
+              "holdoutQ95": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "challenge": {
+      "type": "object",
+      "required": ["criterionCount", "crossSubstratePassCount", "allCriteriaPass", "criteria"],
+      "properties": {
+        "criterionCount": { "type": "integer", "minimum": 1 },
+        "crossSubstratePassCount": { "type": "integer", "minimum": 0 },
+        "allCriteriaPass": { "type": "boolean" },
+        "criteria": { "type": "object" }
+      }
+    },
+    "newSimulation": { "type": "object" },
+    "comparabilityContract": { "type": "object" },
+    "interpretationBoundary": { "type": "array", "items": { "type": "string" } }
+  }
+}

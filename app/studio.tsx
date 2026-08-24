@@ -20,6 +20,7 @@ import ecaValidation from "../data/ruliology/eca-validation/validation-summary.j
 import ecaObserverDependence from "../data/ruliology/eca-observer-dependence/observer-dependence-summary.json";
 import ecaObserverGeometry from "../data/ruliology/eca-observer-geometry/observer-geometry-summary.json";
 import boidsRulial from "../data/ruliology/boids-rulial/boids-rulial-summary.json";
+import crossSubstrate from "../data/ruliology/cross-substrate/cross-substrate-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -297,6 +298,16 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Candidate edge</span><span>Discovery S_R</span><span>Holdout S_R</span><span>Probe residual</span></div>
       {boidsRulial.validation.rows.slice(0,8).map(row=><div className="source-row rulial-table" key={`${row.leftRuleId}-${row.rightRuleId}`}><b>{row.leftRuleId} ↔ {row.rightRuleId}</b><code>{Number(row.sensitivity).toFixed(2)}</code><span>{Number(row.holdoutSensitivity).toFixed(2)}</span><small>{Number(row.probeMidpointResidual).toFixed(3)} · {row.retainedAboveDiscoveryLocalQ75 ? "retained" : "not retained"}</small></div>)}
       <Notice title="Mixed validation is the result">The selected local sensitivity ranking remains positively associated across held-out seeds, but only half of the discovery-selected boundaries clear the frozen local-distance threshold again. RUL-006 therefore supports continued study of structured Boids rule space without claiming a stable universal phase diagram.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-007 frozen cross-substrate challenge" title="Two recurring signatures, three failed transfer criteria"/>
+      <p>RUL-007 compares dimensionless structural summaries across ECA and Boids under one versioned contract. Boids now has complete held-out coverage at all 32 frozen discovery coordinates, adding 64 simulations rather than validating only discovery-selected endpoints.</p>
+      <div className="stats compact"><Stat label="Criteria passed" value={`${crossSubstrate.challenge.crossSubstratePassCount}/${crossSubstrate.challenge.criterionCount}`} foot="must pass in both substrates"/><Stat label="New Boids holdout runs" value={String(crossSubstrate.newSimulation.runCount)} foot="32 rules × 2 frozen seeds"/><Stat label="ECA geometry ρ" value={Number(crossSubstrate.substrates[0].geometryStabilitySpearman).toFixed(3)} foot="discovery vs holdout"/><Stat label="Boids geometry ρ" value={Number(crossSubstrate.substrates[1].geometryStabilitySpearman).toFixed(3)} foot="discovery vs holdout"/></div>
+      <div className="table-head rulial-table"><span>Substrate</span><span>Global dR ↔ dE ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
+      {crossSubstrate.substrates.map(item=><div className="source-row rulial-table" key={`rul007-${item.substrate}`}><b>{item.substrate}</b><code>{Number(item.globalRuleObservableSpearmanDiscovery).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard · q95/median sensitivity {Number(item.localSensitivity.q95OverMedian).toFixed(2)}</small></div>)}
+      <div className="table-head rulial-table"><span>Frozen criterion</span><span>ECA</span><span>Boids</span><span>Cross-substrate</span></div>
+      {Object.entries(crossSubstrate.challenge.criteria).map(([id,criterion])=><div className="source-row rulial-table" key={id}><b>{id.replaceAll(/([A-Z])/g," $1").trim()}</b><code>{criterion.eca ? "pass" : "fail"}</code><span>{criterion.boids ? "pass" : "fail"}</span><small>{criterion.crossSubstratePass ? "retained" : "challenged"} · {criterion.definition}</small></div>)}
+      <Notice title="No universality claim">Only two of five frozen criteria pass in both substrates. The common positive association and heavy local sensitivity tail are worth carrying forward, while the failed Boids replication criteria are preserved rather than tuned away.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>
