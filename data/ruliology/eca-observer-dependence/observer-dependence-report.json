@@ -1,0 +1,4457 @@
+{
+  "schemaVersion": "entropy-rulial-observer-dependence/1.0.0",
+  "experimentId": "RUL-004-ECA-OBSERVER-DEPENDENCE-001",
+  "createdAt": "2026-08-24T18:51:45.761Z",
+  "ruleSpaceId": "RSPACE-ECA-256",
+  "simulation": {
+    "policy": "Simulate each rule-seed trajectory pair exactly once, then reproject the same stored run summaries through each declared observer. Split-half validation uses alternating seeds and never re-simulates per observer.",
+    "seeds": [
+      223,
+      227,
+      229,
+      233,
+      239,
+      241,
+      251,
+      257,
+      263,
+      269,
+      271,
+      277,
+      281,
+      283,
+      293,
+      307
+    ],
+    "splitASeeds": [
+      223,
+      229,
+      239,
+      251,
+      263,
+      271,
+      281,
+      293
+    ],
+    "splitBSeeds": [
+      227,
+      233,
+      241,
+      257,
+      269,
+      277,
+      283,
+      307
+    ],
+    "runCount": 4096,
+    "ruleCount": 256,
+    "width": 257,
+    "steps": 256
+  },
+  "observers": [
+    {
+      "observerId": "OBSERVER-EBID-CORE",
+      "observableIds": [
+        "OBS-SHANNON",
+        "OBS-HAMMING",
+        "OBS-PERTURB-GROWTH",
+        "OBS-AUTOCORR-TIME",
+        "OBS-COMPRESSION"
+      ],
+      "epsilon": 0.004591301547189862,
+      "epsilonSource": "Median same-rule distance between two disjoint 8-seed split halves under this observer.",
+      "splitSelfDistanceQ25": 0.002409239535514376,
+      "splitSelfDistanceQ50": 0.004591301547189862,
+      "splitSelfDistanceQ75": 0.006824552448697968,
+      "splitGeometrySpearman": 0.9929634696476568,
+      "splitCoassignmentJaccard": 0.6964285714285714,
+      "classCount": 138,
+      "nonSingletonClassCount": 55,
+      "largestClassSize": 10,
+      "equivalentPairCount": 277,
+      "classes": [
+        {
+          "id": "OQ-116",
+          "memberRuleIds": [
+            "40",
+            "96",
+            "136",
+            "160",
+            "192",
+            "235",
+            "238",
+            "249",
+            "250",
+            "252"
+          ],
+          "size": 10,
+          "maximumJointDistance": 0.002682973790999488
+        },
+        {
+          "id": "OQ-094",
+          "memberRuleIds": [
+            "8",
+            "32",
+            "64",
+            "128",
+            "239",
+            "251",
+            "253",
+            "254"
+          ],
+          "size": 8,
+          "maximumJointDistance": 0.0009243592634130044
+        },
+        {
+          "id": "OQ-099",
+          "memberRuleIds": [
+            "12",
+            "34",
+            "48",
+            "68",
+            "187",
+            "207",
+            "221",
+            "243"
+          ],
+          "size": 8,
+          "maximumJointDistance": 0.001568533765335392
+        },
+        {
+          "id": "OQ-125",
+          "memberRuleIds": [
+            "11",
+            "27",
+            "39",
+            "47",
+            "53",
+            "81",
+            "83"
+          ],
+          "size": 7,
+          "maximumJointDistance": 0.0034466637736987244
+        },
+        {
+          "id": "OQ-103",
+          "memberRuleIds": [
+            "15",
+            "51",
+            "85",
+            "170",
+            "204",
+            "240"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0.0017333333361577161
+        },
+        {
+          "id": "OQ-129",
+          "memberRuleIds": [
+            "28",
+            "70",
+            "156",
+            "157",
+            "198",
+            "199"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0.0036912260087871678
+        },
+        {
+          "id": "OQ-090",
+          "memberRuleIds": [
+            "60",
+            "90",
+            "102",
+            "153",
+            "165",
+            "195"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0.00010039363404070876
+        },
+        {
+          "id": "OQ-122",
+          "memberRuleIds": [
+            "2",
+            "16",
+            "191",
+            "247"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0032804489394773068
+        },
+        {
+          "id": "OQ-104",
+          "memberRuleIds": [
+            "10",
+            "80",
+            "175",
+            "245"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0017435294146057121
+        },
+        {
+          "id": "OQ-108",
+          "memberRuleIds": [
+            "30",
+            "86",
+            "135",
+            "149"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0021715509658374534
+        },
+        {
+          "id": "OQ-120",
+          "memberRuleIds": [
+            "38",
+            "52",
+            "155",
+            "211"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.002994135473129507
+        },
+        {
+          "id": "OQ-107",
+          "memberRuleIds": [
+            "42",
+            "112",
+            "171",
+            "241"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.002139569484037107
+        },
+        {
+          "id": "OQ-133",
+          "memberRuleIds": [
+            "46",
+            "116",
+            "139",
+            "209"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.004080595439814107
+        },
+        {
+          "id": "OQ-118",
+          "memberRuleIds": [
+            "50",
+            "77",
+            "178",
+            "179"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0028693846695138536
+        },
+        {
+          "id": "OQ-127",
+          "memberRuleIds": [
+            "140",
+            "196",
+            "206",
+            "220"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0034938765089669614
+        },
+        {
+          "id": "OQ-093",
+          "memberRuleIds": [
+            "168",
+            "224",
+            "234",
+            "248"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0008901835564173408
+        },
+        {
+          "id": "OQ-132",
+          "memberRuleIds": [
+            "172",
+            "202",
+            "216",
+            "228"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.003990913861637972
+        },
+        {
+          "id": "OQ-123",
+          "memberRuleIds": [
+            "13",
+            "69",
+            "93"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.003361039886589223
+        },
+        {
+          "id": "OQ-138",
+          "memberRuleIds": [
+            "26",
+            "82",
+            "181"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.004449819862496703
+        },
+        {
+          "id": "OQ-128",
+          "memberRuleIds": [
+            "44",
+            "144",
+            "246"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.003554235530489037
+        },
+        {
+          "id": "OQ-135",
+          "memberRuleIds": [
+            "49",
+            "59",
+            "115"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.004185868620812002
+        },
+        {
+          "id": "OQ-126",
+          "memberRuleIds": [
+            "100",
+            "130",
+            "217"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.00347146314619054
+        },
+        {
+          "id": "OQ-134",
+          "memberRuleIds": [
+            "132",
+            "203",
+            "222"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.004155379958604538
+        },
+        {
+          "id": "OQ-086",
+          "memberRuleIds": [
+            "0",
+            "255"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000003398692815995534
+        },
+        {
+          "id": "OQ-091",
+          "memberRuleIds": [
+            "3",
+            "17"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0004282352948154311
+        },
+        {
+          "id": "OQ-136",
+          "memberRuleIds": [
+            "4",
+            "223"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0041980354801302786
+        },
+        {
+          "id": "OQ-121",
+          "memberRuleIds": [
+            "6",
+            "20"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0032559969989505934
+        },
+        {
+          "id": "OQ-131",
+          "memberRuleIds": [
+            "7",
+            "21"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003957461860822449
+        },
+        {
+          "id": "OQ-096",
+          "memberRuleIds": [
+            "23",
+            "232"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0013033986949342858
+        },
+        {
+          "id": "OQ-084",
+          "memberRuleIds": [
+            "24",
+            "231"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000016993464079993185
+        },
+        {
+          "id": "OQ-095",
+          "memberRuleIds": [
+            "29",
+            "71"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0011707323397076696
+        },
+        {
+          "id": "OQ-087",
+          "memberRuleIds": [
+            "36",
+            "219"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000003398692815998637
+        },
+        {
+          "id": "OQ-102",
+          "memberRuleIds": [
+            "43",
+            "212"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.001639869283717828
+        },
+        {
+          "id": "OQ-114",
+          "memberRuleIds": [
+            "45",
+            "75"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002641160616375827
+        },
+        {
+          "id": "OQ-113",
+          "memberRuleIds": [
+            "58",
+            "114"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002612201514552608
+        },
+        {
+          "id": "OQ-092",
+          "memberRuleIds": [
+            "63",
+            "119"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0005505882361912828
+        },
+        {
+          "id": "OQ-085",
+          "memberRuleIds": [
+            "66",
+            "189"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000016993464079993185
+        },
+        {
+          "id": "OQ-117",
+          "memberRuleIds": [
+            "78",
+            "92"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002697184362296207
+        },
+        {
+          "id": "OQ-137",
+          "memberRuleIds": [
+            "84",
+            "213"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.004367321596751723
+        },
+        {
+          "id": "OQ-109",
+          "memberRuleIds": [
+            "98",
+            "185"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002210964013427647
+        },
+        {
+          "id": "OQ-089",
+          "memberRuleIds": [
+            "105",
+            "150"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000033986928159911894
+        },
+        {
+          "id": "OQ-105",
+          "memberRuleIds": [
+            "110",
+            "124"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0018514634050441888
+        },
+        {
+          "id": "OQ-100",
+          "memberRuleIds": [
+            "113",
+            "142"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0015786928130299273
+        },
+        {
+          "id": "OQ-112",
+          "memberRuleIds": [
+            "120",
+            "169"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0025100199929456277
+        },
+        {
+          "id": "OQ-088",
+          "memberRuleIds": [
+            "126",
+            "129"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000003398692815998637
+        },
+        {
+          "id": "OQ-101",
+          "memberRuleIds": [
+            "138",
+            "208"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.001625276463441981
+        },
+        {
+          "id": "OQ-111",
+          "memberRuleIds": [
+            "141",
+            "197"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0023502380451188884
+        },
+        {
+          "id": "OQ-106",
+          "memberRuleIds": [
+            "154",
+            "210"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.001890728704338275
+        },
+        {
+          "id": "OQ-130",
+          "memberRuleIds": [
+            "159",
+            "215"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003952083733049313
+        },
+        {
+          "id": "OQ-098",
+          "memberRuleIds": [
+            "162",
+            "176"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0014300393573410076
+        },
+        {
+          "id": "OQ-119",
+          "memberRuleIds": [
+            "163",
+            "177"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002888386446410317
+        },
+        {
+          "id": "OQ-097",
+          "memberRuleIds": [
+            "166",
+            "180"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0013479233949687814
+        },
+        {
+          "id": "OQ-110",
+          "memberRuleIds": [
+            "174",
+            "244"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0022624175995188
+        },
+        {
+          "id": "OQ-115",
+          "memberRuleIds": [
+            "186",
+            "242"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0026732017803681495
+        },
+        {
+          "id": "OQ-124",
+          "memberRuleIds": [
+            "188",
+            "194"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003421662545331723
+        },
+        {
+          "id": "OQ-001",
+          "memberRuleIds": [
+            "1"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-002",
+          "memberRuleIds": [
+            "5"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-003",
+          "memberRuleIds": [
+            "9"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-004",
+          "memberRuleIds": [
+            "14"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-005",
+          "memberRuleIds": [
+            "18"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-006",
+          "memberRuleIds": [
+            "19"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-007",
+          "memberRuleIds": [
+            "22"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-008",
+          "memberRuleIds": [
+            "25"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-009",
+          "memberRuleIds": [
+            "31"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-010",
+          "memberRuleIds": [
+            "33"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-011",
+          "memberRuleIds": [
+            "35"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-012",
+          "memberRuleIds": [
+            "37"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-013",
+          "memberRuleIds": [
+            "41"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-014",
+          "memberRuleIds": [
+            "54"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-015",
+          "memberRuleIds": [
+            "55"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-016",
+          "memberRuleIds": [
+            "56"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-017",
+          "memberRuleIds": [
+            "57"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-018",
+          "memberRuleIds": [
+            "61"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-019",
+          "memberRuleIds": [
+            "62"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-020",
+          "memberRuleIds": [
+            "65"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-021",
+          "memberRuleIds": [
+            "67"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-022",
+          "memberRuleIds": [
+            "72"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-023",
+          "memberRuleIds": [
+            "73"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-024",
+          "memberRuleIds": [
+            "74"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-025",
+          "memberRuleIds": [
+            "76"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-026",
+          "memberRuleIds": [
+            "79"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-027",
+          "memberRuleIds": [
+            "87"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-028",
+          "memberRuleIds": [
+            "88"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-029",
+          "memberRuleIds": [
+            "89"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-030",
+          "memberRuleIds": [
+            "91"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-031",
+          "memberRuleIds": [
+            "94"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-032",
+          "memberRuleIds": [
+            "95"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-033",
+          "memberRuleIds": [
+            "97"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-034",
+          "memberRuleIds": [
+            "99"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-035",
+          "memberRuleIds": [
+            "101"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-036",
+          "memberRuleIds": [
+            "103"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-037",
+          "memberRuleIds": [
+            "104"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-038",
+          "memberRuleIds": [
+            "106"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-039",
+          "memberRuleIds": [
+            "107"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-040",
+          "memberRuleIds": [
+            "108"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-041",
+          "memberRuleIds": [
+            "109"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-042",
+          "memberRuleIds": [
+            "111"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-043",
+          "memberRuleIds": [
+            "117"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-044",
+          "memberRuleIds": [
+            "118"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-045",
+          "memberRuleIds": [
+            "121"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-046",
+          "memberRuleIds": [
+            "122"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-047",
+          "memberRuleIds": [
+            "123"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-048",
+          "memberRuleIds": [
+            "125"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-049",
+          "memberRuleIds": [
+            "127"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-050",
+          "memberRuleIds": [
+            "131"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-051",
+          "memberRuleIds": [
+            "133"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-052",
+          "memberRuleIds": [
+            "134"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-053",
+          "memberRuleIds": [
+            "137"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-054",
+          "memberRuleIds": [
+            "143"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-055",
+          "memberRuleIds": [
+            "145"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-056",
+          "memberRuleIds": [
+            "146"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-057",
+          "memberRuleIds": [
+            "147"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-058",
+          "memberRuleIds": [
+            "148"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-059",
+          "memberRuleIds": [
+            "151"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-060",
+          "memberRuleIds": [
+            "152"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-061",
+          "memberRuleIds": [
+            "158"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-062",
+          "memberRuleIds": [
+            "161"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-063",
+          "memberRuleIds": [
+            "164"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-064",
+          "memberRuleIds": [
+            "167"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-065",
+          "memberRuleIds": [
+            "173"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-066",
+          "memberRuleIds": [
+            "182"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-067",
+          "memberRuleIds": [
+            "183"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-068",
+          "memberRuleIds": [
+            "184"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-069",
+          "memberRuleIds": [
+            "190"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-070",
+          "memberRuleIds": [
+            "193"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-071",
+          "memberRuleIds": [
+            "200"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-072",
+          "memberRuleIds": [
+            "201"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-073",
+          "memberRuleIds": [
+            "205"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-074",
+          "memberRuleIds": [
+            "214"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-075",
+          "memberRuleIds": [
+            "218"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-076",
+          "memberRuleIds": [
+            "225"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-077",
+          "memberRuleIds": [
+            "226"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-078",
+          "memberRuleIds": [
+            "227"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-079",
+          "memberRuleIds": [
+            "229"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-080",
+          "memberRuleIds": [
+            "230"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-081",
+          "memberRuleIds": [
+            "233"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-082",
+          "memberRuleIds": [
+            "236"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-083",
+          "memberRuleIds": [
+            "237"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        }
+      ]
+    },
+    {
+      "observerId": "OBSERVER-ECA-ENTROPY-STRUCTURE",
+      "observableIds": [
+        "OBS-SHANNON",
+        "OBS-AUTOCORR-TIME",
+        "OBS-COMPRESSION"
+      ],
+      "epsilon": 0.0045859177070698325,
+      "epsilonSource": "Median same-rule distance between two disjoint 8-seed split halves under this observer.",
+      "splitSelfDistanceQ25": 0.0017459704361304936,
+      "splitSelfDistanceQ50": 0.0045859177070698325,
+      "splitSelfDistanceQ75": 0.0068883849941952366,
+      "splitGeometrySpearman": 0.9979057315642423,
+      "splitCoassignmentJaccard": 0.588957055214724,
+      "classCount": 119,
+      "nonSingletonClassCount": 57,
+      "largestClassSize": 18,
+      "equivalentPairCount": 439,
+      "classes": [
+        {
+          "id": "OQ-116",
+          "memberRuleIds": [
+            "30",
+            "45",
+            "60",
+            "75",
+            "86",
+            "89",
+            "90",
+            "101",
+            "102",
+            "105",
+            "135",
+            "149",
+            "150",
+            "153",
+            "154",
+            "165",
+            "195",
+            "210"
+          ],
+          "size": 18,
+          "maximumJointDistance": 0.004312144530185511
+        },
+        {
+          "id": "OQ-103",
+          "memberRuleIds": [
+            "40",
+            "96",
+            "136",
+            "160",
+            "192",
+            "235",
+            "238",
+            "249",
+            "250",
+            "252"
+          ],
+          "size": 10,
+          "maximumJointDistance": 0.0034636977924128
+        },
+        {
+          "id": "OQ-078",
+          "memberRuleIds": [
+            "8",
+            "32",
+            "64",
+            "128",
+            "239",
+            "251",
+            "253",
+            "254"
+          ],
+          "size": 8,
+          "maximumJointDistance": 0.0011933397239604873
+        },
+        {
+          "id": "OQ-111",
+          "memberRuleIds": [
+            "11",
+            "27",
+            "39",
+            "47",
+            "53",
+            "81",
+            "83",
+            "117"
+          ],
+          "size": 8,
+          "maximumJointDistance": 0.00392806180321545
+        },
+        {
+          "id": "OQ-074",
+          "memberRuleIds": [
+            "12",
+            "34",
+            "48",
+            "68",
+            "187",
+            "207",
+            "221",
+            "243"
+          ],
+          "size": 8,
+          "maximumJointDistance": 0.0011243464743422105
+        },
+        {
+          "id": "OQ-114",
+          "memberRuleIds": [
+            "35",
+            "42",
+            "59",
+            "112",
+            "115",
+            "171",
+            "241"
+          ],
+          "size": 7,
+          "maximumJointDistance": 0.00403689298306654
+        },
+        {
+          "id": "OQ-090",
+          "memberRuleIds": [
+            "15",
+            "51",
+            "85",
+            "170",
+            "204",
+            "240"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0.002237723714788326
+        },
+        {
+          "id": "OQ-113",
+          "memberRuleIds": [
+            "2",
+            "16",
+            "191",
+            "247"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.004005840316003065
+        },
+        {
+          "id": "OQ-091",
+          "memberRuleIds": [
+            "10",
+            "80",
+            "175",
+            "245"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.002250886795463563
+        },
+        {
+          "id": "OQ-097",
+          "memberRuleIds": [
+            "18",
+            "146",
+            "182",
+            "183"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0027609170150473253
+        },
+        {
+          "id": "OQ-107",
+          "memberRuleIds": [
+            "38",
+            "52",
+            "155",
+            "211"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.00370319739514385
+        },
+        {
+          "id": "OQ-115",
+          "memberRuleIds": [
+            "41",
+            "97",
+            "107",
+            "121"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.004064718502374567
+        },
+        {
+          "id": "OQ-095",
+          "memberRuleIds": [
+            "46",
+            "116",
+            "139",
+            "209"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.002667385223915009
+        },
+        {
+          "id": "OQ-108",
+          "memberRuleIds": [
+            "50",
+            "77",
+            "178",
+            "179"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0037043594968699536
+        },
+        {
+          "id": "OQ-098",
+          "memberRuleIds": [
+            "56",
+            "98",
+            "185",
+            "227"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0031814742396221595
+        },
+        {
+          "id": "OQ-100",
+          "memberRuleIds": [
+            "106",
+            "120",
+            "169",
+            "225"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0034015665304526006
+        },
+        {
+          "id": "OQ-084",
+          "memberRuleIds": [
+            "110",
+            "124",
+            "137",
+            "193"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.001836472457020096
+        },
+        {
+          "id": "OQ-088",
+          "memberRuleIds": [
+            "122",
+            "126",
+            "129",
+            "161"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0021502987867594464
+        },
+        {
+          "id": "OQ-118",
+          "memberRuleIds": [
+            "140",
+            "196",
+            "206",
+            "220"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.004510552312561778
+        },
+        {
+          "id": "OQ-076",
+          "memberRuleIds": [
+            "168",
+            "224",
+            "234",
+            "248"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0011492009388337611
+        },
+        {
+          "id": "OQ-096",
+          "memberRuleIds": [
+            "13",
+            "69",
+            "93"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.002733454585627733
+        },
+        {
+          "id": "OQ-104",
+          "memberRuleIds": [
+            "28",
+            "156",
+            "157"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0035433844129865847
+        },
+        {
+          "id": "OQ-106",
+          "memberRuleIds": [
+            "70",
+            "198",
+            "199"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0035871798157018435
+        },
+        {
+          "id": "OQ-065",
+          "memberRuleIds": [
+            "0",
+            "255"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000004387693558408498
+        },
+        {
+          "id": "OQ-069",
+          "memberRuleIds": [
+            "3",
+            "17"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0005528493883594626
+        },
+        {
+          "id": "OQ-109",
+          "memberRuleIds": [
+            "6",
+            "20"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003715523377116304
+        },
+        {
+          "id": "OQ-077",
+          "memberRuleIds": [
+            "9",
+            "125"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0011773558459476196
+        },
+        {
+          "id": "OQ-112",
+          "memberRuleIds": [
+            "14",
+            "213"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003955091567987997
+        },
+        {
+          "id": "OQ-082",
+          "memberRuleIds": [
+            "23",
+            "232"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0016826804796496568
+        },
+        {
+          "id": "OQ-063",
+          "memberRuleIds": [
+            "24",
+            "231"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000021938467792062517
+        },
+        {
+          "id": "OQ-094",
+          "memberRuleIds": [
+            "25",
+            "67"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002534014389007512
+        },
+        {
+          "id": "OQ-073",
+          "memberRuleIds": [
+            "29",
+            "71"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.001121055704173369
+        },
+        {
+          "id": "OQ-066",
+          "memberRuleIds": [
+            "36",
+            "219"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000043876935584125034
+        },
+        {
+          "id": "OQ-087",
+          "memberRuleIds": [
+            "43",
+            "212"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002117062141932078
+        },
+        {
+          "id": "OQ-119",
+          "memberRuleIds": [
+            "44",
+            "144"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.004579896502097667
+        },
+        {
+          "id": "OQ-068",
+          "memberRuleIds": [
+            "57",
+            "99"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0004661924405807516
+        },
+        {
+          "id": "OQ-093",
+          "memberRuleIds": [
+            "58",
+            "114"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002519025514039073
+        },
+        {
+          "id": "OQ-070",
+          "memberRuleIds": [
+            "63",
+            "119"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0007108063564621846
+        },
+        {
+          "id": "OQ-064",
+          "memberRuleIds": [
+            "66",
+            "189"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000021938467792062517
+        },
+        {
+          "id": "OQ-102",
+          "memberRuleIds": [
+            "78",
+            "92"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0034364397423434032
+        },
+        {
+          "id": "OQ-083",
+          "memberRuleIds": [
+            "82",
+            "181"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0017537033084384466
+        },
+        {
+          "id": "OQ-117",
+          "memberRuleIds": [
+            "100",
+            "217"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0043573522158778
+        },
+        {
+          "id": "OQ-085",
+          "memberRuleIds": [
+            "113",
+            "142"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002038083657880749
+        },
+        {
+          "id": "OQ-110",
+          "memberRuleIds": [
+            "130",
+            "246"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0038152609491109825
+        },
+        {
+          "id": "OQ-079",
+          "memberRuleIds": [
+            "138",
+            "208"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0012504926641464097
+        },
+        {
+          "id": "OQ-086",
+          "memberRuleIds": [
+            "141",
+            "197"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002039418695662828
+        },
+        {
+          "id": "OQ-105",
+          "memberRuleIds": [
+            "159",
+            "215"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0035521833698609474
+        },
+        {
+          "id": "OQ-071",
+          "memberRuleIds": [
+            "162",
+            "176"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0007546832920461814
+        },
+        {
+          "id": "OQ-081",
+          "memberRuleIds": [
+            "163",
+            "177"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0015954957151288211
+        },
+        {
+          "id": "OQ-080",
+          "memberRuleIds": [
+            "166",
+            "180"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0015415378941189403
+        },
+        {
+          "id": "OQ-067",
+          "memberRuleIds": [
+            "172",
+            "228"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.00003729539524647423
+        },
+        {
+          "id": "OQ-092",
+          "memberRuleIds": [
+            "174",
+            "244"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0023858083723846193
+        },
+        {
+          "id": "OQ-089",
+          "memberRuleIds": [
+            "184",
+            "226"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0021817806219186302
+        },
+        {
+          "id": "OQ-072",
+          "memberRuleIds": [
+            "186",
+            "242"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0007557802154359128
+        },
+        {
+          "id": "OQ-101",
+          "memberRuleIds": [
+            "188",
+            "194"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003409881538641826
+        },
+        {
+          "id": "OQ-075",
+          "memberRuleIds": [
+            "202",
+            "216"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0011328542357652584
+        },
+        {
+          "id": "OQ-099",
+          "memberRuleIds": [
+            "203",
+            "222"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.00335555300185675
+        },
+        {
+          "id": "OQ-001",
+          "memberRuleIds": [
+            "1"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-002",
+          "memberRuleIds": [
+            "4"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-003",
+          "memberRuleIds": [
+            "5"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-004",
+          "memberRuleIds": [
+            "7"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-005",
+          "memberRuleIds": [
+            "19"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-006",
+          "memberRuleIds": [
+            "21"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-007",
+          "memberRuleIds": [
+            "22"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-008",
+          "memberRuleIds": [
+            "26"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-009",
+          "memberRuleIds": [
+            "31"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-010",
+          "memberRuleIds": [
+            "33"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-011",
+          "memberRuleIds": [
+            "37"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-012",
+          "memberRuleIds": [
+            "49"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-013",
+          "memberRuleIds": [
+            "54"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-014",
+          "memberRuleIds": [
+            "55"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-015",
+          "memberRuleIds": [
+            "61"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-016",
+          "memberRuleIds": [
+            "62"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-017",
+          "memberRuleIds": [
+            "65"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-018",
+          "memberRuleIds": [
+            "72"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-019",
+          "memberRuleIds": [
+            "73"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-020",
+          "memberRuleIds": [
+            "74"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-021",
+          "memberRuleIds": [
+            "76"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-022",
+          "memberRuleIds": [
+            "79"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-023",
+          "memberRuleIds": [
+            "84"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-024",
+          "memberRuleIds": [
+            "87"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-025",
+          "memberRuleIds": [
+            "88"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-026",
+          "memberRuleIds": [
+            "91"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-027",
+          "memberRuleIds": [
+            "94"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-028",
+          "memberRuleIds": [
+            "95"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-029",
+          "memberRuleIds": [
+            "103"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-030",
+          "memberRuleIds": [
+            "104"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-031",
+          "memberRuleIds": [
+            "108"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-032",
+          "memberRuleIds": [
+            "109"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-033",
+          "memberRuleIds": [
+            "111"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-034",
+          "memberRuleIds": [
+            "118"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-035",
+          "memberRuleIds": [
+            "123"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-036",
+          "memberRuleIds": [
+            "127"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-037",
+          "memberRuleIds": [
+            "131"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-038",
+          "memberRuleIds": [
+            "132"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-039",
+          "memberRuleIds": [
+            "133"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-040",
+          "memberRuleIds": [
+            "134"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-041",
+          "memberRuleIds": [
+            "143"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-042",
+          "memberRuleIds": [
+            "145"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-043",
+          "memberRuleIds": [
+            "147"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-044",
+          "memberRuleIds": [
+            "148"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-045",
+          "memberRuleIds": [
+            "151"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-046",
+          "memberRuleIds": [
+            "152"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-047",
+          "memberRuleIds": [
+            "158"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-048",
+          "memberRuleIds": [
+            "164"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-049",
+          "memberRuleIds": [
+            "167"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-050",
+          "memberRuleIds": [
+            "173"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-051",
+          "memberRuleIds": [
+            "190"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-052",
+          "memberRuleIds": [
+            "200"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-053",
+          "memberRuleIds": [
+            "201"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-054",
+          "memberRuleIds": [
+            "205"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-055",
+          "memberRuleIds": [
+            "214"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-056",
+          "memberRuleIds": [
+            "218"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-057",
+          "memberRuleIds": [
+            "223"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-058",
+          "memberRuleIds": [
+            "229"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-059",
+          "memberRuleIds": [
+            "230"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-060",
+          "memberRuleIds": [
+            "233"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-061",
+          "memberRuleIds": [
+            "236"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-062",
+          "memberRuleIds": [
+            "237"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        }
+      ]
+    },
+    {
+      "observerId": "OBSERVER-ECA-PERTURBATION",
+      "observableIds": [
+        "OBS-HAMMING",
+        "OBS-PERTURB-GROWTH"
+      ],
+      "epsilon": 0.0013756948568701072,
+      "epsilonSource": "Median same-rule distance between two disjoint 8-seed split halves under this observer.",
+      "splitSelfDistanceQ25": 0.00034393489722077316,
+      "splitSelfDistanceQ50": 0.0013756948568701072,
+      "splitSelfDistanceQ75": 0.004299432164952015,
+      "splitGeometrySpearman": 0.8776932260728127,
+      "splitCoassignmentJaccard": 0.19426193604905825,
+      "classCount": 95,
+      "nonSingletonClassCount": 36,
+      "largestClassSize": 24,
+      "equivalentPairCount": 893,
+      "classes": [
+        {
+          "id": "OQ-065",
+          "memberRuleIds": [
+            "0",
+            "8",
+            "32",
+            "40",
+            "64",
+            "96",
+            "128",
+            "136",
+            "160",
+            "168",
+            "192",
+            "224",
+            "234",
+            "235",
+            "238",
+            "239",
+            "248",
+            "249",
+            "250",
+            "251",
+            "252",
+            "253",
+            "254",
+            "255"
+          ],
+          "size": 24,
+          "maximumJointDistance": 0.00005777726363679259
+        },
+        {
+          "id": "OQ-091",
+          "memberRuleIds": [
+            "10",
+            "48",
+            "68",
+            "72",
+            "83",
+            "95",
+            "112",
+            "138",
+            "187",
+            "190",
+            "194",
+            "196",
+            "200",
+            "206",
+            "207",
+            "218",
+            "222",
+            "241",
+            "245"
+          ],
+          "size": 19,
+          "maximumJointDistance": 0.0010320020869040616
+        },
+        {
+          "id": "OQ-090",
+          "memberRuleIds": [
+            "15",
+            "16",
+            "51",
+            "63",
+            "80",
+            "85",
+            "119",
+            "162",
+            "164",
+            "170",
+            "174",
+            "175",
+            "204",
+            "228",
+            "237",
+            "240"
+          ],
+          "size": 16,
+          "maximumJointDistance": 0.0010319355082535281
+        },
+        {
+          "id": "OQ-093",
+          "memberRuleIds": [
+            "1",
+            "3",
+            "5",
+            "17",
+            "42",
+            "52",
+            "76",
+            "104",
+            "132",
+            "144",
+            "205"
+          ],
+          "size": 11,
+          "maximumJointDistance": 0.0012038731154456772
+        },
+        {
+          "id": "OQ-087",
+          "memberRuleIds": [
+            "23",
+            "27",
+            "28",
+            "50",
+            "71",
+            "77",
+            "166",
+            "178",
+            "179",
+            "230",
+            "232"
+          ],
+          "size": 11,
+          "maximumJointDistance": 0.0010317920464495878
+        },
+        {
+          "id": "OQ-070",
+          "memberRuleIds": [
+            "12",
+            "34",
+            "140",
+            "216",
+            "220",
+            "221",
+            "233",
+            "243",
+            "247"
+          ],
+          "size": 9,
+          "maximumJointDistance": 0.00034562792060180013
+        },
+        {
+          "id": "OQ-077",
+          "memberRuleIds": [
+            "7",
+            "11",
+            "31",
+            "87",
+            "88",
+            "156",
+            "197"
+          ],
+          "size": 7,
+          "maximumJointDistance": 0.0008598342064894148
+        },
+        {
+          "id": "OQ-074",
+          "memberRuleIds": [
+            "24",
+            "108",
+            "116",
+            "141",
+            "171",
+            "231",
+            "244"
+          ],
+          "size": 7,
+          "maximumJointDistance": 0.0006879525473171922
+        },
+        {
+          "id": "OQ-071",
+          "memberRuleIds": [
+            "29",
+            "38",
+            "55",
+            "66",
+            "189",
+            "203",
+            "236"
+          ],
+          "size": 7,
+          "maximumJointDistance": 0.0006878564750675755
+        },
+        {
+          "id": "OQ-072",
+          "memberRuleIds": [
+            "4",
+            "36",
+            "127",
+            "130",
+            "219",
+            "223"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0.00068785797187002
+        },
+        {
+          "id": "OQ-062",
+          "memberRuleIds": [
+            "60",
+            "90",
+            "102",
+            "153",
+            "165",
+            "195"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-075",
+          "memberRuleIds": [
+            "2",
+            "44",
+            "172",
+            "191",
+            "202"
+          ],
+          "size": 5,
+          "maximumJointDistance": 0.000689450802842476
+        },
+        {
+          "id": "OQ-088",
+          "memberRuleIds": [
+            "13",
+            "19",
+            "46",
+            "53",
+            "176"
+          ],
+          "size": 5,
+          "maximumJointDistance": 0.0010318376503169534
+        },
+        {
+          "id": "OQ-080",
+          "memberRuleIds": [
+            "21",
+            "78",
+            "188",
+            "198",
+            "201"
+          ],
+          "size": 5,
+          "maximumJointDistance": 0.0010317709586385396
+        },
+        {
+          "id": "OQ-084",
+          "memberRuleIds": [
+            "69",
+            "70",
+            "157",
+            "163",
+            "180"
+          ],
+          "size": 5,
+          "maximumJointDistance": 0.0010317771752651923
+        },
+        {
+          "id": "OQ-064",
+          "memberRuleIds": [
+            "43",
+            "84",
+            "212",
+            "213"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.000008062676201155001
+        },
+        {
+          "id": "OQ-082",
+          "memberRuleIds": [
+            "100",
+            "208",
+            "217",
+            "246"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0010317714531784413
+        },
+        {
+          "id": "OQ-073",
+          "memberRuleIds": [
+            "14",
+            "113",
+            "142"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0006878685806202753
+        },
+        {
+          "id": "OQ-092",
+          "memberRuleIds": [
+            "20",
+            "81",
+            "210"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.001074773147138478
+        },
+        {
+          "id": "OQ-083",
+          "memberRuleIds": [
+            "39",
+            "58",
+            "93"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0010317756453567316
+        },
+        {
+          "id": "OQ-081",
+          "memberRuleIds": [
+            "47",
+            "211",
+            "242"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0010317712710870717
+        },
+        {
+          "id": "OQ-069",
+          "memberRuleIds": [
+            "79",
+            "115",
+            "185"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0003455652442215953
+        },
+        {
+          "id": "OQ-085",
+          "memberRuleIds": [
+            "98",
+            "155",
+            "186"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.00103177810587527
+        },
+        {
+          "id": "OQ-094",
+          "memberRuleIds": [
+            "123",
+            "148",
+            "173"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0012038825387811504
+        },
+        {
+          "id": "OQ-086",
+          "memberRuleIds": [
+            "139",
+            "152",
+            "199"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0010317913415316743
+        },
+        {
+          "id": "OQ-068",
+          "memberRuleIds": [
+            "6",
+            "33"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0003448065160436334
+        },
+        {
+          "id": "OQ-078",
+          "memberRuleIds": [
+            "9",
+            "73"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0009243080567525142
+        },
+        {
+          "id": "OQ-067",
+          "memberRuleIds": [
+            "37",
+            "181"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.00030209442765872374
+        },
+        {
+          "id": "OQ-076",
+          "memberRuleIds": [
+            "49",
+            "159"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0008598155573635622
+        },
+        {
+          "id": "OQ-066",
+          "memberRuleIds": [
+            "94",
+            "227"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.00022604458356143787
+        },
+        {
+          "id": "OQ-060",
+          "memberRuleIds": [
+            "105",
+            "150"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-063",
+          "memberRuleIds": [
+            "114",
+            "209"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000072595580639306045
+        },
+        {
+          "id": "OQ-061",
+          "memberRuleIds": [
+            "126",
+            "129"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-079",
+          "memberRuleIds": [
+            "135",
+            "149"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000983583082383723
+        },
+        {
+          "id": "OQ-095",
+          "memberRuleIds": [
+            "154",
+            "229"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0013327050929123983
+        },
+        {
+          "id": "OQ-089",
+          "memberRuleIds": [
+            "167",
+            "215"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0010319167877978644
+        },
+        {
+          "id": "OQ-001",
+          "memberRuleIds": [
+            "18"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-002",
+          "memberRuleIds": [
+            "22"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-003",
+          "memberRuleIds": [
+            "25"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-004",
+          "memberRuleIds": [
+            "26"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-005",
+          "memberRuleIds": [
+            "30"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-006",
+          "memberRuleIds": [
+            "35"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-007",
+          "memberRuleIds": [
+            "41"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-008",
+          "memberRuleIds": [
+            "45"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-009",
+          "memberRuleIds": [
+            "54"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-010",
+          "memberRuleIds": [
+            "56"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-011",
+          "memberRuleIds": [
+            "57"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-012",
+          "memberRuleIds": [
+            "59"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-013",
+          "memberRuleIds": [
+            "61"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-014",
+          "memberRuleIds": [
+            "62"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-015",
+          "memberRuleIds": [
+            "65"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-016",
+          "memberRuleIds": [
+            "67"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-017",
+          "memberRuleIds": [
+            "74"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-018",
+          "memberRuleIds": [
+            "75"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-019",
+          "memberRuleIds": [
+            "82"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-020",
+          "memberRuleIds": [
+            "86"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-021",
+          "memberRuleIds": [
+            "89"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-022",
+          "memberRuleIds": [
+            "91"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-023",
+          "memberRuleIds": [
+            "92"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-024",
+          "memberRuleIds": [
+            "97"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-025",
+          "memberRuleIds": [
+            "99"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-026",
+          "memberRuleIds": [
+            "101"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-027",
+          "memberRuleIds": [
+            "103"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-028",
+          "memberRuleIds": [
+            "106"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-029",
+          "memberRuleIds": [
+            "107"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-030",
+          "memberRuleIds": [
+            "109"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-031",
+          "memberRuleIds": [
+            "110"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-032",
+          "memberRuleIds": [
+            "111"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-033",
+          "memberRuleIds": [
+            "117"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-034",
+          "memberRuleIds": [
+            "118"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-035",
+          "memberRuleIds": [
+            "120"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-036",
+          "memberRuleIds": [
+            "121"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-037",
+          "memberRuleIds": [
+            "122"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-038",
+          "memberRuleIds": [
+            "124"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-039",
+          "memberRuleIds": [
+            "125"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-040",
+          "memberRuleIds": [
+            "131"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-041",
+          "memberRuleIds": [
+            "133"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-042",
+          "memberRuleIds": [
+            "134"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-043",
+          "memberRuleIds": [
+            "137"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-044",
+          "memberRuleIds": [
+            "143"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-045",
+          "memberRuleIds": [
+            "145"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-046",
+          "memberRuleIds": [
+            "146"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-047",
+          "memberRuleIds": [
+            "147"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-048",
+          "memberRuleIds": [
+            "151"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-049",
+          "memberRuleIds": [
+            "158"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-050",
+          "memberRuleIds": [
+            "161"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-051",
+          "memberRuleIds": [
+            "169"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-052",
+          "memberRuleIds": [
+            "177"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-053",
+          "memberRuleIds": [
+            "182"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-054",
+          "memberRuleIds": [
+            "183"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-055",
+          "memberRuleIds": [
+            "184"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-056",
+          "memberRuleIds": [
+            "193"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-057",
+          "memberRuleIds": [
+            "214"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-058",
+          "memberRuleIds": [
+            "225"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-059",
+          "memberRuleIds": [
+            "226"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        }
+      ]
+    },
+    {
+      "observerId": "OBSERVER-ECA-MEMORY-COMPLEXITY",
+      "observableIds": [
+        "OBS-AUTOCORR-TIME",
+        "OBS-COMPRESSION"
+      ],
+      "epsilon": 0.0042262903062092565,
+      "epsilonSource": "Median same-rule distance between two disjoint 8-seed split halves under this observer.",
+      "splitSelfDistanceQ25": 0.001545594590498899,
+      "splitSelfDistanceQ50": 0.0042262903062092565,
+      "splitSelfDistanceQ75": 0.007514594822636038,
+      "splitGeometrySpearman": 0.9947898414092693,
+      "splitCoassignmentJaccard": 0.3912337662337662,
+      "classCount": 110,
+      "nonSingletonClassCount": 54,
+      "largestClassSize": 19,
+      "equivalentPairCount": 631,
+      "classes": [
+        {
+          "id": "OQ-106",
+          "memberRuleIds": [
+            "10",
+            "11",
+            "27",
+            "39",
+            "47",
+            "52",
+            "53",
+            "80",
+            "81",
+            "83",
+            "117",
+            "138",
+            "155",
+            "174",
+            "175",
+            "208",
+            "211",
+            "244",
+            "245"
+          ],
+          "size": 19,
+          "maximumJointDistance": 0.0041082740623260925
+        },
+        {
+          "id": "OQ-081",
+          "memberRuleIds": [
+            "12",
+            "34",
+            "35",
+            "42",
+            "48",
+            "59",
+            "68",
+            "112",
+            "115",
+            "166",
+            "171",
+            "180",
+            "187",
+            "207",
+            "221",
+            "241",
+            "243"
+          ],
+          "size": 17,
+          "maximumJointDistance": 0.0024423944556274603
+        },
+        {
+          "id": "OQ-110",
+          "memberRuleIds": [
+            "18",
+            "86",
+            "101",
+            "105",
+            "106",
+            "120",
+            "146",
+            "149",
+            "150",
+            "169",
+            "182",
+            "183",
+            "225"
+          ],
+          "size": 13,
+          "maximumJointDistance": 0.004165604014556583
+        },
+        {
+          "id": "OQ-104",
+          "memberRuleIds": [
+            "30",
+            "45",
+            "60",
+            "75",
+            "89",
+            "90",
+            "102",
+            "135",
+            "153",
+            "154",
+            "165",
+            "195",
+            "210"
+          ],
+          "size": 13,
+          "maximumJointDistance": 0.0039013825627844207
+        },
+        {
+          "id": "OQ-072",
+          "memberRuleIds": [
+            "8",
+            "32",
+            "64",
+            "128",
+            "239",
+            "251",
+            "253",
+            "254"
+          ],
+          "size": 8,
+          "maximumJointDistance": 0.0014615367067484614
+        },
+        {
+          "id": "OQ-090",
+          "memberRuleIds": [
+            "15",
+            "51",
+            "85",
+            "170",
+            "204",
+            "240"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0.0027406406432783368
+        },
+        {
+          "id": "OQ-073",
+          "memberRuleIds": [
+            "136",
+            "160",
+            "192",
+            "235",
+            "249",
+            "250"
+          ],
+          "size": 6,
+          "maximumJointDistance": 0.001592363300436633
+        },
+        {
+          "id": "OQ-080",
+          "memberRuleIds": [
+            "2",
+            "3",
+            "16",
+            "17",
+            "236"
+          ],
+          "size": 5,
+          "maximumJointDistance": 0.002392686757685641
+        },
+        {
+          "id": "OQ-100",
+          "memberRuleIds": [
+            "13",
+            "69",
+            "70",
+            "93",
+            "199"
+          ],
+          "size": 5,
+          "maximumJointDistance": 0.0033008598335955686
+        },
+        {
+          "id": "OQ-082",
+          "memberRuleIds": [
+            "63",
+            "119",
+            "191",
+            "200",
+            "247"
+          ],
+          "size": 5,
+          "maximumJointDistance": 0.0024759807380205882
+        },
+        {
+          "id": "OQ-094",
+          "memberRuleIds": [
+            "40",
+            "96",
+            "238",
+            "252"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.002877350279247273
+        },
+        {
+          "id": "OQ-099",
+          "memberRuleIds": [
+            "46",
+            "116",
+            "139",
+            "209"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.003169201606614587
+        },
+        {
+          "id": "OQ-101",
+          "memberRuleIds": [
+            "56",
+            "98",
+            "185",
+            "227"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0035534286771918035
+        },
+        {
+          "id": "OQ-079",
+          "memberRuleIds": [
+            "110",
+            "124",
+            "137",
+            "193"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.0020930971187390385
+        },
+        {
+          "id": "OQ-086",
+          "memberRuleIds": [
+            "122",
+            "126",
+            "129",
+            "161"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.002633164539620382
+        },
+        {
+          "id": "OQ-071",
+          "memberRuleIds": [
+            "168",
+            "224",
+            "234",
+            "248"
+          ],
+          "size": 4,
+          "maximumJointDistance": 0.001407477956035048
+        },
+        {
+          "id": "OQ-105",
+          "memberRuleIds": [
+            "26",
+            "82",
+            "181"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.004104243708438954
+        },
+        {
+          "id": "OQ-109",
+          "memberRuleIds": [
+            "28",
+            "156",
+            "157"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.004149273849054852
+        },
+        {
+          "id": "OQ-102",
+          "memberRuleIds": [
+            "41",
+            "97",
+            "107"
+          ],
+          "size": 3,
+          "maximumJointDistance": 0.0035682066414447103
+        },
+        {
+          "id": "OQ-059",
+          "memberRuleIds": [
+            "0",
+            "255"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000053738051828987185
+        },
+        {
+          "id": "OQ-075",
+          "memberRuleIds": [
+            "1",
+            "7"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.001860680044578712
+        },
+        {
+          "id": "OQ-091",
+          "memberRuleIds": [
+            "4",
+            "223"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0027460144484612995
+        },
+        {
+          "id": "OQ-103",
+          "memberRuleIds": [
+            "6",
+            "20"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0035910453134720506
+        },
+        {
+          "id": "OQ-065",
+          "memberRuleIds": [
+            "9",
+            "125"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0006878470634110752
+        },
+        {
+          "id": "OQ-088",
+          "memberRuleIds": [
+            "19",
+            "55"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0027191454225467615
+        },
+        {
+          "id": "OQ-074",
+          "memberRuleIds": [
+            "22",
+            "151"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.001794850931088123
+        },
+        {
+          "id": "OQ-078",
+          "memberRuleIds": [
+            "23",
+            "232"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002060854287641656
+        },
+        {
+          "id": "OQ-057",
+          "memberRuleIds": [
+            "24",
+            "231"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000026869025914518127
+        },
+        {
+          "id": "OQ-098",
+          "memberRuleIds": [
+            "25",
+            "67"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003103372493124057
+        },
+        {
+          "id": "OQ-068",
+          "memberRuleIds": [
+            "29",
+            "71"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0013730072242306203
+        },
+        {
+          "id": "OQ-060",
+          "memberRuleIds": [
+            "36",
+            "219"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000005373805182903625
+        },
+        {
+          "id": "OQ-085",
+          "memberRuleIds": [
+            "43",
+            "212"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002592861000748605
+        },
+        {
+          "id": "OQ-069",
+          "memberRuleIds": [
+            "50",
+            "179"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0013819145173150718
+        },
+        {
+          "id": "OQ-064",
+          "memberRuleIds": [
+            "57",
+            "99"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0005709668006828036
+        },
+        {
+          "id": "OQ-097",
+          "memberRuleIds": [
+            "58",
+            "114"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003085163579223916
+        },
+        {
+          "id": "OQ-058",
+          "memberRuleIds": [
+            "66",
+            "189"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0000026869025914518127
+        },
+        {
+          "id": "OQ-077",
+          "memberRuleIds": [
+            "77",
+            "178"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002055480482458753
+        },
+        {
+          "id": "OQ-107",
+          "memberRuleIds": [
+            "78",
+            "92"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0041364865395364546
+        },
+        {
+          "id": "OQ-084",
+          "memberRuleIds": [
+            "113",
+            "142"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0024961325074564574
+        },
+        {
+          "id": "OQ-095",
+          "memberRuleIds": [
+            "121",
+            "134"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0030587114226825673
+        },
+        {
+          "id": "OQ-092",
+          "memberRuleIds": [
+            "130",
+            "246"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0028586020313507124
+        },
+        {
+          "id": "OQ-108",
+          "memberRuleIds": [
+            "132",
+            "222"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.004143290919048057
+        },
+        {
+          "id": "OQ-062",
+          "memberRuleIds": [
+            "140",
+            "196"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000009404159070081344
+        },
+        {
+          "id": "OQ-083",
+          "memberRuleIds": [
+            "141",
+            "197"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0024897556218715423
+        },
+        {
+          "id": "OQ-093",
+          "memberRuleIds": [
+            "159",
+            "215"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.00286826851637218
+        },
+        {
+          "id": "OQ-066",
+          "memberRuleIds": [
+            "162",
+            "176"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0009242944914584815
+        },
+        {
+          "id": "OQ-076",
+          "memberRuleIds": [
+            "163",
+            "177"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0019540751944312792
+        },
+        {
+          "id": "OQ-063",
+          "memberRuleIds": [
+            "172",
+            "228"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000045677344054641564
+        },
+        {
+          "id": "OQ-087",
+          "memberRuleIds": [
+            "184",
+            "226"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002672124627196394
+        },
+        {
+          "id": "OQ-067",
+          "memberRuleIds": [
+            "186",
+            "242"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0009256379427543644
+        },
+        {
+          "id": "OQ-096",
+          "memberRuleIds": [
+            "188",
+            "194"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.003074951066630087
+        },
+        {
+          "id": "OQ-070",
+          "memberRuleIds": [
+            "202",
+            "216"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.0013874574152877382
+        },
+        {
+          "id": "OQ-089",
+          "memberRuleIds": [
+            "203",
+            "217"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.002736610289391198
+        },
+        {
+          "id": "OQ-061",
+          "memberRuleIds": [
+            "206",
+            "220"
+          ],
+          "size": 2,
+          "maximumJointDistance": 0.000006717256478629532
+        },
+        {
+          "id": "OQ-001",
+          "memberRuleIds": [
+            "5"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-002",
+          "memberRuleIds": [
+            "14"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-003",
+          "memberRuleIds": [
+            "21"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-004",
+          "memberRuleIds": [
+            "31"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-005",
+          "memberRuleIds": [
+            "33"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-006",
+          "memberRuleIds": [
+            "37"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-007",
+          "memberRuleIds": [
+            "38"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-008",
+          "memberRuleIds": [
+            "44"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-009",
+          "memberRuleIds": [
+            "49"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-010",
+          "memberRuleIds": [
+            "54"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-011",
+          "memberRuleIds": [
+            "61"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-012",
+          "memberRuleIds": [
+            "62"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-013",
+          "memberRuleIds": [
+            "65"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-014",
+          "memberRuleIds": [
+            "72"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-015",
+          "memberRuleIds": [
+            "73"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-016",
+          "memberRuleIds": [
+            "74"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-017",
+          "memberRuleIds": [
+            "76"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-018",
+          "memberRuleIds": [
+            "79"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-019",
+          "memberRuleIds": [
+            "84"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-020",
+          "memberRuleIds": [
+            "87"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-021",
+          "memberRuleIds": [
+            "88"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-022",
+          "memberRuleIds": [
+            "91"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-023",
+          "memberRuleIds": [
+            "94"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-024",
+          "memberRuleIds": [
+            "95"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-025",
+          "memberRuleIds": [
+            "100"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-026",
+          "memberRuleIds": [
+            "103"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-027",
+          "memberRuleIds": [
+            "104"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-028",
+          "memberRuleIds": [
+            "108"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-029",
+          "memberRuleIds": [
+            "109"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-030",
+          "memberRuleIds": [
+            "111"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-031",
+          "memberRuleIds": [
+            "118"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-032",
+          "memberRuleIds": [
+            "123"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-033",
+          "memberRuleIds": [
+            "127"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-034",
+          "memberRuleIds": [
+            "131"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-035",
+          "memberRuleIds": [
+            "133"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-036",
+          "memberRuleIds": [
+            "143"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-037",
+          "memberRuleIds": [
+            "144"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-038",
+          "memberRuleIds": [
+            "145"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-039",
+          "memberRuleIds": [
+            "147"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-040",
+          "memberRuleIds": [
+            "148"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-041",
+          "memberRuleIds": [
+            "152"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-042",
+          "memberRuleIds": [
+            "158"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-043",
+          "memberRuleIds": [
+            "164"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-044",
+          "memberRuleIds": [
+            "167"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-045",
+          "memberRuleIds": [
+            "173"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-046",
+          "memberRuleIds": [
+            "190"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-047",
+          "memberRuleIds": [
+            "198"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-048",
+          "memberRuleIds": [
+            "201"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-049",
+          "memberRuleIds": [
+            "205"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-050",
+          "memberRuleIds": [
+            "213"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-051",
+          "memberRuleIds": [
+            "214"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-052",
+          "memberRuleIds": [
+            "218"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-053",
+          "memberRuleIds": [
+            "229"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-054",
+          "memberRuleIds": [
+            "230"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-055",
+          "memberRuleIds": [
+            "233"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        },
+        {
+          "id": "OQ-056",
+          "memberRuleIds": [
+            "237"
+          ],
+          "size": 1,
+          "maximumJointDistance": 0
+        }
+      ]
+    }
+  ],
+  "crossObserver": [
+    {
+      "leftObserverId": "OBSERVER-EBID-CORE",
+      "rightObserverId": "OBSERVER-ECA-ENTROPY-STRUCTURE",
+      "geometrySpearman": 0.8953782074236255,
+      "coassignmentJaccard": 0.5397849462365591,
+      "sharedEquivalentPairCount": 251,
+      "unionEquivalentPairCount": 465
+    },
+    {
+      "leftObserverId": "OBSERVER-EBID-CORE",
+      "rightObserverId": "OBSERVER-ECA-PERTURBATION",
+      "geometrySpearman": 0.24245329548255123,
+      "coassignmentJaccard": 0.14705882352941177,
+      "sharedEquivalentPairCount": 150,
+      "unionEquivalentPairCount": 1020
+    },
+    {
+      "leftObserverId": "OBSERVER-EBID-CORE",
+      "rightObserverId": "OBSERVER-ECA-MEMORY-COMPLEXITY",
+      "geometrySpearman": 0.7594882044492007,
+      "coassignmentJaccard": 0.29529243937232524,
+      "sharedEquivalentPairCount": 207,
+      "unionEquivalentPairCount": 701
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-ENTROPY-STRUCTURE",
+      "rightObserverId": "OBSERVER-ECA-PERTURBATION",
+      "geometrySpearman": -0.050725583546266016,
+      "coassignmentJaccard": 0.12310286677908938,
+      "sharedEquivalentPairCount": 146,
+      "unionEquivalentPairCount": 1186
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-ENTROPY-STRUCTURE",
+      "rightObserverId": "OBSERVER-ECA-MEMORY-COMPLEXITY",
+      "geometrySpearman": 0.8514763109356006,
+      "coassignmentJaccard": 0.4381720430107527,
+      "sharedEquivalentPairCount": 326,
+      "unionEquivalentPairCount": 744
+    },
+    {
+      "leftObserverId": "OBSERVER-ECA-PERTURBATION",
+      "rightObserverId": "OBSERVER-ECA-MEMORY-COMPLEXITY",
+      "geometrySpearman": -0.03356337676402246,
+      "coassignmentJaccard": 0.09404163675520459,
+      "sharedEquivalentPairCount": 131,
+      "unionEquivalentPairCount": 1393
+    }
+  ],
+  "pairConsensus": {
+    "allObserverEquivalentPairs": 113,
+    "anyObserverEquivalentPairs": 1492,
+    "observerSensitivePairs": 1379,
+    "totalRulePairs": 32640
+  },
+  "notes": [
+    "RUL-004 tests observer dependence operationally: the underlying simulated runs are held fixed while the observable projection changes.",
+    "Each observer receives its own epsilon from split-half same-rule variability; quotient classes therefore reflect both feature choice and that observer's empirical resolution.",
+    "Complete-link classes are candidate observational equivalence classes, not claims of exact dynamical identity.",
+    "The fixed RLE statistic remains a codec-dependent complexity proxy and is not Kolmogorov complexity."
+  ]
+}

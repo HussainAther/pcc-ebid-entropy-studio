@@ -94,3 +94,24 @@ Outputs are written under `data/ruliology/eca-validation/`:
 - `equivalence-classes.csv` - candidate observer-dependent classes.
 
 External cellular-automaton class labels remain deliberately absent. Whole-population Wolfram-class assignments are not uniquely canonical, so post-hoc comparison is gated on a provenance-bearing frozen label table supplied after the EBID metrics, thresholds, and validation criteria are fixed.
+
+## RUL-004 — Observer-dependent quotient structure
+
+RUL-004 holds the ECA simulations fixed and changes only the declared measurement observer. The default expanded ensemble uses 16 new seeded Bernoulli initial conditions (4,096 rule-seed runs) and is split into two disjoint eight-seed halves for observer-specific resolution calibration.
+
+The initial frozen observer family is:
+
+- `OBSERVER-EBID-CORE`: Shannon entropy, perturbation Hamming distance, perturbation growth, entropy autocorrelation time, and fixed-RLE compression.
+- `OBSERVER-ECA-ENTROPY-STRUCTURE`: Shannon entropy, entropy autocorrelation time, and fixed-RLE compression only.
+- `OBSERVER-ECA-PERTURBATION`: perturbation Hamming distance and perturbation growth only.
+- `OBSERVER-ECA-MEMORY-COMPLEXITY`: entropy autocorrelation time and fixed-RLE compression only.
+
+For each observer O, epsilon_O is the median same-rule distance between the two disjoint split halves. Candidate classes use complete-link clustering on the maximum pair distance across both split halves. This yields an empirical quotient candidate `R / ~_O` at that observer's measured resolution.
+
+Cross-observer comparisons report both full-geometry Spearman correlation and class coassignment Jaccard overlap. A rule pair that is equivalent under at least one observer but not all observers is recorded as observer-sensitive. These are operational observer-dependence results, not claims that any observer is privileged or that the quotient is mathematically exact.
+
+Run with:
+
+```bash
+npm run ruliology:eca:observers
+```

@@ -17,6 +17,7 @@ import { ecaInstabilitySignature } from "./lib/elementaryCA";
 import { enumerateFiniteRuleSpace } from "./lib/ruleSpaceExplorer";
 import ecaAtlas from "../data/ruliology/eca-atlas/atlas.json";
 import ecaValidation from "../data/ruliology/eca-validation/validation-summary.json";
+import ecaObserverDependence from "../data/ruliology/eca-observer-dependence/observer-dependence-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -266,6 +267,16 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Class</span><span>Size</span><span>Max joint d</span><span>Members</span></div>
       {candidateClasses.map(group=><div className="source-row rulial-table" key={group.id}><b>{group.id}</b><code>{group.size}</code><span>{group.maximumJointDistance.toFixed(4)}</span><small>{group.memberRuleIds.join(" · ")}</small></div>)}
       <Notice title="Post-hoc comparison not run">{ecaValidation.externalClassification.reason} A provenance-bearing external label table can be compared only after these metrics and thresholds are frozen.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-004 fixed-trajectory observer test" title="The quotient changes when the observer changes"/>
+      <p>All four observers are applied to the same 4,096 stored rule-seed run summaries. No observer gets a separately simulated trajectory set. Each observer calibrates its own resolution from two disjoint eight-seed halves, then constructs complete-link candidate classes.</p>
+      <div className="stats compact"><Stat label="Expanded runs" value={ecaObserverDependence.simulation.runCount.toLocaleString()} foot={`${ecaObserverDependence.simulation.seeds.length} seeds × 256 rules`}/><Stat label="Observers" value={String(ecaObserverDependence.observers.length)} foot="same trajectories, different projections"/><Stat label="Observer-sensitive pairs" value={ecaObserverDependence.pairConsensus.observerSensitivePairs.toLocaleString()} foot="equivalent for some observers, not all"/><Stat label="All-observer pairs" value={ecaObserverDependence.pairConsensus.allObserverEquivalentPairs.toLocaleString()} foot="coassigned by every observer"/></div>
+      <div className="table-head rulial-table"><span>Observer</span><span>Split ρ</span><span>Classes</span><span>Largest class</span></div>
+      {ecaObserverDependence.observers.map(observer=><div className="source-row rulial-table" key={observer.observerId}><b>{observer.observerId.replace("OBSERVER-ECA-","").replace("OBSERVER-","")}</b><code>{Number(observer.splitGeometrySpearman).toFixed(3)}</code><span>{observer.classCount}</span><small>{observer.largestClassSize} rules · ε {Number(observer.epsilon).toFixed(4)} · {observer.observableIds.join(" · ")}</small></div>)}
+      <div className="table-head rulial-table"><span>Observer pair</span><span>Geometry ρ</span><span>Class Jaccard</span><span>Equivalent-pair overlap</span></div>
+      {ecaObserverDependence.crossObserver.map(pair=><div className="source-row rulial-table" key={`${pair.leftObserverId}-${pair.rightObserverId}`}><b>{pair.leftObserverId.replace("OBSERVER-ECA-","").replace("OBSERVER-","")} ↔ {pair.rightObserverId.replace("OBSERVER-ECA-","").replace("OBSERVER-","")}</b><code>{Number(pair.geometrySpearman).toFixed(3)}</code><span>{Number(pair.coassignmentJaccard).toFixed(3)}</span><small>{pair.sharedEquivalentPairCount} shared / {pair.unionEquivalentPairCount} union equivalent pairs</small></div>)}
+      <Notice title="Operational observer dependence">These are candidate quotients at empirically calibrated observer resolution. Different partitions do not imply that one observer is correct; they show that observational equivalence depends on the declared measurement map.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

@@ -128,7 +128,7 @@ export const researchEngines: ResearchEngine[] = [
     deterministic: true,
     entrypoints: [{ id: "EP-LOCAL-ECA", label: "Enumerate ECA rules", command: "runElementaryCA / ecaInstabilitySignature", protocol: "local", description: "In-process TypeScript implementation of the complete 256-rule elementary cellular-automaton family." }],
     supportedObservableIds: ["OBS-SHANNON", "OBS-HAMMING", "OBS-PERTURB-GROWTH", "OBS-AUTOCORR-TIME", "OBS-COMPRESSION"],
-    supportedExperimentIds: ["RUL-001", "RUL-002", "RUL-003"],
+    supportedExperimentIds: ["RUL-001", "RUL-002", "RUL-003", "RUL-004"],
     artifactSchemaVersion: "entropy-rulial-campaign/1.0.0",
     projectId,
   },

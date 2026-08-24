@@ -157,7 +157,7 @@ export function executeEcaSeedRun(rule: number, seed: number, width: number, ste
   };
 }
 
-function observerFeatures(observer: ObserverDefinition, runs: EcaSeedRunSummary[]): RulialFeature[] {
+export function observerFeatures(observer: ObserverDefinition, runs: EcaSeedRunSummary[]): RulialFeature[] {
   const candidates: Record<string, number> = {
     "OBS-SHANNON": mean(runs.map(run => run.meanEntropy)),
     "OBS-HAMMING": mean(runs.map(run => run.meanHamming)),
@@ -170,7 +170,7 @@ function observerFeatures(observer: ObserverDefinition, runs: EcaSeedRunSummary[
     .map(observableId => ({ observableId, value: candidates[observableId] }));
 }
 
-function buildProfile(rule: RuleCoordinate, observer: ObserverDefinition, runs: EcaSeedRunSummary[], provenance: RulialProfileArtifact["provenance"]): RulialProfileArtifact {
+export function buildEcaProfile(rule: RuleCoordinate, observer: ObserverDefinition, runs: EcaSeedRunSummary[], provenance: RulialProfileArtifact["provenance"]): RulialProfileArtifact {
   return {
     schemaVersion: RULIAL_PROFILE_SCHEMA_VERSION,
     rule,
@@ -187,7 +187,7 @@ function buildProfile(rule: RuleCoordinate, observer: ObserverDefinition, runs: 
   };
 }
 
-function buildOneBitTransitions(profiles: RulialProfileArtifact[], coordinates: RuleCoordinate[]) {
+export function buildEcaOneBitTransitions(profiles: RulialProfileArtifact[], coordinates: RuleCoordinate[]) {
   const profileByRule = new Map(profiles.map(profile => [profile.rule.ruleId, profile]));
   const allowed = new Set(coordinates.map(rule => Number(rule.ruleId)));
   const transitions: RulialTransition[] = [];
@@ -236,7 +236,7 @@ export function runEcaRulialCampaign(options: EcaRulialCampaignOptions = {}): Ec
     for (const seed of seeds) runs.push(executeEcaSeedRun(rule, seed, width, steps, density, perturbationIndex));
   }
 
-  const profiles = coordinates.map(rule => buildProfile(
+  const profiles = coordinates.map(rule => buildEcaProfile(
     rule,
     observer,
     runs.filter(run => run.ruleId === rule.ruleId),
@@ -248,7 +248,7 @@ export function runEcaRulialCampaign(options: EcaRulialCampaignOptions = {}): Ec
       campaignId: "CAMPAIGN-RUL-ECA-001",
     },
   ));
-  const transitions = buildOneBitTransitions(profiles, coordinates);
+  const transitions = buildEcaOneBitTransitions(profiles, coordinates);
 
   return {
     schemaVersion: RULIAL_CAMPAIGN_SCHEMA_VERSION,
@@ -281,6 +281,52 @@ export function runEcaRulialCampaign(options: EcaRulialCampaignOptions = {}): Ec
       "Rule neighborhoods use the preregistered Hamming geometry of the 8-bit ECA transition table; each edge flips exactly one local-output bit.",
       "Observable distances use frozen feature scales: ln(2) for Shannon entropy, 1 for Hamming and perturbation-growth statistics, 64 steps for autocorrelation time, and 2 for the binary-RLE ratio.",
       "External Wolfram classes are intentionally absent from profile construction and may only be compared post hoc.",
+    ],
+  };
+}
+
+export function reprofileEcaCampaign(
+  source: EcaRulialCampaignReport,
+  observerId: string,
+  seeds: number[] = source.configuration.seeds,
+): EcaRulialCampaignReport {
+  const observer = observers.find(item => item.id === observerId);
+  if (!observer) throw new Error(`Unknown observer ${observerId}.`);
+  const allowedSeeds = new Set(seeds);
+  const runs = source.runs.filter(run => allowedSeeds.has(run.seed));
+  const actualSeeds = [...new Set(runs.map(run => run.seed))].sort((a, b) => a - b);
+  if (actualSeeds.length !== new Set(seeds).size) throw new Error("One or more requested seeds are absent from the source campaign.");
+  const coordinates = source.profiles.map(profile => profile.rule);
+  const provenance = source.profiles[0]?.provenance ?? {
+    sourceRevision: "working-tree",
+    observableRegistryVersion: "0.3",
+    createdAt: source.createdAt,
+    engineId: source.engineId,
+    campaignId: source.campaignId,
+  };
+  const profiles = coordinates.map(rule => buildEcaProfile(
+    rule,
+    observer,
+    runs.filter(run => run.ruleId === rule.ruleId),
+    { ...provenance, createdAt: source.createdAt },
+  ));
+  const transitions = buildEcaOneBitTransitions(profiles, coordinates);
+  return {
+    ...source,
+    observerId: observer.id,
+    configuration: { ...source.configuration, seeds: actualSeeds },
+    runs,
+    profiles,
+    transitions,
+    summary: {
+      ruleCount: profiles.length,
+      runCount: runs.length,
+      profileCount: profiles.length,
+      transitionCount: transitions.length,
+    },
+    notes: [
+      ...source.notes,
+      `Profiles were reprojected from the same stored ECA run summaries under ${observer.id}; no trajectories were re-simulated for this observer.`,
     ],
   };
 }

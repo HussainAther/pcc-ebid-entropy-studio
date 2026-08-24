@@ -73,3 +73,43 @@ test("committed RUL-002/003 validation covers the complete ECA population", () =
   assert.ok(validation.stability.allPairDistanceSpearman > 0.9);
   assert.ok(validation.stability.oneBitEdgeDistanceSpearman > 0.9);
 });
+
+test("RUL-004 reprojects fixed trajectories through distinct observers", async () => {
+  const { runEcaRulialCampaign, reprofileEcaCampaign } = await import("../app/lib/rulialCampaignRunner.ts");
+  const source = runEcaRulialCampaign({ ruleIds: [0, 1, 30, 31], seeds: [223, 227, 229, 233, 239, 241, 251, 257], width: 33, steps: 32, createdAt: "2026-08-24T02:00:00.000Z" });
+  const entropy = reprofileEcaCampaign(source, "OBSERVER-ECA-ENTROPY-STRUCTURE");
+  const perturbation = reprofileEcaCampaign(source, "OBSERVER-ECA-PERTURBATION");
+  assert.deepEqual(entropy.runs, source.runs);
+  assert.deepEqual(perturbation.runs, source.runs);
+  assert.deepEqual(entropy.profiles[0].features.map(feature => feature.observableId), ["OBS-SHANNON", "OBS-AUTOCORR-TIME", "OBS-COMPRESSION"]);
+  assert.deepEqual(perturbation.profiles[0].features.map(feature => feature.observableId), ["OBS-HAMMING", "OBS-PERTURB-GROWTH"]);
+});
+
+test("RUL-004 observer dependence creates observer-specific quotient candidates", async () => {
+  const { analyzeEcaObserverDependence } = await import("../app/lib/rulialObserverDependence.ts");
+  const result = analyzeEcaObserverDependence({
+    ruleIds: [0, 1, 30, 31],
+    seeds: [223, 227, 229, 233, 239, 241, 251, 257],
+    observerIds: ["OBSERVER-EBID-CORE", "OBSERVER-ECA-PERTURBATION"],
+    width: 33,
+    steps: 32,
+    createdAt: "2026-08-24T02:00:00.000Z",
+  });
+  assert.equal(result.report.simulation.runCount, 32);
+  assert.equal(result.report.observers.length, 2);
+  assert.equal(result.report.crossObserver.length, 1);
+  assert.ok(result.report.observers.every(observer => Number.isFinite(observer.splitGeometrySpearman)));
+  assert.equal(result.report.pairConsensus.totalRulePairs, 6);
+});
+
+
+test("committed RUL-004 holds 4,096 runs fixed across four observers", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/eca-observer-dependence/observer-dependence-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.simulation.runCount, 4096);
+  assert.equal(summary.simulation.ruleCount, 256);
+  assert.equal(summary.simulation.seeds.length, 16);
+  assert.equal(summary.observers.length, 4);
+  assert.equal(summary.crossObserver.length, 6);
+  assert.ok(summary.pairConsensus.observerSensitivePairs > 0);
+  assert.ok(summary.observers.every(observer => observer.splitGeometrySpearman > 0.8));
+});

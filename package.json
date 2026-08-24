@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "ruliology:eca": "node --experimental-strip-types scripts/run-rulial-eca.ts",
     "ruliology:eca:quick": "node --experimental-strip-types scripts/run-rulial-eca.ts --quick",
-    "ruliology:eca:validate": "node --experimental-strip-types scripts/analyze-rulial-eca.ts"
+    "ruliology:eca:validate": "node --experimental-strip-types scripts/analyze-rulial-eca.ts",
+    "ruliology:eca:observers": "node --experimental-strip-types scripts/analyze-rulial-observers.ts"
   },
   "dependencies": {
     "next": "16.2.6",

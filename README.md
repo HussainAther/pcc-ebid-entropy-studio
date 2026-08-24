@@ -133,3 +133,7 @@ The browser Rulial Atlas consumes the committed compact atlas payload, so the 25
 Run `npm run ruliology:eca:validate` after generating or loading the frozen RUL-001 atlas. The validator generates a disjoint four-seed holdout ensemble, deterministic 95% bootstrap intervals for every rule-feature, rule-distance and one-bit-edge rank-stability statistics, replicated top-tail sensitivity edges, and conservative complete-link candidate EBID equivalence classes. Results are committed under `data/ruliology/eca-validation/` and surfaced in `04 · Rulial Atlas`.
 
 The external-classification comparison is intentionally left unrun until a provenance-bearing label table is frozen. This prevents Wolfram or other CA class labels from influencing the unsupervised EBID metrics and candidate classes.
+
+### RUL-004 observer-dependence benchmark
+
+Entropy Studio can now test observer dependence without re-simulating the underlying system. `npm run ruliology:eca:observers` simulates a 16-seed ECA ensemble once, reprojects the same stored run summaries through four frozen observer definitions, calibrates each observer's equivalence tolerance from disjoint split halves, and writes candidate quotient classes plus cross-observer comparisons under `data/ruliology/eca-observer-dependence/`.
