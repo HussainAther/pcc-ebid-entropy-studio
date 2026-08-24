@@ -269,3 +269,30 @@ test("committed RUL-010 uses disjoint seed pools and exposes observer instabilit
   assert.ok(state.geometryStabilitySpearman > full.geometryStabilitySpearman);
   assert.ok(regime.geometryStabilitySpearman < state.geometryStabilitySpearman);
 });
+
+test("RUL-011 prospectively freezes new Boids observers and margins", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-boids-observer-validation.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-011/);
+  assert.match(research, /RUL-011/);
+  assert.match(spaces, /OBSERVER-BOIDS-STRUCTURE-PROSPECTIVE/);
+  assert.match(spaces, /OBSERVER-BOIDS-ORDER-ENTROPY-PROSPECTIVE/);
+  assert.match(script, /PRIMARY_GEOMETRY_MARGIN = 0\.05/);
+  assert.match(script, /PRIMARY_LOCAL_MARGIN = 0\.05/);
+  assert.match(studio, /RUL-011 prospective observer validation/);
+});
+
+test("committed RUL-011 validates the state-structure observer on unseen rule coordinates", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/boids-observer-validation/boids-observer-validation-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-011");
+  assert.equal(summary.design.rulePointCount, 40);
+  assert.equal(summary.simulation.totalNewRunCount, 320);
+  assert.equal(new Set(summary.design.seedPools.A.concat(summary.design.seedPools.B)).size, 8);
+  assert.ok(summary.design.newRuleCoordinateCheckAgainstRUL006.minimum > 0);
+  assert.equal(summary.observers.length, 3);
+  const full = summary.observers.find(row => row.observerId === "full_core");
+  const structure = summary.observers.find(row => row.observerId === "state_structure");
+  assert.ok(structure.geometryStabilitySpearman - full.geometryStabilitySpearman >= 0.05);
+  assert.ok(structure.localEdgeStabilitySpearman - full.localEdgeStabilitySpearman >= 0.05);
+  assert.equal(summary.primaryProspectiveTest.prospectiveReplicationPassed, true);
+});

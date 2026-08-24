@@ -29,7 +29,7 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     sourceArtifacts: 3344,
     trackedClaims: 28,
     claimsNeedingEvidence: 4,
-    experiments: 11,
+    experiments: 13,
     reproducibleExperiments: 4,
     openQuestions: 12,
   },
@@ -144,6 +144,9 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
       id: "H-RUL-010", title: "Boids resolution and stochasticity decomposition", statement: "The weaker RUL-009 Boids replication can be diagnostically decomposed into finite-realization noise and observer-coordinate instability without changing the frozen RUL-009 benchmark.", disconfirmingOutcome: "Do not attribute the RUL-009 Boids gap to finite stochastic resolution if stability does not improve with independent seed averaging, and do not attribute it to per-step forcing if suppressing that forcing materially repairs the geometry.", evidence: "hypothesis", assumptions: ["The 32 RUL-006 rule coordinates are reused unchanged.", "Two disjoint new seed pools are fixed before analysis.", "RUL-009 remains frozen regardless of RUL-010 outcome.", "Observer subsets are diagnostic projections, not replacements for the RUL-006 observer."], derivedFromIds: ["SRC-README", "SRC-BOIDS"], projectId,
     },
     {
+      id: "H-RUL-011", title: "Prospective Boids observer replication", statement: "On a new Boids rule-space sample and new seed pools, the preregistered state-structure observer reproduces rule-space geometry more stably than the frozen six-feature full observer identified as unstable in RUL-010.", disconfirmingOutcome: "Do not treat the RUL-010 observer diagnosis as independently replicated unless the state-structure observer exceeds full-core split-half stability by at least 0.05 in both complete-geometry and local-edge Spearman on the new design.", evidence: "hypothesis", assumptions: ["The 40-point Latin-hypercube design is new relative to RUL-006/RUL-010.", "Both four-seed pools are new and disjoint from all prior Boids seed pools.", "Observer feature sets and the 0.05 primary margins are frozen before RUL-011 outcomes are interpreted.", "All observer views use exactly the same 320 newly simulated trajectories."], derivedFromIds: ["SRC-README", "SRC-BOIDS"], projectId,
+    },
+    {
       id: "H-011", title: "Cross-domain invariance", statement: "The same correspondence persists across replicator, physical, and learning toy systems.", disconfirmingOutcome: "Currently underspecified: domain mapping and equivalence criteria require revision.", evidence: "speculation", assumptions: ["Domain mappings preserve the relevant local dynamics."], derivedFromIds: ["C-027"], projectId,
     },
   ],
@@ -160,6 +163,7 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "RUL-008", engineId: "ENGINE-LOCAL-NETWORK", title: "Topology-blocked network rulial landscape", hypothesisId: "H-RUL-008", model: "stochastic_binary_network_rule_space", observableIds: ["OBS-NETWORK-ACTIVITY", "OBS-SHANNON", "OBS-NETWORK-ORDER", "OBS-SWITCH-RATE", "OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"], controls: ["24-point deterministic Latin hypercube in four local-rule coordinates", "three fixed topology blocks with matched mean degree", "three discovery and two disjoint validation seeds", "frozen discovery feature scaling", "topology excluded from the local-rule metric"], primaryMetric: "discovery-to-holdout stability of complete and local rule-space geometry", status: "active", projectId },
     { id: "RUL-009", engineId: "ENGINE-LOCAL-NETWORK", title: "Frozen three-substrate rulial structure challenge", hypothesisId: "H-RUL-009", model: "three_substrate_rule_geometry", observableIds: ["OBS-RULE-SENSITIVITY"], controls: ["RUL-007 five-criterion contract reused verbatim", "no new simulations", "RUL-007 ECA and Boids metrics reused without recomputation", "RUL-008 Network metrics projected into frozen thresholds", "failed criteria retained without retuning"], primaryMetric: "number of frozen structural criteria satisfied by ECA, Boids, and Network", status: "active", projectId },
     { id: "RUL-010", engineId: "ENGINE-PCC-BOIDS", title: "Boids stochasticity and resolution decomposition", hypothesisId: "H-RUL-010", model: "boids_fixed_rule_resolution_diagnostic", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE", "OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"], controls: ["same 32 RUL-006 rule coordinates", "two disjoint new four-seed pools", "nested 1/2/4-seed averaging ladder", "per-step Gaussian forcing suppression diagnostic", "observer-subset projections on identical runs", "RUL-009 result frozen"], primaryMetric: "discovery-half to independent-half geometry stability as seed averaging and observer coordinates change", status: "active", projectId },
+    { id: "RUL-011", engineId: "ENGINE-PCC-BOIDS", title: "Prospective Boids observer validation", hypothesisId: "H-RUL-011", model: "boids_unseen_rule_observer_validation", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE", "OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"], controls: ["new 40-point deterministic Latin hypercube", "two new disjoint four-seed pools", "full-core/state-structure/order-entropy observers frozen prospectively", "feature scales calibrated from pool A only", "state-structure primary margins fixed at +0.05 geometry and +0.05 local stability", "RUL-009 and RUL-010 retained unchanged"], primaryMetric: "prospective state-structure minus full-core split-half geometry and local-edge stability", status: "active", projectId },
   ],
   campaigns: [
     {
@@ -272,6 +276,22 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
         { id: "R10STEP-02", kind: "analyze", label: "Estimate seed-resolution ladder", dependsOn: ["R10STEP-01"], description: "Compare independent half-geometries at nested 1, 2, and 4 seed averages." },
         { id: "R10STEP-03", kind: "analyze", label: "Decompose forcing and observer effects", dependsOn: ["R10STEP-01"], description: "Suppress only per-step Gaussian forcing in a diagnostic arm and reproject the full runs through frozen observer subsets." },
         { id: "R10STEP-04", kind: "package", label: "Freeze RUL-010 diagnosis", dependsOn: ["R10STEP-02", "R10STEP-03"], description: "Export the diagnostic ladder, observer decomposition, variance decomposition, and checksum without modifying RUL-009." }
+      ],
+    },
+    {
+      id: "CAMPAIGN-RUL-BOIDS-OBSERVER-VALIDATION-001",
+      title: "Prospective Boids observer validation",
+      description: "Test the RUL-010 observer diagnosis on a new 40-point rule-space design and two new disjoint four-seed pools with preregistered full-core, state-structure, and order-entropy observers.",
+      experimentId: "RUL-011",
+      seeds: [93001, 93011, 93023, 93047, 94007, 94019, 94031, 94049],
+      parameterAxes: [],
+      fixedParameters: { discoveryPoints: 40, samplingDesign: "deterministic-LHS-seed-2026082411", poolARuns: 160, poolBRuns: 160, totalNewRuns: 320, observerViews: 3, primaryGeometryMargin: 0.05, primaryLocalMargin: 0.05 },
+      analysisIds: [], figureIds: [], paperIds: [], datasetIds: [], status: "completed", projectId,
+      steps: [
+        { id: "R11STEP-01", kind: "execute", label: "Run unseen Boids rule design", dependsOn: [], description: "Execute 40 new Latin-hypercube rule coordinates under two new disjoint four-seed pools." },
+        { id: "R11STEP-02", kind: "analyze", label: "Project preregistered observers", dependsOn: ["R11STEP-01"], description: "Project the identical 320 trajectories through full-core, state-structure, and order-entropy observers using pool-A feature scaling." },
+        { id: "R11STEP-03", kind: "analyze", label: "Apply prospective margins", dependsOn: ["R11STEP-02"], description: "Require state-structure to exceed full-core by at least 0.05 in both complete-geometry and local-edge split-half Spearman stability." },
+        { id: "R11STEP-04", kind: "package", label: "Freeze RUL-011 validation", dependsOn: ["R11STEP-03"], description: "Export observer comparison, rule points, interpretation boundary, and checksum without modifying earlier benchmarks." }
       ],
     },
     {

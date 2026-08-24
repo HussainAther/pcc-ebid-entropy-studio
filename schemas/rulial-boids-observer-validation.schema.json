@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy-studio.local/schemas/rulial-boids-observer-validation.schema.json",
+  "title": "RUL-011 prospective Boids observer validation",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "design", "simulation", "observers", "primaryProspectiveTest", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-boids-observer-validation/1.0.0" },
+    "experimentId": { "const": "RUL-011" },
+    "design": {
+      "type": "object",
+      "required": ["rulePointCount", "latinHypercubeSeed", "seedPools", "newRuleCoordinateCheckAgainstRUL006"],
+      "properties": {
+        "rulePointCount": { "const": 40 },
+        "latinHypercubeSeed": { "const": 2026082411 },
+        "seedPools": {
+          "type": "object",
+          "required": ["A", "B"],
+          "properties": {
+            "A": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "integer" } },
+            "B": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "integer" } }
+          }
+        },
+        "newRuleCoordinateCheckAgainstRUL006": {
+          "type": "object",
+          "required": ["minimum", "median", "maximum"],
+          "properties": {
+            "minimum": { "type": "number", "exclusiveMinimum": 0 },
+            "median": { "type": "number", "exclusiveMinimum": 0 },
+            "maximum": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        }
+      }
+    },
+    "simulation": {
+      "type": "object",
+      "required": ["poolARunCount", "poolBRunCount", "totalNewRunCount"],
+      "properties": {
+        "poolARunCount": { "const": 160 },
+        "poolBRunCount": { "const": 160 },
+        "totalNewRunCount": { "const": 320 }
+      }
+    },
+    "observers": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["observerId", "geometryStabilitySpearman", "localEdgeStabilitySpearman", "top10LocalEdgeJaccard"]
+      }
+    },
+    "primaryProspectiveTest": {
+      "type": "object",
+      "required": ["geometryMargin", "localMargin", "geometryCriterionPassed", "localCriterionPassed", "prospectiveReplicationPassed"],
+      "properties": {
+        "geometryMargin": { "const": 0.05 },
+        "localMargin": { "const": 0.05 },
+        "geometryCriterionPassed": { "type": "boolean" },
+        "localCriterionPassed": { "type": "boolean" },
+        "prospectiveReplicationPassed": { "type": "boolean" }
+      }
+    },
+    "interpretationBoundary": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+  }
+}

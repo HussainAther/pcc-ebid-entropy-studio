@@ -249,3 +249,25 @@ npm run ruliology:boids:resolution
 ```
 
 Artifacts are written under `data/ruliology/boids-resolution/`.
+
+## RUL-011 — prospective Boids observer validation
+
+RUL-011 turns the RUL-010 observer decomposition into a prospective test. Nothing from the frozen RUL-009 or RUL-010 benchmarks is rewritten. Instead, a new deterministic 40-point Latin-hypercube rule design (`seed=2026082411`) is simulated under two new disjoint four-seed pools. The resulting 320 trajectories are shared by three observer projections that are frozen before the new outcomes are interpreted:
+
+1. `full_core`: the original six-feature RUL-006 observer;
+2. `state_structure`: polarization, heading entropy, spatial entropy, and speed variance;
+3. `order_entropy`: polarization and heading entropy only.
+
+The primary criterion is intentionally narrow. The RUL-010 diagnosis is counted as prospectively replicated only if `state_structure` exceeds `full_core` by at least `0.05` in **both** complete rule-geometry split-half Spearman stability and local-edge split-half Spearman stability. Top-10% boundary overlap is a secondary check with a fixed `+0.10` margin; it does not redefine the primary test.
+
+The committed RUL-011 result passes the primary criterion on unseen rule coordinates. `state_structure` reaches full-geometry stability of about `0.829` versus `0.678` for `full_core`, a gain of about `+0.151`. Local-edge stability is about `0.802` versus `0.740`, a gain of about `+0.062`. The secondary top-10% local-edge Jaccard also improves from about `0.158` to `0.294`, exceeding the frozen `+0.10` margin. The narrower `order_entropy` observer improves full geometry only modestly and underperforms full-core local stability, so the result is not a generic “fewer observables is better” effect.
+
+This supports a more specific methodological interpretation: in the current Boids design, sparse transition/dwell coordinates materially destabilize the induced rule-space geometry, and removing them improves reproducibility on an independent rule sample. It does **not** establish that the four-feature observer is universally optimal, nor does it alter the original six-feature RUL-006 or RUL-009 results.
+
+Run with:
+
+```bash
+npm run ruliology:boids:observer-validation
+```
+
+Artifacts are written under `data/ruliology/boids-observer-validation/`.

@@ -24,6 +24,7 @@ import crossSubstrate from "../data/ruliology/cross-substrate/cross-substrate-su
 import networkRulial from "../data/ruliology/network-rulial/network-rulial-summary.json";
 import threeSubstrate from "../data/ruliology/three-substrate/three-substrate-summary.json";
 import boidsResolution from "../data/ruliology/boids-resolution/boids-resolution-summary.json";
+import boidsObserverValidation from "../data/ruliology/boids-observer-validation/boids-observer-validation-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -336,6 +337,14 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
       {boidsResolution.observerDecomposition.map(item=><div className="source-row rulial-table" key={`rul010-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
       <Notice title="Diagnostic, not repair">The state/structure and order/entropy projections reproduce substantially better than the transition/dwell projection. Turning off per-step Gaussian forcing does not improve the matched one-seed geometry, so RUL-010 does not support a simple “Boids failed because chaos noise was too high” explanation. RUL-009 stays frozen.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-011 prospective observer validation" title="The state-structure observer replicates on unseen Boids rules"/>
+      <p>RUL-011 freezes the RUL-010 observer hypothesis before simulating a new 40-point Latin-hypercube rule design. Two new four-seed pools generate 320 trajectories, and every observer sees exactly the same runs.</p>
+      <div className="stats compact"><Stat label="New runs" value={String(boidsObserverValidation.simulation.totalNewRunCount)} foot="40 rules × 8 new seeds"/><Stat label="Structure geometry ρ" value={Number(boidsObserverValidation.observers.find(item=>item.observerId === "state_structure")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="prospective four-feature observer"/><Stat label="Full-core geometry ρ" value={Number(boidsObserverValidation.observers.find(item=>item.observerId === "full_core")?.geometryStabilitySpearman ?? 0).toFixed(3)} foot="original six-feature observer"/><Stat label="Primary test" value={boidsObserverValidation.primaryProspectiveTest.prospectiveReplicationPassed ? "PASS" : "CHALLENGED"} foot="+0.05 geometry and local margins"/></div>
+      <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
+      {boidsObserverValidation.observers.map(item=><div className="source-row rulial-table" key={`rul011-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
+      <Notice title="Prospective replication, narrow claim">The state-structure observer exceeds full-core stability by the frozen margins on both complete and local geometry. The two-feature order/entropy observer does not dominate across metrics, so this is evidence against unstable transition/dwell coordinates rather than a blanket preference for fewer measurements.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

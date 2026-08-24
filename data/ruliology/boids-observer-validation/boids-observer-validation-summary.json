@@ -1,0 +1,120 @@
+{
+  "design": {
+    "config": {
+      "dt": 0.2,
+      "height": 100.0,
+      "max_speed": 2.5,
+      "n_agents": 40,
+      "pressure": 0.35,
+      "separation_radius": 3.0,
+      "steps": 200,
+      "stochastic_noise_scale": 1.0,
+      "tail_fraction": 0.25,
+      "width": 100.0
+    },
+    "latinHypercubeSeed": 2026082411,
+    "localNeighborK": 4,
+    "newRuleCoordinateCheckAgainstRUL006": {
+      "maximum": 0.30488334413377327,
+      "median": 0.14665069089258526,
+      "minimum": 0.08405775661460888
+    },
+    "rulePointCount": 40,
+    "seedPools": {
+      "A": [
+        93001,
+        93011,
+        93023,
+        93047
+      ],
+      "B": [
+        94007,
+        94019,
+        94031,
+        94049
+      ]
+    }
+  },
+  "experimentId": "RUL-011",
+  "generatedAt": "2026-08-24T22:10:00.000Z",
+  "interpretationBoundary": [
+    "RUL-011 is prospective relative to the RUL-010 observer diagnostic: observer definitions, rule-space design seed, seed pools, and validation margins are fixed in code before RUL-011 outcomes are interpreted.",
+    "All three observers are projected from exactly the same 320 newly simulated trajectories; no observer receives a custom simulation population.",
+    "The 40 rule coordinates come from a new Latin-hypercube design and are not the 32 RUL-006/RUL-010 coordinates.",
+    "The primary claim is narrow: state_structure must exceed full_core by at least 0.05 in both complete-geometry and local-edge split-half Spearman stability.",
+    "Top-10% boundary Jaccard and order_entropy comparisons are secondary checks and do not redefine the primary criterion.",
+    "A failed prospective criterion is retained as a failed result; RUL-009 and RUL-010 remain unchanged."
+  ],
+  "localEdgeCount": 105,
+  "observers": [
+    {
+      "featureCount": 6,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "geometryStabilitySpearman": 0.6781904480069056,
+      "localEdgeStabilitySpearman": 0.7403751955235148,
+      "localSensitivityQ95OverMedianA": 2.636290928689202,
+      "localSensitivityQ95OverMedianB": null,
+      "observerId": "full_core",
+      "top10LocalEdgeJaccard": 0.15789473684210525
+    },
+    {
+      "featureCount": 4,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "geometryStabilitySpearman": 0.8288246061194406,
+      "localEdgeStabilitySpearman": 0.802166701223305,
+      "localSensitivityQ95OverMedianA": 2.6362909286892013,
+      "localSensitivityQ95OverMedianB": 2.467763722963021,
+      "observerId": "state_structure",
+      "top10LocalEdgeJaccard": 0.29411764705882354
+    },
+    {
+      "featureCount": 2,
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY"
+      ],
+      "geometryStabilitySpearman": 0.7206711385127195,
+      "localEdgeStabilitySpearman": 0.6632490151358075,
+      "localSensitivityQ95OverMedianA": 4.279701465170905,
+      "localSensitivityQ95OverMedianB": 3.7718543533325093,
+      "observerId": "order_entropy",
+      "top10LocalEdgeJaccard": 0.15789473684210525
+    }
+  ],
+  "primaryProspectiveTest": {
+    "geometryCriterionPassed": true,
+    "geometryMargin": 0.05,
+    "localCriterionPassed": true,
+    "localMargin": 0.05,
+    "prospectiveReplicationPassed": true,
+    "structureMinusFullGeometry": 0.150634158112535,
+    "structureMinusFullLocal": 0.061791505699790195
+  },
+  "schemaVersion": "entropy-rulial-boids-observer-validation/1.0.0",
+  "secondaryChecks": {
+    "jaccardMargin": 0.1,
+    "orderEntropyMinusFullGeometry": 0.04248069050581382,
+    "orderEntropyMinusFullLocal": -0.07712618038770735,
+    "orderEntropyMinusFullTop10Jaccard": 0.0,
+    "structureJaccardCriterionPassed": true,
+    "structureMinusFullTop10Jaccard": 0.13622291021671828
+  },
+  "simulation": {
+    "poolARunCount": 160,
+    "poolBRunCount": 160,
+    "totalNewRunCount": 320
+  },
+  "sourceDiagnostic": "RUL-010"
+}

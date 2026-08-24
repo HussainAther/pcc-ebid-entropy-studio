@@ -205,3 +205,7 @@ npm run ruliology:boids:resolution
 ```
 
 The committed diagnostic indicates that averaging improves the full Boids geometry only modestly, while observer choice matters strongly: state/structure and order/entropy projections are much more stable than the sparse transition/dwell projection. Suppressing per-step Gaussian forcing does not repair the one-seed geometry, so the current evidence does not support blaming the RUL-009 gap primarily on that forcing term. See `data/ruliology/boids-resolution/` and `schemas/rulial-boids-resolution.schema.json`.
+
+### RUL-011 prospective Boids observer validation
+
+`npm run ruliology:boids:observer-validation` runs a new 40-point Boids rule-space sample under two new four-seed pools and projects the identical 320 trajectories through three preregistered observers. The primary test asks whether the RUL-010 state/structure observer beats the frozen six-feature observer by at least `0.05` in both full-geometry and local-edge split-half Spearman stability. The committed result passes both margins on unseen rule coordinates; earlier RUL-009/RUL-010 benchmarks remain unchanged. Outputs are frozen under `data/ruliology/boids-observer-validation/`.
