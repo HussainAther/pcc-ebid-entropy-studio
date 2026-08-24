@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-alife-contrastive-gradient/1.0.0",
+  "title": "RUL-023 ALife contrastive fitness-gradient alignment report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "source", "design", "results", "primaryTest", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-alife-contrastive-gradient/1.0.0"},
+    "experimentId": {"const": "RUL-023"},
+    "ruleSpaceId": {"const": "RSPACE-ALIFE-001"},
+    "observerId": {"const": "OBSERVER-ALIFE-CONTRASTIVE-GRADIENT"},
+    "source": {"type": "object", "required": ["motionExperiment", "scarcityGradientExperiment", "newMotionSimulations", "reusedScarcityProbeSimulations", "newStableProbeSimulations"]},
+    "design": {"type": "object", "required": ["seedCount", "seeds", "ruleDimensions", "finiteDifferenceStepUnit", "stableProbesPerSeed", "contrastiveGradientDefinition", "performanceTarget", "primaryCriteria"]},
+    "results": {"type": "object", "required": ["medianScarcityContrastiveAlignment", "medianNeutralContrastiveAlignment", "medianScarcityMinusNeutralContrastiveAlignment", "positiveScarcityAlignmentCount", "identifiableContrastiveGradientCount"]},
+    "primaryTest": {"type": "object", "required": ["scarcityMedianContrastiveAlignmentPositive", "scarcityContrastiveAlignmentExceedsNeutral", "scarcityPositiveInMajority", "contrastiveGradientIdentifiable", "criteriaPassed", "criteriaTotal", "pilotSupported"]},
+    "interpretationBoundary": {"type": "array", "items": {"type": "string"}}
+  }
+}

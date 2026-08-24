@@ -58,3 +58,10 @@ The mutable-rule ALife pilot adds `OBS-RULE-CENTROID-DISPLACEMENT`, `OBS-RULE-DI
 - `OBS-BOTTLENECK-DEPTH`: fractional demographic decline from the pre-shock reference population to the minimum post-shock population.
 
 These observables are paired in RUL-021 to distinguish intervention-associated rule motion from population-loss magnitude.
+
+### OBS-FITNESS-GRADIENT-ALIGNMENT
+
+RUL-022 adds `OBS-FITNESS-GRADIENT-ALIGNMENT`, the cosine between a realized post-shock rule-centroid motion vector and a local finite-difference gradient of the frozen scarcity performance target. The current target is 120-step time-averaged population persistence in homogeneous no-mutation probe populations. It is a local engineered performance proxy, not a universal biological fitness quantity.
+
+
+RUL-023 adds `OBS-CONTRASTIVE-FITNESS-GRADIENT-ALIGNMENT`, the cosine between realized post-shock rule motion and `grad(F_scarcity) - grad(F_stable)`. The contrast is intended to remove performance directions shared by stable and scarce ecology, but remains a local engineered proxy based on short-horizon homogeneous-population persistence.

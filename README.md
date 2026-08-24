@@ -311,3 +311,13 @@ npm run ruliology:alife:selection-control
 ```
 
 The committed result is intentionally preserved as **challenged (3/5 frozen criteria)**: scarcity does not exceed the neutral bottleneck in median post-shock displacement and wins in only 5/12 paired seeds, although its motion is more directionally reproducible. This narrows the interpretation of RUL-020 by showing that demographic bottlenecking alone can explain much of the observed centroid displacement.
+
+
+### RUL-022: local scarcity-performance gradient alignment
+
+`RUL-022` reuses the frozen RUL-021 post-shock rule-motion vectors and adds 96 separate finite-difference ecological probes. Around each seed's pre-shock rule centroid, the four normalized rule coordinates are perturbed by ±0.06 and evaluated with homogeneous, no-mutation populations under immediate scarcity. The frozen performance target is 120-step time-averaged population persistence. Scarcity motion is positively aligned with this local gradient (median cosine `0.431`; 9/12 positive seeds), but it does **not** exceed the matched neutral bottleneck alignment: median paired scarcity-minus-neutral cosine is `-0.059`. Three of four frozen criteria pass, so the stronger selection-specific directionality hypothesis remains challenged. Run with `npm run ruliology:alife:fitness-gradient`.
+
+
+### RUL-023: contrastive scarcity-versus-stable fitness gradient
+
+`RUL-023` reuses the frozen RUL-021 scarcity/neutral post-shock motion vectors and the 96 committed RUL-022 scarcity finite-difference probes, then adds 96 matched stable-resource probes at the same seed-specific pre-shock rule centroids. The preregistered contrastive direction is `grad(F_scarcity) - grad(F_stable)` using the same ±0.06 normalized-rule step and 120-step homogeneous no-mutation population-persistence target. The contrastive gradient is identifiable in all 12 seeds, but scarcity alignment is weak (median cosine `0.038`), positive in only 6/12 seeds, and does not exceed neutral bottleneck alignment (median paired scarcity-minus-neutral cosine `-0.079`). Only 1/4 frozen criteria passes, so the scarcity-specific contrastive-gradient hypothesis is challenged. Run with `npm run ruliology:alife:contrastive-gradient`.

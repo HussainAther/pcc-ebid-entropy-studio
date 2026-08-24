@@ -405,3 +405,19 @@ npm run ruliology:alife:selection-control
 ```
 
 Outputs are written to `data/ruliology/alife-selection-control/`.
+
+
+## RUL-022 — Local fitness-gradient alignment of rule motion
+
+RUL-022 targets the directional ambiguity left by RUL-021. It does not rerun the 12 matched scarcity/neutral motion trajectories. Instead, for each frozen pre-shock population rule centroid it estimates a local ecological performance gradient in the normalized four-dimensional rule space using eight central finite-difference probes (±0.06 per coordinate). Each probe is a homogeneous, no-mutation population evaluated for 120 steps under immediate scarcity, with time-averaged population persistence as the frozen local performance target.
+
+The scarcity motion vectors are positively aligned with this gradient in 9/12 seeds and have median cosine `0.431`, satisfying the positive-alignment and majority criteria. However, neutral-bottleneck motion is also positively aligned (median `0.320`), and the median paired scarcity-minus-neutral alignment is `-0.059`, failing the preregistered +0.10 selection-specific advantage criterion. All 12 gradients are identifiable. The result is therefore **3/4 criteria passed, pilot not supported**.
+
+The narrow interpretation is that RUL-021 scarcity trajectories often move locally toward rule regions that perform better under the chosen immediate-scarcity persistence proxy, but that direction is not specific to scarcity selection relative to the matched neutral bottleneck. This may reflect the shared post-bottleneck ecology, the local/proxy nature of the performance landscape, or demographic reweighting toward similar high-persistence regions. RUL-022 is an engineered ALife diagnostic, not evidence of natural adaptive evolution.
+
+
+## RUL-023 — Contrastive scarcity-versus-stable performance gradient
+
+RUL-023 follows the failure of the raw scarcity gradient in RUL-022 to distinguish resource-selective motion from matched neutral bottleneck motion. It freezes a more specific environmental contrast before outcome analysis: for each RUL-021 pre-shock rule centroid, define `g_delta = grad(F_scarcity) - grad(F_stable)`, where both local gradients use the same seed geometry, homogeneous no-mutation population, 120-step horizon, time-averaged population-persistence target, and ±0.06 normalized finite-difference step. The scarcity component is reused exactly from RUL-022; RUL-023 adds only the 96 matched stable-resource probes.
+
+The four frozen criteria require median scarcity/contrastive-gradient cosine >= 0.10, median paired scarcity-minus-neutral alignment >= +0.10, positive scarcity alignment in at least two thirds of seeds, and an identifiable nonzero contrastive gradient in at least three quarters of seeds. The result is 1/4: all 12 contrastive gradients are identifiable, but median scarcity alignment is `0.038`, only 6/12 scarcity vectors have positive alignment, and median scarcity-minus-neutral contrastive alignment is `-0.079`. The result therefore challenges the hypothesis that the current short-horizon persistence landscape contains a clean scarcity-specific gradient that explains the realized population rule motion. This does not erase the RUL-020/RUL-021 motion itself; it narrows which mechanistic interpretation is supported by the present local performance proxy.

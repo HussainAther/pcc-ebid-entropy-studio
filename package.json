@@ -29,7 +29,9 @@
     "ruliology:observer-objectives": "python3 scripts/analyze-rulial-objective-dependent-observer.py",
     "ruliology:cross-substrate-objectives": "python3 scripts/analyze-rulial-cross-substrate-objectives.py --output-dir data/ruliology/cross-substrate-objectives",
     "ruliology:alife": "python3 scripts/run-rulial-alife.py --output-dir data/ruliology/alife-rule-motion",
-    "ruliology:alife:selection-control": "python3 scripts/run-rulial-alife-selection-control.py --output-dir data/ruliology/alife-selection-control"
+    "ruliology:alife:selection-control": "python3 scripts/run-rulial-alife-selection-control.py --output-dir data/ruliology/alife-selection-control",
+    "ruliology:alife:fitness-gradient": "python3 scripts/run-rulial-alife-fitness-gradient.py --output-dir data/ruliology/alife-fitness-gradient",
+    "ruliology:alife:contrastive-gradient": "python3 scripts/run-rulial-alife-contrastive-gradient.py --output-dir data/ruliology/alife-contrastive-gradient"
   },
   "dependencies": {
     "next": "16.2.6",

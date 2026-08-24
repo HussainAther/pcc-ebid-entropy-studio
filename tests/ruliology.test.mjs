@@ -575,3 +575,62 @@ test("committed RUL-021 preserves the challenged matched-bottleneck result", () 
   assert.ok(summary.conditions.scarcity_mutable.directionalReproducibility > summary.conditions.neutral_bottleneck_mutable.directionalReproducibility);
   assert.ok(summary.pairedComparison.medianNeutralBottleneckMatchError <= 0.06);
 });
+
+test("RUL-022 registers local fitness-gradient alignment without rerunning RUL-021 motion", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife-fitness-gradient.py", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-022/);
+  assert.match(research, /RUL-022/);
+  assert.match(spaces, /OBSERVER-ALIFE-FITNESS-GRADIENT/);
+  assert.match(observables, /OBS-FITNESS-GRADIENT-ALIGNMENT/);
+  assert.match(script, /newMotionSimulations/);
+  assert.match(script, /finiteDifferenceStepUnit/);
+  assert.match(studio, /RUL-022 local fitness-gradient alignment/);
+});
+
+test("committed RUL-022 preserves positive scarcity alignment but challenged selection-specific advantage", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-fitness-gradient/alife-fitness-gradient-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-022");
+  assert.equal(summary.source.newMotionSimulations, 0);
+  assert.equal(summary.source.newFitnessProbeSimulations, 96);
+  assert.equal(summary.design.seedCount, 12);
+  assert.equal(summary.design.probesPerSeed, 8);
+  assert.equal(summary.primaryTest.criteriaPassed, 3);
+  assert.equal(summary.primaryTest.criteriaTotal, 4);
+  assert.equal(summary.primaryTest.pilotSupported, false);
+  assert.ok(summary.results.medianScarcityAlignment > 0.10);
+  assert.equal(summary.results.positiveScarcityAlignmentCount, 9);
+  assert.ok(summary.results.medianScarcityMinusNeutralAlignment < 0);
+  assert.equal(summary.results.identifiableGradientCount, 12);
+});
+
+test("RUL-023 registers a contrastive scarcity-versus-stable local gradient", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife-contrastive-gradient.py", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-023/);
+  assert.match(research, /RUL-023/);
+  assert.match(spaces, /OBSERVER-ALIFE-CONTRASTIVE-GRADIENT/);
+  assert.match(observables, /OBS-CONTRASTIVE-FITNESS-GRADIENT-ALIGNMENT/);
+  assert.match(script, /grad\(F_scarcity\) - grad\(F_stable\)/);
+  assert.match(script, /reusedScarcityProbeSimulations/);
+  assert.match(studio, /RUL-023 contrastive environmental gradient/);
+});
+
+test("committed RUL-023 preserves the challenged contrastive-gradient result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-contrastive-gradient/alife-contrastive-gradient-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-023");
+  assert.equal(summary.source.newMotionSimulations, 0);
+  assert.equal(summary.source.reusedScarcityProbeSimulations, 96);
+  assert.equal(summary.source.newStableProbeSimulations, 96);
+  assert.equal(summary.design.seedCount, 12);
+  assert.equal(summary.design.stableProbesPerSeed, 8);
+  assert.equal(summary.primaryTest.criteriaPassed, 1);
+  assert.equal(summary.primaryTest.criteriaTotal, 4);
+  assert.equal(summary.primaryTest.pilotSupported, false);
+  assert.equal(summary.results.identifiableContrastiveGradientCount, 12);
+  assert.equal(summary.results.positiveScarcityAlignmentCount, 6);
+  assert.ok(summary.results.medianScarcityContrastiveAlignment < 0.10);
+  assert.ok(summary.results.medianScarcityMinusNeutralContrastiveAlignment < 0);
+});

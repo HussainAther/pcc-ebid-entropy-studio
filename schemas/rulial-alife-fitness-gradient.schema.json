@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-alife-fitness-gradient/1.0.0",
+  "title": "RUL-022 ALife local fitness-gradient alignment report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "source", "design", "results", "primaryTest", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-alife-fitness-gradient/1.0.0"},
+    "experimentId": {"const": "RUL-022"},
+    "ruleSpaceId": {"const": "RSPACE-ALIFE-001"},
+    "observerId": {"const": "OBSERVER-ALIFE-FITNESS-GRADIENT"},
+    "source": {"type": "object", "required": ["motionExperiment", "newMotionSimulations", "newFitnessProbeSimulations"]},
+    "design": {"type": "object", "required": ["seedCount", "seeds", "ruleDimensions", "finiteDifferenceStepUnit", "probesPerSeed", "performanceTarget", "primaryCriteria"]},
+    "results": {"type": "object", "required": ["medianScarcityAlignment", "medianNeutralAlignment", "medianScarcityMinusNeutralAlignment", "positiveScarcityAlignmentCount", "identifiableGradientCount"]},
+    "primaryTest": {"type": "object", "required": ["scarcityMedianAlignmentPositive", "scarcityAlignmentExceedsNeutral", "scarcityPositiveInMajority", "gradientIdentifiable", "criteriaPassed", "criteriaTotal", "pilotSupported"]},
+    "interpretationBoundary": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -54,3 +54,12 @@ Registry status distinguishes metadata availability from actual validation. A re
 ## RUL-021 ALife selection-control extension
 
 `ENGINE-LOCAL-ALIFE` now also supports `RUL-021` through `scripts/run-rulial-alife-selection-control.py`. The extension adds a 180-step burn-in and a per-seed neutral bottleneck control that keeps resources stable and mutation enabled while applying one random rule-blind cull matched to the paired scarcity bottleneck depth. The control matches bottleneck depth, not the full demographic trajectory.
+
+### RUL-022 local performance-gradient probes
+
+`ENGINE-LOCAL-ALIFE` now accepts an explicit `initial_rule_center` for frozen homogeneous probe populations. RUL-022 uses that capability only in separate `scarcity_frozen` finite-difference probes; the RUL-021 motion trajectories remain unchanged. The gradient probe is therefore an analysis-side intervention on rule coordinates, not a rewrite of the mutable ecology.
+
+
+### RUL-023 contrastive environmental-gradient probes
+
+`ENGINE-LOCAL-ALIFE` is reused for matched stable-resource finite-difference probes at exactly the RUL-022 rule centers and step size. RUL-023 does not rerun the frozen RUL-021 motion or RUL-022 scarcity probes; it adds stable probes only and constructs `grad(F_scarcity) - grad(F_stable)` analysis-side.

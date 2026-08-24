@@ -111,7 +111,10 @@ def simulate_condition(seed: int, condition: str, config: dict[str, Any] | None 
 
     lo, hi = _bounds()
     rule_sd = float(cfg["initial_rule_sd"]) * (hi - lo)
-    rules = np.clip(CENTER_RULE + rng.normal(size=(initial_population, len(RULE_DIMENSIONS))) * rule_sd, lo, hi)
+    initial_rule_center = np.asarray(cfg.get("initial_rule_center", CENTER_RULE), dtype=float)
+    if initial_rule_center.shape != CENTER_RULE.shape:
+        raise ValueError("initial_rule_center must have one value per declared rule dimension")
+    rules = np.clip(initial_rule_center + rng.normal(size=(initial_population, len(RULE_DIMENSIONS))) * rule_sd, lo, hi)
 
     centroid0, diversity0 = _centroid_and_diversity(rules)
     history: list[dict[str, Any]] = []
