@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy-studio.local/schemas/rulial-three-substrate.schema.json",
+  "title": "Entropy Studio RUL-009 Three-Substrate Report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "sourceExperiments", "newSimulationRunCount", "substrates", "challenge", "frozenContract", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": { "const": "entropy-rulial-three-substrate/1.0.0" },
+    "experimentId": { "const": "RUL-009" },
+    "title": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "sourceExperiments": { "type": "array", "contains": { "const": "RUL-007" } },
+    "newSimulationRunCount": { "const": 0 },
+    "substrates": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["substrate", "globalRuleObservableSpearmanDiscovery", "geometryStabilitySpearman", "localEdgeStabilitySpearman", "top10LocalEdgeJaccard", "localSensitivity"]
+      }
+    },
+    "challenge": {
+      "type": "object",
+      "required": ["criterionCount", "substrateCount", "allSubstratePassCount", "substratePassCounts", "criteria"],
+      "properties": {
+        "criterionCount": { "const": 5 },
+        "substrateCount": { "const": 3 },
+        "allSubstratePassCount": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "substratePassCounts": { "type": "object" },
+        "criteria": { "type": "object" }
+      }
+    },
+    "pattern": { "type": "object" },
+    "frozenContract": { "type": "object" },
+    "interpretationBoundary": { "type": "array", "items": { "type": "string" } }
+  }
+}

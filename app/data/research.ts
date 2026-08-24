@@ -138,6 +138,12 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
       id: "H-RUL-008", title: "Network rulial structure under topology blocking", statement: "A stochastic binary network substrate exhibits reproducible rule-space geometry and heterogeneous local sensitivity when the same local rules are evaluated across preregistered topology blocks.", disconfirmingOutcome: "Do not treat the network substrate as structurally reproducible if discovery/holdout geometry fails the frozen stability checks or if local sensitivity collapses under held-out seeds; retain topology dependence rather than averaging it away post hoc.", evidence: "hypothesis", assumptions: ["The four-dimensional local rule metric is frozen before outcome analysis.", "Ring, small-world, and Erdos-Renyi topologies are fixed experimental blocks rather than outcome-tuned rule coordinates.", "Discovery and validation seeds are disjoint.", "The RUL-007 five-criterion contract remains unchanged for any later three-substrate test."], derivedFromIds: ["SRC-README"], projectId,
     },
     {
+      id: "H-RUL-009", title: "Three-substrate structural recurrence", statement: "At least some dimensionless rule-space structural criteria recur across ECA, stochastic Boids, and topology-blocked stochastic networks under the unchanged RUL-007 comparison contract.", disconfirmingOutcome: "Do not claim three-substrate recurrence for any criterion that fails in one substrate; preserve substrate-specific failures and do not retune RUL-007 thresholds after observing RUL-008.", evidence: "hypothesis", assumptions: ["RUL-007 thresholds and definitions are reused unchanged.", "RUL-009 performs no new simulations and reuses frozen RUL-007/RUL-008 artifacts.", "Raw observable distances remain substrate-specific; only the versioned dimensionless structural criteria are compared."], derivedFromIds: ["SRC-README", "SRC-BOIDS"], projectId,
+    },
+    {
+      id: "H-RUL-010", title: "Boids resolution and stochasticity decomposition", statement: "The weaker RUL-009 Boids replication can be diagnostically decomposed into finite-realization noise and observer-coordinate instability without changing the frozen RUL-009 benchmark.", disconfirmingOutcome: "Do not attribute the RUL-009 Boids gap to finite stochastic resolution if stability does not improve with independent seed averaging, and do not attribute it to per-step forcing if suppressing that forcing materially repairs the geometry.", evidence: "hypothesis", assumptions: ["The 32 RUL-006 rule coordinates are reused unchanged.", "Two disjoint new seed pools are fixed before analysis.", "RUL-009 remains frozen regardless of RUL-010 outcome.", "Observer subsets are diagnostic projections, not replacements for the RUL-006 observer."], derivedFromIds: ["SRC-README", "SRC-BOIDS"], projectId,
+    },
+    {
       id: "H-011", title: "Cross-domain invariance", statement: "The same correspondence persists across replicator, physical, and learning toy systems.", disconfirmingOutcome: "Currently underspecified: domain mapping and equivalence criteria require revision.", evidence: "speculation", assumptions: ["Domain mappings preserve the relevant local dynamics."], derivedFromIds: ["C-027"], projectId,
     },
   ],
@@ -152,6 +158,8 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
     { id: "RUL-006", engineId: "ENGINE-PCC-BOIDS", title: "Boids multidimensional rulial landscape", hypothesisId: "H-RUL-006", model: "pcc_boids_rule_space", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE", "OBS-METASTABLE-DWELL", "OBS-TRANSITION-RATE"], controls: ["32-point deterministic Latin hypercube discovery design", "held-out validation seeds", "fixed 40-agent periodic domain", "frozen robust-range feature scaling", "adaptive boundary probes simulated only after discovery"], primaryMetric: "held-out rank stability of local rule sensitivity plus boundary-candidate retention", status: "active", projectId },
     { id: "RUL-007", engineId: "ENGINE-PCC-BOIDS", title: "ECA-Boids cross-substrate rulial structure challenge", hypothesisId: "H-RUL-007", model: "cross_substrate_rule_geometry", observableIds: ["OBS-RULE-SENSITIVITY"], controls: ["frozen substrate-specific dimensionless rule metrics", "frozen observer feature scaling", "complete held-out Boids coverage at the same 32 coordinates", "disjoint discovery/holdout ensembles", "five versioned cross-substrate challenge criteria", "failed criteria retained without threshold tuning"], primaryMetric: "number of frozen structural criteria satisfied by both ECA and Boids", status: "active", projectId },
     { id: "RUL-008", engineId: "ENGINE-LOCAL-NETWORK", title: "Topology-blocked network rulial landscape", hypothesisId: "H-RUL-008", model: "stochastic_binary_network_rule_space", observableIds: ["OBS-NETWORK-ACTIVITY", "OBS-SHANNON", "OBS-NETWORK-ORDER", "OBS-SWITCH-RATE", "OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"], controls: ["24-point deterministic Latin hypercube in four local-rule coordinates", "three fixed topology blocks with matched mean degree", "three discovery and two disjoint validation seeds", "frozen discovery feature scaling", "topology excluded from the local-rule metric"], primaryMetric: "discovery-to-holdout stability of complete and local rule-space geometry", status: "active", projectId },
+    { id: "RUL-009", engineId: "ENGINE-LOCAL-NETWORK", title: "Frozen three-substrate rulial structure challenge", hypothesisId: "H-RUL-009", model: "three_substrate_rule_geometry", observableIds: ["OBS-RULE-SENSITIVITY"], controls: ["RUL-007 five-criterion contract reused verbatim", "no new simulations", "RUL-007 ECA and Boids metrics reused without recomputation", "RUL-008 Network metrics projected into frozen thresholds", "failed criteria retained without retuning"], primaryMetric: "number of frozen structural criteria satisfied by ECA, Boids, and Network", status: "active", projectId },
+    { id: "RUL-010", engineId: "ENGINE-PCC-BOIDS", title: "Boids stochasticity and resolution decomposition", hypothesisId: "H-RUL-010", model: "boids_fixed_rule_resolution_diagnostic", observableIds: ["OBS-POLARIZATION", "OBS-HEADING-ENTROPY", "OBS-SPATIAL", "OBS-SPEED-VARIANCE", "OBS-TRANSITION-RATE", "OBS-METASTABLE-DWELL"], controls: ["same 32 RUL-006 rule coordinates", "two disjoint new four-seed pools", "nested 1/2/4-seed averaging ladder", "per-step Gaussian forcing suppression diagnostic", "observer-subset projections on identical runs", "RUL-009 result frozen"], primaryMetric: "discovery-half to independent-half geometry stability as seed averaging and observer coordinates change", status: "active", projectId },
   ],
   campaigns: [
     {
@@ -233,6 +241,37 @@ const pccWorkspaceBase: Omit<ResearchWorkspace, "evidenceGraph"> = {
         { id: "NRSTEP-02", kind: "analyze", label: "Build aggregate and topology-specific profiles", dependsOn: ["NRSTEP-01"], description: "Construct six-feature profiles using discovery-frozen scaling while retaining topology-specific measurements." },
         { id: "NRSTEP-03", kind: "analyze", label: "Validate network rulial geometry", dependsOn: ["NRSTEP-02"], description: "Re-run the complete 24-point design with two disjoint validation seeds and project the frozen local neighbor graph." },
         { id: "NRSTEP-04", kind: "package", label: "Freeze RUL-008 package", dependsOn: ["NRSTEP-03"], description: "Export rule coordinates, topology blocks, profiles, local-edge validation, and checksums." }
+      ],
+    },
+    {
+      id: "CAMPAIGN-RUL-THREE-SUBSTRATE-001",
+      title: "Frozen three-substrate rulial challenge",
+      description: "Project ECA, Boids, and Network benchmark summaries into the unchanged RUL-007 five-criterion contract without new simulation or threshold tuning.",
+      experimentId: "RUL-009",
+      seeds: [],
+      parameterAxes: [],
+      fixedParameters: { sourceExperiments: "RUL-007,RUL-008", criterionCount: 5, newSimulationRunCount: 0, contractVersion: "RUL-007" },
+      analysisIds: [], figureIds: [], paperIds: [], datasetIds: [], status: "completed", projectId,
+      steps: [
+        { id: "TRSTEP-01", kind: "import", label: "Load frozen substrate summaries", dependsOn: [], description: "Reuse RUL-007 ECA/Boids metrics and RUL-008 Network validation metrics without resimulation." },
+        { id: "TRSTEP-02", kind: "analyze", label: "Apply frozen five-criterion contract", dependsOn: ["TRSTEP-01"], description: "Evaluate all three substrates against the exact RUL-007 thresholds and preserve failures." },
+        { id: "TRSTEP-03", kind: "package", label: "Freeze RUL-009 matrix", dependsOn: ["TRSTEP-02"], description: "Export substrate metrics, criterion matrix, interpretation boundary, and checksum." }
+      ],
+    },
+    {
+      id: "CAMPAIGN-RUL-BOIDS-RESOLUTION-001",
+      title: "Boids stochasticity and observer-resolution diagnostic",
+      description: "Reuse the frozen 32-point RUL-006 design with two new disjoint seed pools, nested averaging, a per-step forcing suppression arm, and observer-subset projections while preserving RUL-009 unchanged.",
+      experimentId: "RUL-010",
+      seeds: [81001, 81013, 81023, 81041, 82003, 82007, 82009, 82021],
+      parameterAxes: [],
+      fixedParameters: { sourceRuleSpace: "RUL-006-32-point-LHS", seedLadder: "1,2,4 per half", fullStochasticRuns: 256, forcingSuppressedRuns: 64, totalNewRuns: 320, observerViews: 4 },
+      analysisIds: [], figureIds: [], paperIds: [], datasetIds: [], status: "completed", projectId,
+      steps: [
+        { id: "R10STEP-01", kind: "execute", label: "Run independent seed pools", dependsOn: [], description: "Execute the unchanged 32 rule coordinates under two disjoint four-seed pools." },
+        { id: "R10STEP-02", kind: "analyze", label: "Estimate seed-resolution ladder", dependsOn: ["R10STEP-01"], description: "Compare independent half-geometries at nested 1, 2, and 4 seed averages." },
+        { id: "R10STEP-03", kind: "analyze", label: "Decompose forcing and observer effects", dependsOn: ["R10STEP-01"], description: "Suppress only per-step Gaussian forcing in a diagnostic arm and reproject the full runs through frozen observer subsets." },
+        { id: "R10STEP-04", kind: "package", label: "Freeze RUL-010 diagnosis", dependsOn: ["R10STEP-02", "R10STEP-03"], description: "Export the diagnostic ladder, observer decomposition, variance decomposition, and checksum without modifying RUL-009." }
       ],
     },
     {

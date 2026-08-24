@@ -219,3 +219,53 @@ test("committed RUL-008 repeats the complete topology-blocked design on disjoint
   assert.equal(summary.topologyBlocks.discovery.length, 3);
   assert.equal(summary.topologyBlocks.crossTopologyDiscovery.length, 3);
 });
+
+test("RUL-009 reuses the frozen RUL-007 contract for three substrates", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-three-substrate.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-009/);
+  assert.match(research, /RUL-009/);
+  assert.match(script, /RUL-007 frozen contract/);
+  assert.match(script, /newSimulationRunCount/);
+  assert.match(studio, /RUL-009 frozen three-substrate challenge/);
+});
+
+test("committed RUL-009 preserves the mixed three-substrate result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/three-substrate/three-substrate-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-009");
+  assert.equal(summary.newSimulationRunCount, 0);
+  assert.equal(summary.substrates.length, 3);
+  assert.equal(summary.challenge.criterionCount, 5);
+  assert.equal(summary.challenge.substrateCount, 3);
+  assert.equal(summary.challenge.substratePassCounts.ECA, 5);
+  assert.equal(summary.challenge.substratePassCounts.Boids, 2);
+  assert.equal(summary.challenge.substratePassCounts.Network, 5);
+  assert.equal(summary.challenge.allSubstratePassCount, 2);
+  assert.deepEqual(new Set(summary.pattern.allThree), new Set(["positiveGlobalRuleObservableAssociation", "localSensitivityTail"]));
+  assert.equal(summary.pattern.ecaAndNetworkOnly.length, 3);
+});
+
+
+test("RUL-010 diagnoses Boids resolution without rewriting RUL-009", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-boids-resolution.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-010/);
+  assert.match(research, /RUL-010/);
+  assert.match(script, /POOL_A/);
+  assert.match(script, /stochastic_noise_scale/);
+  assert.match(studio, /RUL-010 Boids diagnostic/);
+});
+
+test("committed RUL-010 uses disjoint seed pools and exposes observer instability", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/boids-resolution/boids-resolution-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-010");
+  assert.equal(summary.rulePointCount, 32);
+  assert.equal(summary.simulation.totalNewRunCount, 320);
+  assert.equal(new Set(summary.seedPools.A.concat(summary.seedPools.B)).size, summary.seedPools.A.length + summary.seedPools.B.length);
+  assert.deepEqual(summary.seedResolutionLadder.filter(row => row.noiseScale === 1).map(row => row.seedsPerHalf), [1,2,4]);
+  const full = summary.observerDecomposition.find(row => row.observerId === "full_core");
+  const state = summary.observerDecomposition.find(row => row.observerId === "state_structure");
+  const regime = summary.observerDecomposition.find(row => row.observerId === "regime_dynamics");
+  assert.ok(state.geometryStabilitySpearman > full.geometryStabilitySpearman);
+  assert.ok(regime.geometryStabilitySpearman < state.geometryStabilitySpearman);
+});

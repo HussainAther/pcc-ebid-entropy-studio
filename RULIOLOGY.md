@@ -207,3 +207,45 @@ npm run ruliology:network
 ```
 
 Artifacts are written under `data/ruliology/network-rulial/`.
+
+## RUL-009 — frozen three-substrate challenge
+
+RUL-009 extends the **unchanged RUL-007 five-criterion structural contract** to the independently constructed RUL-008 network substrate. It adds no simulations and does not refit thresholds after seeing the network result. The ECA and Boids metric records are reused verbatim from RUL-007, while the network summary is projected into the same five pass/fail rules.
+
+The frozen criteria remain:
+
+1. positive discovery association between normalized rule distance and observer-space distance;
+2. discovery/holdout full-geometry Spearman `>= 0.70`;
+3. discovery/holdout local-edge Spearman `>= 0.70`;
+4. discovery local-sensitivity `q95 / median >= 1.5`;
+5. top-10% local-edge discovery/holdout Jaccard `>= 0.50`.
+
+The current three-way result is deliberately mixed. ECA passes `5/5`, the topology-blocked Network substrate passes `5/5`, and Boids passes `2/5`. Consequently only **2 of 5 criteria pass in all three substrates**: positive global rule/observable association and a heterogeneous local-sensitivity tail. The other three replication criteria are shared by ECA and Network but challenged by Boids under the existing 32-point stochastic design.
+
+This is not evidence for a universal rulial law. It is a sharper empirical pattern: some dimensionless distributional structure recurs across all three systems, while exact geometry and boundary replication are substrate/design dependent at current resolution. The failed Boids criteria remain frozen rather than being repaired post hoc.
+
+Run with:
+
+```bash
+npm run ruliology:three-substrate
+```
+
+Artifacts are written under `data/ruliology/three-substrate/`.
+
+## RUL-010 — Boids stochasticity and resolution decomposition
+
+RUL-010 is a **diagnostic follow-up**, not a repair of RUL-009. The frozen three-substrate result remains unchanged. The experiment reuses the exact 32 RUL-006 Latin-hypercube rule coordinates and introduces two new disjoint four-seed pools. Nested 1-, 2-, and 4-seed averages estimate how much full and local observable geometry stabilizes as stochastic realizations are averaged.
+
+A second diagnostic arm sets the per-step Gaussian Boids forcing multiplier to zero while leaving random initial positions/headings intact. This separates one source of dynamical stochasticity from initialization variability; it is not a deterministic Boids model. Finally, four observer projections are computed from the same full-stochastic runs: the six-feature core, four state/structure coordinates, two regime-dynamics coordinates, and a two-coordinate order/entropy view.
+
+The current result points to **observer-coordinate instability more strongly than to per-step forcing noise**. With four seeds per independent half, the full six-feature geometry reaches about `rho = 0.747` and local-edge geometry about `rho = 0.746`, just above the old 0.70 replication threshold, but exact top-10% edge identity remains unstable. The state/structure observer is substantially more reproducible (`rho ~= 0.892` full geometry; `0.872` local), and the order/entropy view is also strong (`rho ~= 0.855`; `0.828`). In contrast, the two regime-dynamics coordinates are highly degenerate under this design because transition/dwell values are frequently zero or nearly constant.
+
+Suppressing per-step Gaussian forcing at one seed per half does **not** improve geometry stability; the correlation is lower than in the matched full-stochastic arm. That argues against the simple explanation that the RUL-009 Boids gap is caused mainly by the explicit chaos forcing term. Feature-level variance decomposition instead shows especially high within-rule stochastic fractions for transition rate and metastable dwell under the full model. These are diagnostics, not proof of the causal source of the gap.
+
+Run with:
+
+```bash
+npm run ruliology:boids:resolution
+```
+
+Artifacts are written under `data/ruliology/boids-resolution/`.

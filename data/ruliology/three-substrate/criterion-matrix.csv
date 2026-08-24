@@ -1,0 +1,6 @@
+criterion,eca,boids,network,pass_count,all_substrates_pass
+localSensitivityTail,True,True,True,3,True
+positiveGlobalRuleObservableAssociation,True,True,True,3,True
+reproducibleLocalGeometry,True,False,True,2,False
+reproducibleObservableGeometry,True,False,True,2,False
+topTailBoundaryReplication,True,False,True,2,False

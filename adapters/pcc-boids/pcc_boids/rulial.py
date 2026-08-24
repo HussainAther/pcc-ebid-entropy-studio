@@ -96,6 +96,7 @@ def simulate_rule(config: dict[str, Any], rule: dict[str, float], seed: int) -> 
     align_w = float(rule["alignment"])
     coh_w = float(rule["cohesion"])
     chaos = float(rule["chaos"])
+    stochastic_noise_scale = float(config.get("stochastic_noise_scale", 1.0))
     radius = float(rule["neighborhood_radius"])
 
     for t in range(steps):
@@ -121,7 +122,7 @@ def simulate_rule(config: dict[str, Any], rule: dict[str, float], seed: int) -> 
         separation_vec = -(delta / safe_distances[:, :, None] * close[:, :, None]).sum(axis=1)
 
         goal = np.array([1.0, 0.0])
-        perturbation = rng.normal(0.0, chaos, size=(n, 2))
+        perturbation = rng.normal(0.0, chaos * stochastic_noise_scale, size=(n, 2))
         accel = sep_w * separation_vec + align_w * alignment_vec + coh_w * cohesion_vec + pressure * goal + perturbation
         next_velocity = velocities + dt * accel
         speeds = np.linalg.norm(next_velocity, axis=1)

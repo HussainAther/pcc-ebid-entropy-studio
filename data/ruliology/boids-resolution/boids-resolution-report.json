@@ -1,0 +1,232 @@
+{
+  "diagnosis": {
+    "dynamicNoiseEffectAtOneSeed": {
+      "geometryDeltaSuppressedMinusFull": -0.08570671339867153,
+      "localDeltaSuppressedMinusFull": -0.034857008907641984,
+      "top10JaccardDeltaSuppressedMinusFull": 0.0
+    },
+    "fourSeedFullCore": {
+      "geometryStabilitySpearman": 0.7465128963360554,
+      "localEdgeStabilitySpearman": 0.7462063790801421,
+      "localSensitivityQ95OverMedianA": 2.318903017936769,
+      "localSensitivityQ95OverMedianB": null,
+      "noiseScale": 1.0,
+      "observerId": "full_core",
+      "seedsPerHalf": 4,
+      "top10LocalEdgeJaccard": 0.0
+    },
+    "seedAveragingEffect": {
+      "geometryGain1to4": 0.019272031793964195,
+      "localGain1to4": 0.041002440964811426
+    }
+  },
+  "experimentId": "RUL-010",
+  "generatedAt": "2026-08-24T21:45:00.000Z",
+  "interpretationBoundary": [
+    "RUL-010 does not alter or repair the frozen RUL-009 result.",
+    "The same 32 RUL-006 rule coordinates are reused to isolate stochastic realization and observer effects.",
+    "Dynamic-noise suppression removes per-step Gaussian forcing only; random initial positions and headings remain, so it is not a fully deterministic Boids model.",
+    "Seed ladders use nested prefixes of two disjoint preregistered pools; improved stability with averaging diagnoses finite-realization noise but does not prove convergence.",
+    "Observer subsets are diagnostic projections of the same runs and are not post-hoc replacements for the frozen RUL-006 observer."
+  ],
+  "localEdgeCount": 80,
+  "observerDecomposition": [
+    {
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE",
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "geometryStabilitySpearman": 0.7465128963360554,
+      "localEdgeStabilitySpearman": 0.7462063790801421,
+      "localSensitivityQ95OverMedianA": 2.318903017936769,
+      "localSensitivityQ95OverMedianB": null,
+      "observerId": "full_core",
+      "top10LocalEdgeJaccard": 0.0
+    },
+    {
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY",
+        "OBS-SPATIAL",
+        "OBS-SPEED-VARIANCE"
+      ],
+      "geometryStabilitySpearman": 0.892484722607394,
+      "localEdgeStabilitySpearman": 0.8720815752461323,
+      "localSensitivityQ95OverMedianA": 2.318903017936769,
+      "localSensitivityQ95OverMedianB": 2.333822247459397,
+      "observerId": "state_structure",
+      "top10LocalEdgeJaccard": 0.6
+    },
+    {
+      "features": [
+        "OBS-TRANSITION-RATE",
+        "OBS-METASTABLE-DWELL"
+      ],
+      "geometryStabilitySpearman": 0.0,
+      "localEdgeStabilitySpearman": 0.0,
+      "localSensitivityQ95OverMedianA": null,
+      "localSensitivityQ95OverMedianB": null,
+      "observerId": "regime_dynamics",
+      "top10LocalEdgeJaccard": 0.06666666666666667
+    },
+    {
+      "features": [
+        "OBS-POLARIZATION",
+        "OBS-HEADING-ENTROPY"
+      ],
+      "geometryStabilitySpearman": 0.8554210895873775,
+      "localEdgeStabilitySpearman": 0.8282700421940928,
+      "localSensitivityQ95OverMedianA": 3.933143106094132,
+      "localSensitivityQ95OverMedianB": 3.630775018580756,
+      "observerId": "order_entropy",
+      "top10LocalEdgeJaccard": 0.7777777777777778
+    }
+  ],
+  "rulePointCount": 32,
+  "schemaVersion": "entropy-rulial-boids-resolution/1.0.0",
+  "seedPools": {
+    "A": [
+      81001,
+      81013,
+      81023,
+      81041
+    ],
+    "B": [
+      82003,
+      82007,
+      82009,
+      82021
+    ]
+  },
+  "seedResolutionLadder": [
+    {
+      "geometryStabilitySpearman": 0.7272408645420912,
+      "localEdgeStabilitySpearman": 0.7052039381153307,
+      "localSensitivityQ95OverMedianA": 2.173360908878007,
+      "localSensitivityQ95OverMedianB": 2.197612055057325,
+      "noiseScale": 1.0,
+      "observerId": "full_core",
+      "seedsPerHalf": 1,
+      "top10LocalEdgeJaccard": 0.45454545454545453
+    },
+    {
+      "geometryStabilitySpearman": 0.7128874659730613,
+      "localEdgeStabilitySpearman": 0.7595583583511727,
+      "localSensitivityQ95OverMedianA": 2.501490697096313,
+      "localSensitivityQ95OverMedianB": null,
+      "noiseScale": 1.0,
+      "observerId": "full_core",
+      "seedsPerHalf": 2,
+      "top10LocalEdgeJaccard": 0.3333333333333333
+    },
+    {
+      "geometryStabilitySpearman": 0.7465128963360554,
+      "localEdgeStabilitySpearman": 0.7462063790801421,
+      "localSensitivityQ95OverMedianA": 2.318903017936769,
+      "localSensitivityQ95OverMedianB": null,
+      "noiseScale": 1.0,
+      "observerId": "full_core",
+      "seedsPerHalf": 4,
+      "top10LocalEdgeJaccard": 0.0
+    },
+    {
+      "geometryStabilitySpearman": 0.6415341511434197,
+      "localEdgeStabilitySpearman": 0.6703469292076887,
+      "localSensitivityQ95OverMedianA": 2.6033198185982784,
+      "localSensitivityQ95OverMedianB": 2.9444624951671026,
+      "noiseScale": 0.0,
+      "observerId": "full_core",
+      "seedsPerHalf": 1,
+      "top10LocalEdgeJaccard": 0.45454545454545453
+    }
+  ],
+  "simulation": {
+    "config": {
+      "dt": 0.2,
+      "height": 100.0,
+      "max_speed": 2.5,
+      "n_agents": 40,
+      "pressure": 0.35,
+      "separation_radius": 3.0,
+      "steps": 200,
+      "stochastic_noise_scale": 1.0,
+      "tail_fraction": 0.25,
+      "width": 100.0
+    },
+    "dynamicNoiseSuppressedRunCount": 64,
+    "fullStochasticRunCount": 256,
+    "totalNewRunCount": 320
+  },
+  "sourceExperiment": "RUL-006",
+  "title": "Boids stochasticity and resolution decomposition",
+  "varianceDecomposition": {
+    "dynamicNoiseSuppressed": {
+      "OBS-HEADING-ENTROPY": {
+        "betweenRuleMeanVariance": 0.0020745781971321913,
+        "noiseFraction": 0.4803349665859824,
+        "withinRuleVariance": 0.0019175668650493797
+      },
+      "OBS-METASTABLE-DWELL": {
+        "betweenRuleMeanVariance": 0.0,
+        "noiseFraction": 0.0,
+        "withinRuleVariance": 0.0
+      },
+      "OBS-POLARIZATION": {
+        "betweenRuleMeanVariance": 3.1721956741761414e-06,
+        "noiseFraction": 0.28010950660531464,
+        "withinRuleVariance": 1.2343018463251627e-06
+      },
+      "OBS-SPATIAL": {
+        "betweenRuleMeanVariance": 0.040793285971096147,
+        "noiseFraction": 0.1966078167192988,
+        "withinRuleVariance": 0.009983018329643083
+      },
+      "OBS-SPEED-VARIANCE": {
+        "betweenRuleMeanVariance": 2.178183949720301e-06,
+        "noiseFraction": 0.32440230944091186,
+        "withinRuleVariance": 1.0459004131462353e-06
+      },
+      "OBS-TRANSITION-RATE": {
+        "betweenRuleMeanVariance": 0.0,
+        "noiseFraction": 0.0,
+        "withinRuleVariance": 0.0
+      }
+    },
+    "fullStochastic": {
+      "OBS-HEADING-ENTROPY": {
+        "betweenRuleMeanVariance": 0.005955900160184614,
+        "noiseFraction": 0.4334698775902291,
+        "withinRuleVariance": 0.004557045091253781
+      },
+      "OBS-METASTABLE-DWELL": {
+        "betweenRuleMeanVariance": 1.68010752688172e-05,
+        "noiseFraction": 0.8920863309352518,
+        "withinRuleVariance": 0.00013888888888888894
+      },
+      "OBS-POLARIZATION": {
+        "betweenRuleMeanVariance": 8.439291215959086e-06,
+        "noiseFraction": 0.23521993798003385,
+        "withinRuleVariance": 2.5956345556005297e-06
+      },
+      "OBS-SPATIAL": {
+        "betweenRuleMeanVariance": 0.035159854132754666,
+        "noiseFraction": 0.3193587490191425,
+        "withinRuleVariance": 0.01649710036726507
+      },
+      "OBS-SPEED-VARIANCE": {
+        "betweenRuleMeanVariance": 1.2841968987966268e-05,
+        "noiseFraction": 0.37936781459436963,
+        "withinRuleVariance": 7.84978579038617e-06
+      },
+      "OBS-TRANSITION-RATE": {
+        "betweenRuleMeanVariance": 9.54582443747348e-08,
+        "noiseFraction": 0.8920863309352518,
+        "withinRuleVariance": 7.891214868311408e-07
+      }
+    }
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "challenge": {
+    "allCriteriaPassAllSubstrates": false,
+    "allSubstratePassCount": 2,
+    "criteria": {
+      "localSensitivityTail": {
+        "allSubstratesPass": true,
+        "definition": "Discovery local-sensitivity q95/median >= 1.5 in both substrates.",
+        "passCount": 3,
+        "status": "retained-all",
+        "substrateCount": 3,
+        "substrates": {
+          "Boids": true,
+          "ECA": true,
+          "Network": true
+        },
+        "thresholdSource": "RUL-007 frozen contract"
+      },
+      "positiveGlobalRuleObservableAssociation": {
+        "allSubstratesPass": true,
+        "definition": "Discovery Spearman rho(d_R,d_E) > 0 in both substrates.",
+        "passCount": 3,
+        "status": "retained-all",
+        "substrateCount": 3,
+        "substrates": {
+          "Boids": true,
+          "ECA": true,
+          "Network": true
+        },
+        "thresholdSource": "RUL-007 frozen contract"
+      },
+      "reproducibleLocalGeometry": {
+        "allSubstratesPass": false,
+        "definition": "Discovery-vs-holdout local-edge observable-distance Spearman >= 0.70 in both substrates.",
+        "passCount": 2,
+        "status": "challenged",
+        "substrateCount": 3,
+        "substrates": {
+          "Boids": false,
+          "ECA": true,
+          "Network": true
+        },
+        "thresholdSource": "RUL-007 frozen contract"
+      },
+      "reproducibleObservableGeometry": {
+        "allSubstratesPass": false,
+        "definition": "Discovery-vs-holdout pairwise observable-distance Spearman >= 0.70 in both substrates.",
+        "passCount": 2,
+        "status": "challenged",
+        "substrateCount": 3,
+        "substrates": {
+          "Boids": false,
+          "ECA": true,
+          "Network": true
+        },
+        "thresholdSource": "RUL-007 frozen contract"
+      },
+      "topTailBoundaryReplication": {
+        "allSubstratesPass": false,
+        "definition": "Top-10% local-edge Jaccard >= 0.50 between discovery and holdout in both substrates.",
+        "passCount": 2,
+        "status": "challenged",
+        "substrateCount": 3,
+        "substrates": {
+          "Boids": false,
+          "ECA": true,
+          "Network": true
+        },
+        "thresholdSource": "RUL-007 frozen contract"
+      }
+    },
+    "criteriaPassingAtLeastTwoSubstrates": 5,
+    "criterionCount": 5,
+    "substrateCount": 3,
+    "substratePassCounts": {
+      "Boids": 2,
+      "ECA": 5,
+      "Network": 5
+    }
+  },
+  "experimentId": "RUL-009",
+  "frozenContract": {
+    "criteria": {
+      "localSensitivityTail": "Discovery local-sensitivity q95/median >= 1.5 in both substrates.",
+      "positiveGlobalRuleObservableAssociation": "Discovery Spearman rho(d_R,d_E) > 0 in both substrates.",
+      "reproducibleLocalGeometry": "Discovery-vs-holdout local-edge observable-distance Spearman >= 0.70 in both substrates.",
+      "reproducibleObservableGeometry": "Discovery-vs-holdout pairwise observable-distance Spearman >= 0.70 in both substrates.",
+      "topTailBoundaryReplication": "Top-10% local-edge Jaccard >= 0.50 between discovery and holdout in both substrates."
+    },
+    "origin": "RUL-007",
+    "rule": "No metric, neighborhood, threshold, or pass criterion is changed after observing RUL-008."
+  },
+  "generatedAt": "2026-08-24T21:30:00.000Z",
+  "interpretationBoundary": [
+    "RUL-009 adds no new simulations; it is a prospective extension of the already-frozen RUL-007 structural contract to the independently built RUL-008 network substrate.",
+    "Two of five criteria pass in all three substrates. This does not establish rulial universality.",
+    "ECA and Network passing all five while Boids passes two may reflect deterministic versus stochastic sampling, design density, substrate dynamics, observer choice, or other factors; RUL-009 does not identify the cause.",
+    "The common local-sensitivity-tail criterion is distributional and does not imply that particular phase boundaries or rule identities transfer across substrates.",
+    "Future substrates must either reuse this versioned contract unchanged or declare a new contract version before results are examined."
+  ],
+  "newSimulationRunCount": 0,
+  "pattern": {
+    "allThree": [
+      "localSensitivityTail",
+      "positiveGlobalRuleObservableAssociation"
+    ],
+    "ecaAndNetworkOnly": [
+      "reproducibleLocalGeometry",
+      "reproducibleObservableGeometry",
+      "topTailBoundaryReplication"
+    ],
+    "interpretation": "Under the unchanged RUL-007 thresholds, ECA and Network satisfy all five structural criteria, while Boids satisfies two. The two properties retained across all three are positive global rule/observable association and a heterogeneous local-sensitivity tail. This is a three-substrate pattern, not a universality theorem."
+  },
+  "schemaVersion": "entropy-rulial-three-substrate/1.0.0",
+  "sourceExperiments": [
+    "RUL-007",
+    "RUL-008"
+  ],
+  "substrates": [
+    {
+      "discoveryRunCount": 1024,
+      "geometryStabilitySpearman": 0.979777916360744,
+      "globalRuleObservableSpearmanDiscovery": 0.023427787551470215,
+      "globalRuleObservableSpearmanHoldout": 0.02759371863254281,
+      "holdoutRunCount": 1024,
+      "localEdgeCount": 1024,
+      "localEdgeStabilitySpearman": 0.9755508864583767,
+      "localSensitivity": {
+        "fractionAbove2xMedian": 0.173828125,
+        "holdoutMedian": 0.9722453724347322,
+        "holdoutQ95": 3.519095921054697,
+        "median": 0.9721097346995232,
+        "q90": 2.4039486757283237,
+        "q95": 3.5008382561226186,
+        "q95OverMedian": 3.601278879492673
+      },
+      "rulePairCount": 32640,
+      "substrate": "ECA",
+      "top10LocalEdgeJaccard": 0.8899082568807339
+    },
+    {
+      "discoveryRunCount": 96,
+      "geometryStabilitySpearman": 0.6470772828564741,
+      "globalRuleObservableSpearmanDiscovery": 0.3125829266901507,
+      "globalRuleObservableSpearmanHoldout": 0.3301131323621101,
+      "holdoutRunCount": 64,
+      "localEdgeCount": 80,
+      "localEdgeStabilitySpearman": 0.6433661509610877,
+      "localSensitivity": {
+        "fractionAbove2xMedian": 0.15,
+        "holdoutMedian": 0.9849339209970154,
+        "holdoutQ95": 4.617715212237003,
+        "median": 1.1388590860545176,
+        "q90": 2.5535076397377616,
+        "q95": 3.011303897668492,
+        "q95OverMedian": 2.6441409078105558
+      },
+      "rulePairCount": 496,
+      "substrate": "Boids",
+      "top10LocalEdgeJaccard": 0.06666666666666667
+    },
+    {
+      "discoveryRunCount": 216,
+      "geometryStabilitySpearman": 0.9924632688212478,
+      "globalRuleObservableSpearmanDiscovery": 0.2348939084773334,
+      "globalRuleObservableSpearmanHoldout": 0.23666974026376028,
+      "holdoutRunCount": 144,
+      "localEdgeCount": 61,
+      "localEdgeStabilitySpearman": 0.9831032855251808,
+      "localSensitivity": {
+        "median": 1.1086110245108238,
+        "q95": 3.8872245630687603,
+        "q95OverMedian": 3.5063917615143723
+      },
+      "rulePairCount": 276,
+      "substrate": "Network",
+      "top10LocalEdgeJaccard": 0.75
+    }
+  ],
+  "title": "Frozen Three-Substrate Rulial Structure Challenge"
+}

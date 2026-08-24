@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-boids-resolution/1.0.0",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "rulePointCount", "seedPools", "simulation", "seedResolutionLadder", "observerDecomposition", "varianceDecomposition", "diagnosis", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-boids-resolution/1.0.0"},
+    "experimentId": {"const": "RUL-010"},
+    "rulePointCount": {"const": 32},
+    "seedPools": {"type": "object", "required": ["A", "B"]},
+    "simulation": {"type": "object", "required": ["fullStochasticRunCount", "dynamicNoiseSuppressedRunCount", "totalNewRunCount"]},
+    "seedResolutionLadder": {"type": "array", "minItems": 4},
+    "observerDecomposition": {"type": "array", "minItems": 4},
+    "varianceDecomposition": {"type": "object"},
+    "diagnosis": {"type": "object"},
+    "interpretationBoundary": {"type": "array", "minItems": 4}
+  }
+}

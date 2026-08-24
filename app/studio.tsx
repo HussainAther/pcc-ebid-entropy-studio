@@ -22,6 +22,8 @@ import ecaObserverGeometry from "../data/ruliology/eca-observer-geometry/observe
 import boidsRulial from "../data/ruliology/boids-rulial/boids-rulial-summary.json";
 import crossSubstrate from "../data/ruliology/cross-substrate/cross-substrate-summary.json";
 import networkRulial from "../data/ruliology/network-rulial/network-rulial-summary.json";
+import threeSubstrate from "../data/ruliology/three-substrate/three-substrate-summary.json";
+import boidsResolution from "../data/ruliology/boids-resolution/boids-resolution-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -318,6 +320,22 @@ function RulialAtlas() {
       <Notice title="Topology is blocked, not hidden">RUL-008 does not treat graph topology as another Euclidean rule coordinate. The same local rules are crossed with three preregistered interaction structures, topology-specific profiles are retained, and the aggregate rule profile averages across those blocks. The next three-substrate challenge must reuse the already-frozen RUL-007 criteria without changing thresholds after seeing this result.</Notice>
       <div className="table-head rulial-table"><span>Candidate edge</span><span>dR</span><span>Discovery S</span><span>Holdout S</span></div>
       {networkRulial.discovery.topCandidateEdges.slice(0,6).map(edge=><div className="table-row rulial-table" key={edge.pairKey}><span><b>{edge.leftRuleId} ↔ {edge.rightRuleId}</b></span><span>{Number(edge.ruleDistance).toFixed(3)}</span><span>{Number(edge.discoverySensitivity).toFixed(2)}</span><span>{Number(edge.holdoutSensitivity).toFixed(2)}</span></div>)}
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-009 frozen three-substrate challenge" title="Two structural signatures survive all three substrates"/>
+      <p>RUL-009 adds no simulations. It projects ECA, Boids, and Network into the exact five structural criteria frozen in RUL-007 before the Network result existed.</p>
+      <div className="stats compact"><Stat label="All-three criteria" value={`${threeSubstrate.challenge.allSubstratePassCount}/${threeSubstrate.challenge.criterionCount}`} foot="unchanged RUL-007 thresholds"/><Stat label="ECA" value={`${threeSubstrate.challenge.substratePassCounts.ECA}/5`} foot="criteria passed"/><Stat label="Boids" value={`${threeSubstrate.challenge.substratePassCounts.Boids}/5`} foot="criteria passed"/><Stat label="Network" value={`${threeSubstrate.challenge.substratePassCounts.Network}/5`} foot="criteria passed"/></div>
+      <div className="table-head rulial-table"><span>Frozen criterion</span><span>ECA</span><span>Boids</span><span>Network</span></div>
+      {Object.entries(threeSubstrate.challenge.criteria).map(([id,criterion])=><div className="source-row rulial-table" key={`rul009-${id}`}><b>{id.replaceAll(/([A-Z])/g," $1").trim()}</b><code>{criterion.substrates.ECA ? "pass" : "fail"}</code><span>{criterion.substrates.Boids ? "pass" : "fail"}</span><small>{criterion.substrates.Network ? "pass" : "fail"} · {criterion.passCount}/3 substrates</small></div>)}
+      <Notice title="Pattern, not universality">Positive global rule/observable association and the heterogeneous local-sensitivity tail pass in all three substrates. Full-geometry stability, local-geometry stability, and top-tail boundary replication pass in ECA and Network but remain challenged by Boids. No thresholds were changed to produce this pattern.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-010 Boids diagnostic" title="The replication gap is observer-sensitive, not simply noise-forcing limited"/>
+      <p>RUL-010 leaves RUL-009 untouched and reuses the same 32 Boids rules with two new independent seed pools. The nested averaging ladder and observer projections ask which part of the weak Boids replication is finite-realization noise versus measurement-coordinate instability.</p>
+      <div className="stats compact"><Stat label="New runs" value={String(boidsResolution.simulation.totalNewRunCount)} foot="256 full + 64 forcing-suppressed"/><Stat label="4-seed geometry ρ" value={Number(boidsResolution.diagnosis.fourSeedFullCore.geometryStabilitySpearman).toFixed(3)} foot="full six-feature observer"/><Stat label="4-seed local ρ" value={Number(boidsResolution.diagnosis.fourSeedFullCore.localEdgeStabilitySpearman).toFixed(3)} foot="same frozen local graph"/><Stat label="Top-10% Jaccard" value={Number(boidsResolution.diagnosis.fourSeedFullCore.top10LocalEdgeJaccard).toFixed(3)} foot="exact edge identity still unstable"/></div>
+      <div className="table-head rulial-table"><span>Observer</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
+      {boidsResolution.observerDecomposition.map(item=><div className="source-row rulial-table" key={`rul010-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
+      <Notice title="Diagnostic, not repair">The state/structure and order/entropy projections reproduce substantially better than the transition/dwell projection. Turning off per-step Gaussian forcing does not improve the matched one-seed geometry, so RUL-010 does not support a simple “Boids failed because chaos noise was too high” explanation. RUL-009 stays frozen.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

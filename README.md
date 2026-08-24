@@ -183,3 +183,25 @@ npm run ruliology:network
 ```
 
 The benchmark writes `entropy-rulial-network/1.0.0` artifacts to `data/ruliology/network-rulial/`. Topology is retained as an explicit experimental block rather than hidden inside the local rule metric. The committed result shows strong held-out stability, but no cross-substrate universality claim is made until the pre-existing RUL-007 contract is applied unchanged to all three substrates.
+
+### RUL-009: frozen three-substrate challenge
+
+The Ruliology program now includes a versioned three-way comparison across elementary cellular automata, stochastic Boids, and topology-blocked stochastic networks. RUL-009 reuses the five structural criteria frozen in RUL-007 **without changing any threshold after seeing RUL-008**. It performs no new simulations.
+
+Current result: ECA passes 5/5 criteria, Network passes 5/5, and Boids passes 2/5. Two criteria are retained across all three substrates: positive global rule/observable association and a heterogeneous local-sensitivity tail. The stronger geometry and local-boundary replication criteria remain challenged by Boids.
+
+```bash
+npm run ruliology:three-substrate
+```
+
+See `data/ruliology/three-substrate/` and `schemas/rulial-three-substrate.schema.json`.
+
+### RUL-010: Boids stochasticity / resolution diagnostic
+
+RUL-010 keeps the RUL-009 benchmark frozen and asks why Boids was the replication outlier. It reuses the same 32 RUL-006 rule coordinates with two new disjoint seed pools, a nested 1/2/4-seed averaging ladder, a diagnostic per-step-noise-suppressed arm, and four observer projections computed from identical runs.
+
+```bash
+npm run ruliology:boids:resolution
+```
+
+The committed diagnostic indicates that averaging improves the full Boids geometry only modestly, while observer choice matters strongly: state/structure and order/entropy projections are much more stable than the sparse transition/dwell projection. Suppressing per-step Gaussian forcing does not repair the one-seed geometry, so the current evidence does not support blaming the RUL-009 gap primarily on that forcing term. See `data/ruliology/boids-resolution/` and `schemas/rulial-boids-resolution.schema.json`.
