@@ -1,0 +1,668 @@
+{
+  "schemaVersion": "entropy-rulial-validation-summary/1.0.0",
+  "generatedAt": "2026-08-24T18:44:02.524Z",
+  "validationId": "RUL-002-003-ECA-VALIDATION-001",
+  "holdout": {
+    "seeds": [
+      101,
+      131,
+      173,
+      211
+    ],
+    "runCount": 1024,
+    "profileCount": 256,
+    "policy": "Holdout seeds are disjoint from the frozen RUL-001 calibration seeds and are never used to construct the original atlas profiles."
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "confidence": 0.95,
+    "intervalCount": 1280,
+    "note": "Percentile intervals resample the four frozen calibration initial conditions with replacement. With n=4 seeds these intervals are diagnostic, not high-precision uncertainty estimates."
+  },
+  "stability": {
+    "selfDistanceQuantiles": {
+      "q25": 0.004483446135577448,
+      "q50": 0.009227259225933957,
+      "q75": 0.020143306081813493,
+      "q95": 0.04774979549694684
+    },
+    "allPairDistanceSpearman": 0.9797779163607441,
+    "oneBitEdgeDistanceSpearman": 0.9755508864583767,
+    "topFivePercentEdgeJaccard": 1,
+    "robustTopTailEdgeCount": 52,
+    "clustering": {
+      "calibrationClassCount": 85,
+      "holdoutClassCount": 95,
+      "calibrationNonSingletonClassCount": 62,
+      "holdoutNonSingletonClassCount": 66,
+      "coassignmentJaccard": 0.6303972366148531
+    }
+  },
+  "neighborhoodSensitivity": {
+    "calibrationThresholdP95": 0.4376047820153273,
+    "holdoutThresholdP95": 0.43988699013183713,
+    "robustTransitions": [
+      {
+        "fromRuleId": "168",
+        "toRuleId": "184",
+        "calibrationDistance": 0.6157408675100845,
+        "holdoutDistance": 0.6215102697032275,
+        "calibrationPercentile": 1,
+        "holdoutPercentile": 1,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "184",
+        "toRuleId": "248",
+        "calibrationDistance": 0.6156819302384191,
+        "holdoutDistance": 0.6207711911678296,
+        "calibrationPercentile": 0.9990234375,
+        "holdoutPercentile": 0.9990234375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "224",
+        "toRuleId": "226",
+        "calibrationDistance": 0.6142682804074305,
+        "holdoutDistance": 0.6197584709889885,
+        "calibrationPercentile": 0.998046875,
+        "holdoutPercentile": 0.998046875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "226",
+        "toRuleId": "234",
+        "calibrationDistance": 0.6141892896116384,
+        "holdoutDistance": 0.6190799470391025,
+        "calibrationPercentile": 0.9970703125,
+        "holdoutPercentile": 0.9970703125,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "96",
+        "toRuleId": "98",
+        "calibrationDistance": 0.5502898565698751,
+        "holdoutDistance": 0.5307350325483788,
+        "calibrationPercentile": 0.99609375,
+        "holdoutPercentile": 0.9951171875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "40",
+        "toRuleId": "56",
+        "calibrationDistance": 0.5499614753031646,
+        "holdoutDistance": 0.5304439668742599,
+        "calibrationPercentile": 0.9951171875,
+        "holdoutPercentile": 0.994140625,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "120",
+        "toRuleId": "248",
+        "calibrationDistance": 0.5236265456247612,
+        "holdoutDistance": 0.5282339225301239,
+        "calibrationPercentile": 0.9912109375,
+        "holdoutPercentile": 0.9931640625,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "185",
+        "toRuleId": "249",
+        "calibrationDistance": 0.5470534527244483,
+        "holdoutDistance": 0.5263303902736558,
+        "calibrationPercentile": 0.994140625,
+        "holdoutPercentile": 0.9912109375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "106",
+        "toRuleId": "234",
+        "calibrationDistance": 0.5213783647533954,
+        "holdoutDistance": 0.5308838044112286,
+        "calibrationPercentile": 0.990234375,
+        "holdoutPercentile": 0.99609375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "227",
+        "toRuleId": "235",
+        "calibrationDistance": 0.5469596442903043,
+        "holdoutDistance": 0.5260218432569627,
+        "calibrationPercentile": 0.9931640625,
+        "holdoutPercentile": 0.990234375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "168",
+        "toRuleId": "169",
+        "calibrationDistance": 0.5259071845058758,
+        "holdoutDistance": 0.5205513357918994,
+        "calibrationPercentile": 0.9921875,
+        "holdoutPercentile": 0.9892578125,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "224",
+        "toRuleId": "225",
+        "calibrationDistance": 0.5203008030024199,
+        "holdoutDistance": 0.527045774422492,
+        "calibrationPercentile": 0.9892578125,
+        "holdoutPercentile": 0.9921875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "160",
+        "toRuleId": "162",
+        "calibrationDistance": 0.5058682481270631,
+        "holdoutDistance": 0.5014647320218548,
+        "calibrationPercentile": 0.986328125,
+        "holdoutPercentile": 0.9873046875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "160",
+        "toRuleId": "176",
+        "calibrationDistance": 0.5055149259123755,
+        "holdoutDistance": 0.5011508588066196,
+        "calibrationPercentile": 0.9853515625,
+        "holdoutPercentile": 0.986328125,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "168",
+        "toRuleId": "170",
+        "calibrationDistance": 0.5029260339039766,
+        "holdoutDistance": 0.49574901464861526,
+        "calibrationPercentile": 0.984375,
+        "holdoutPercentile": 0.9853515625,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "170",
+        "toRuleId": "234",
+        "calibrationDistance": 0.5027311745478913,
+        "holdoutDistance": 0.4947912662933957,
+        "calibrationPercentile": 0.9833984375,
+        "holdoutPercentile": 0.9833984375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "186",
+        "toRuleId": "250",
+        "calibrationDistance": 0.5103256776942549,
+        "holdoutDistance": 0.4946834984829751,
+        "calibrationPercentile": 0.98828125,
+        "holdoutPercentile": 0.982421875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "224",
+        "toRuleId": "240",
+        "calibrationDistance": 0.5025644740643005,
+        "holdoutDistance": 0.49547215687981183,
+        "calibrationPercentile": 0.982421875,
+        "holdoutPercentile": 0.984375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "242",
+        "toRuleId": "250",
+        "calibrationDistance": 0.5099820858636275,
+        "holdoutDistance": 0.49434708794786114,
+        "calibrationPercentile": 0.9873046875,
+        "holdoutPercentile": 0.9814453125,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "240",
+        "toRuleId": "248",
+        "calibrationDistance": 0.5023074580870951,
+        "holdoutDistance": 0.49430850779715646,
+        "calibrationPercentile": 0.9814453125,
+        "holdoutPercentile": 0.98046875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "121",
+        "toRuleId": "249",
+        "calibrationDistance": 0.49211058447675415,
+        "holdoutDistance": 0.4935290840387063,
+        "calibrationPercentile": 0.978515625,
+        "holdoutPercentile": 0.9794921875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "110",
+        "toRuleId": "238",
+        "calibrationDistance": 0.48905998055529265,
+        "holdoutDistance": 0.491170944290577,
+        "calibrationPercentile": 0.9765625,
+        "holdoutPercentile": 0.9755859375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "192",
+        "toRuleId": "193",
+        "calibrationDistance": 0.4881738874929397,
+        "holdoutDistance": 0.4915226649062187,
+        "calibrationPercentile": 0.9755859375,
+        "holdoutPercentile": 0.9765625,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "136",
+        "toRuleId": "137",
+        "calibrationDistance": 0.49593808899793673,
+        "holdoutDistance": 0.48991812158392667,
+        "calibrationPercentile": 0.9794921875,
+        "holdoutPercentile": 0.974609375,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "124",
+        "toRuleId": "252",
+        "calibrationDistance": 0.48793355673304034,
+        "holdoutDistance": 0.489546112198882,
+        "calibrationPercentile": 0.974609375,
+        "holdoutPercentile": 0.9736328125,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "160",
+        "toRuleId": "161",
+        "calibrationDistance": 0.4877313754447277,
+        "holdoutDistance": 0.48785775880945204,
+        "calibrationPercentile": 0.9736328125,
+        "holdoutPercentile": 0.9716796875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "96",
+        "toRuleId": "97",
+        "calibrationDistance": 0.5016887739659251,
+        "holdoutDistance": 0.4715056255538122,
+        "calibrationPercentile": 0.98046875,
+        "holdoutPercentile": 0.970703125,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "40",
+        "toRuleId": "42",
+        "calibrationDistance": 0.48762734632714383,
+        "holdoutDistance": 0.4714721383031848,
+        "calibrationPercentile": 0.97265625,
+        "holdoutPercentile": 0.9697265625,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "107",
+        "toRuleId": "235",
+        "calibrationDistance": 0.4865560066193493,
+        "holdoutDistance": 0.48862229277495267,
+        "calibrationPercentile": 0.9697265625,
+        "holdoutPercentile": 0.97265625,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "96",
+        "toRuleId": "112",
+        "calibrationDistance": 0.48714658724737964,
+        "holdoutDistance": 0.47112673824114804,
+        "calibrationPercentile": 0.9716796875,
+        "holdoutPercentile": 0.96875,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "122",
+        "toRuleId": "250",
+        "calibrationDistance": 0.48103243438427973,
+        "holdoutDistance": 0.5104585620072807,
+        "calibrationPercentile": 0.9677734375,
+        "holdoutPercentile": 0.98828125,
+        "robustTopTail": true
+      },
+      {
+        "fromRuleId": "171",
+        "toRuleId": "235",
+        "calibrationDistance": 0.4865798157992547,
+        "holdoutDistance": 0.46941649527016727,
+        "calibrationPercentile": 0.970703125,
+        "holdoutPercentile": 0.9677734375,
+        "robustTopTail": true
+      }
+    ]
+  },
+  "equivalence": {
+    "criterion": "Complete-link clustering on joint distance max(d_calibration, d_holdout); every pair within a candidate class must remain inside epsilon in both independent initial-condition ensembles.",
+    "epsilon": 0.009227259225933957,
+    "epsilonSource": "Median (q50) same-rule calibration-to-holdout EBID distance. q25/q50/q75 alternatives are reported as a threshold-sensitivity analysis.",
+    "classCount": 108,
+    "nonSingletonClassCount": 64,
+    "largestClassSize": 10,
+    "sensitivity": [
+      {
+        "quantile": "q25",
+        "epsilon": 0.004483446135577448,
+        "classCount": 153,
+        "nonSingletonClassCount": 58,
+        "largestClassSize": 8
+      },
+      {
+        "quantile": "q50",
+        "epsilon": 0.009227259225933957,
+        "classCount": 108,
+        "nonSingletonClassCount": 64,
+        "largestClassSize": 10
+      },
+      {
+        "quantile": "q75",
+        "epsilon": 0.020143306081813493,
+        "classCount": 72,
+        "nonSingletonClassCount": 53,
+        "largestClassSize": 20
+      }
+    ],
+    "nonSingletonClasses": [
+      {
+        "id": "EQ-087",
+        "memberRuleIds": [
+          "0",
+          "8",
+          "32",
+          "64",
+          "128",
+          "239",
+          "251",
+          "253",
+          "254",
+          "255"
+        ],
+        "size": 10,
+        "maximumJointDistance": 0.00701326991750324
+      },
+      {
+        "id": "EQ-103",
+        "memberRuleIds": [
+          "13",
+          "28",
+          "70",
+          "92",
+          "93",
+          "141",
+          "156",
+          "157",
+          "198",
+          "199"
+        ],
+        "size": 10,
+        "maximumJointDistance": 0.008643061849835066
+      },
+      {
+        "id": "EQ-073",
+        "memberRuleIds": [
+          "40",
+          "96",
+          "136",
+          "160",
+          "192",
+          "235",
+          "238",
+          "249",
+          "250",
+          "252"
+        ],
+        "size": 10,
+        "maximumJointDistance": 0.005263272236734361
+      },
+      {
+        "id": "EQ-085",
+        "memberRuleIds": [
+          "11",
+          "27",
+          "39",
+          "47",
+          "53",
+          "81",
+          "83",
+          "117"
+        ],
+        "size": 8,
+        "maximumJointDistance": 0.006817605655871213
+      },
+      {
+        "id": "EQ-057",
+        "memberRuleIds": [
+          "12",
+          "34",
+          "48",
+          "68",
+          "187",
+          "207",
+          "221",
+          "243"
+        ],
+        "size": 8,
+        "maximumJointDistance": 0.0019586168515871075
+      },
+      {
+        "id": "EQ-055",
+        "memberRuleIds": [
+          "15",
+          "51",
+          "85",
+          "170",
+          "204",
+          "240"
+        ],
+        "size": 6,
+        "maximumJointDistance": 0.0017877124212136695
+      },
+      {
+        "id": "EQ-076",
+        "memberRuleIds": [
+          "30",
+          "45",
+          "75",
+          "86",
+          "135",
+          "149"
+        ],
+        "size": 6,
+        "maximumJointDistance": 0.005503436063800394
+      },
+      {
+        "id": "EQ-048",
+        "memberRuleIds": [
+          "60",
+          "90",
+          "102",
+          "153",
+          "165",
+          "195"
+        ],
+        "size": 6,
+        "maximumJointDistance": 0.00015173522324028028
+      },
+      {
+        "id": "EQ-098",
+        "memberRuleIds": [
+          "2",
+          "16",
+          "191",
+          "247"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.007974877434766504
+      },
+      {
+        "id": "EQ-101",
+        "memberRuleIds": [
+          "3",
+          "17",
+          "63",
+          "119"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.008336028594721786
+      },
+      {
+        "id": "EQ-068",
+        "memberRuleIds": [
+          "10",
+          "80",
+          "175",
+          "245"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.004348969076338687
+      },
+      {
+        "id": "EQ-081",
+        "memberRuleIds": [
+          "24",
+          "66",
+          "189",
+          "231"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.005976222556448503
+      },
+      {
+        "id": "EQ-096",
+        "memberRuleIds": [
+          "26",
+          "82",
+          "167",
+          "181"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.007669730485457542
+      },
+      {
+        "id": "EQ-080",
+        "memberRuleIds": [
+          "35",
+          "49",
+          "59",
+          "115"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.005800502681737306
+      },
+      {
+        "id": "EQ-072",
+        "memberRuleIds": [
+          "38",
+          "52",
+          "155",
+          "211"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.005158068067288052
+      },
+      {
+        "id": "EQ-059",
+        "memberRuleIds": [
+          "42",
+          "112",
+          "171",
+          "241"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.002484003204452491
+      },
+      {
+        "id": "EQ-071",
+        "memberRuleIds": [
+          "46",
+          "116",
+          "139",
+          "209"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.004872492507330451
+      },
+      {
+        "id": "EQ-077",
+        "memberRuleIds": [
+          "50",
+          "77",
+          "178",
+          "179"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.0056125221520960744
+      },
+      {
+        "id": "EQ-094",
+        "memberRuleIds": [
+          "69",
+          "78",
+          "79",
+          "197"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.007464639595653846
+      },
+      {
+        "id": "EQ-067",
+        "memberRuleIds": [
+          "138",
+          "174",
+          "208",
+          "244"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.003973340161820931
+      },
+      {
+        "id": "EQ-058",
+        "memberRuleIds": [
+          "140",
+          "196",
+          "206",
+          "220"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.0024657294518915717
+      },
+      {
+        "id": "EQ-063",
+        "memberRuleIds": [
+          "154",
+          "166",
+          "180",
+          "210"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.0031112814268517896
+      },
+      {
+        "id": "EQ-102",
+        "memberRuleIds": [
+          "162",
+          "176",
+          "186",
+          "242"
+        ],
+        "size": 4,
+        "maximumJointDistance": 0.008361443549535628
+      },
+      {
+        "id": "EQ-086",
+        "memberRuleIds": [
+          "6",
+          "159",
+          "215"
+        ],
+        "size": 3,
+        "maximumJointDistance": 0.00686440004864256
+      }
+    ]
+  },
+  "externalClassification": {
+    "status": "not-run",
+    "reason": "No external CA class labels are bundled because whole-population Wolfram-class assignments are not uniquely canonical. Post-hoc comparison requires a provenance-bearing frozen label table.",
+    "requiredInput": "CSV or JSON with rule_id, class_label, source, and classification_version after RUL-002/003 metrics and thresholds are frozen."
+  }
+}
