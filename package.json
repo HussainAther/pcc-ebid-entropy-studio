@@ -23,7 +23,8 @@
     "ruliology:observer-conditioning": "python3 scripts/analyze-rulial-observer-conditioning.py --output-dir data/ruliology/observer-conditioning",
     "ruliology:observer-information": "python3 scripts/analyze-rulial-observer-information.py --output-dir data/ruliology/observer-information",
     "ruliology:observer-selection": "python3 scripts/analyze-rulial-prospective-observer-selection.py --output-dir data/ruliology/prospective-observer-selection",
-    "ruliology:observer-weighting": "python3 scripts/analyze-rulial-information-weighted-observer.py --output-dir data/ruliology/information-weighted-observer"
+    "ruliology:observer-weighting": "python3 scripts/analyze-rulial-information-weighted-observer.py --output-dir data/ruliology/information-weighted-observer",
+    "ruliology:observer-ablation": "python3 scripts/analyze-rulial-observer-ablation.py"
   },
   "dependencies": {
     "next": "16.2.6",

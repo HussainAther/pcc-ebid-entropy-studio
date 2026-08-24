@@ -406,3 +406,29 @@ test("committed RUL-015 preserves the challenged continuous-weighting result", (
   assert.equal(summary.primaryProspectiveTest.continuousWeightingSupported, false);
   assert.equal(summary.secondaryChecks.jaccardCriterionPassed, false);
 });
+
+
+test("RUL-016 exhaustively freezes the six-feature observer Boolean lattice", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-observer-ablation.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-016/);
+  assert.match(research, /RUL-016/);
+  assert.match(script, /nonEmptyObserverSubsetCount/);
+  assert.match(script, /shapley/);
+  assert.match(script, /interaction/);
+  assert.match(studio, /RUL-016 observer ablation/);
+});
+
+test("committed RUL-016 preserves exact non-additive observer effects", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/observer-ablation/observer-ablation-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-016");
+  assert.equal(summary.source.newUniqueSimulationRunCount, 0);
+  assert.equal(summary.design.featureCount, 6);
+  assert.equal(summary.design.nonEmptyObserverSubsetCount, 63);
+  assert.equal(summary.design.pairInteractionCount, 15);
+  assert.equal(summary.featureEffects.length, 6);
+  assert.equal(summary.pairInteractions.length, 15);
+  assert.equal(summary.diagnostic.nonAdditiveGeometryInteractionPresent, true);
+  assert.equal(summary.diagnostic.bothRegimeRemovalsImproveGeometry, true);
+  assert.equal(summary.diagnostic.bothRegimeRemovalsImproveLocal, true);
+});

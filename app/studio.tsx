@@ -381,6 +381,16 @@ function RulialAtlas() {
       <div className="table-head rulial-table"><span>Metric</span><span>Geometry ρ</span><span>Local-edge ρ</span><span>Top-10% overlap</span></div>
       {informationWeightedObserver.observers.map(item=><div className="source-row rulial-table" key={`rul015-${item.observerId}`}><b>{item.observerId}</b><code>{Number(item.geometryStabilitySpearman).toFixed(3)}</code><span>{Number(item.localEdgeStabilitySpearman).toFixed(3)}</span><small>{Number(item.top10LocalEdgeJaccard).toFixed(3)} Jaccard</small></div>)}
       <Notice title="Specific weighting rule challenged">The information-weighted metric barely changes complete/local stability relative to equal weighting and does not meet either preregistered +0.03 margin. The hard four-feature selection is substantially stronger on complete geometry and top-boundary overlap in this unseen design. Keep RUL-015 challenged: continuous down-weighting is not automatically better than removing poorly conditioned coordinates.</Notice>
+
+      <SectionHead eyebrow="RUL-016 observer ablation" title="Exact subset enumeration reveals non-additive observer geometry"/>
+      <p>RUL-016 reuses the frozen RUL-015 population and evaluates all 63 non-empty subsets of the six Boids coordinates. Exact leave-one-out, Shapley, and pair-interaction decompositions separate individual coordinate contributions from combination effects without adding new unique simulations.</p>
+      <div className="metricGrid">
+        <Metric label="Observer subsets" value="63 / 63"/>
+        <Metric label="Pair interactions" value="15"/>
+        <Metric label="Strongest |I|" value="0.298"/>
+        <Metric label="New unique runs" value="0"/>
+      </div>
+      <Notice title="Interaction structure detected">The strongest complete-geometry interaction is polarization × speed variance (I ≈ -0.298). Transition rate and metastable dwell each have negative complete-geometry Shapley contributions and small beneficial leave-one-out removals, but the dominant interaction lies among structural coordinates. Observer conditioning is therefore not reducible to independently good or bad features.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

@@ -249,3 +249,14 @@ RUL-015 tests the natural follow-up to RUL-014: replace binary keep/drop selecti
 The preregistered primary criterion is **challenged**. The information-weighted metric improves complete geometry by only about `+0.001` and local-edge stability by about `+0.006` relative to equal weighting, below the frozen `+0.03` margins. Its top-10% local-boundary overlap is also lower. In contrast, the hard four-feature RUL-013 selection again gives the strongest complete-geometry stability (`rho ≈ 0.939`) and top-boundary Jaccard (`≈ 0.684`) on this unseen design. This does not invalidate RUL-013; it challenges this particular smooth weighting equation and suggests that severely degenerate coordinates may need exclusion rather than merely small positive weights.
 
 Run with `npm run ruliology:observer-weighting`. Outputs live under `data/ruliology/information-weighted-observer/`.
+
+## RUL-016 — Exact observer subset ablation and interaction decomposition
+
+RUL-016 keeps the RUL-015 population frozen and asks a different question: are observer coordinates acting independently, or does the geometry depend on feature combinations? It introduces **zero new unique simulations**. The deterministic RUL-015 56-point design and two four-seed pools are replayed, then every one of the `2^6 - 1 = 63` non-empty subsets of the six-coordinate Boids observer is evaluated on identical trajectories.
+
+For each subset, the analysis records complete-geometry stability, local-edge stability, and top-10% local-boundary overlap. It then computes leave-one-out effects, exact Shapley contributions with an explicit `v(empty)=0` bookkeeping baseline, and exact pairwise Shapley interaction indices. These are finite observer-set decompositions, not causal claims about the physical observables.
+
+The diagnostic finds clear non-additivity. The strongest complete-geometry interaction is polarization × speed variance (`I ≈ -0.298`), far above the frozen `|I| >= 0.05` diagnostic magnitude. Both regime coordinates (transition rate and metastable dwell) have negative complete-geometry Shapley contributions (about `-0.041` each), and removing either from the full six-feature observer improves both complete and local stability slightly. However, the largest interaction does **not** involve those regime coordinates, so the result is richer than “two bad features”: observer conditioning depends materially on combinations among otherwise useful structural coordinates.
+
+Run with `npm run ruliology:observer-ablation`. Outputs live under `data/ruliology/observer-ablation/`.
+

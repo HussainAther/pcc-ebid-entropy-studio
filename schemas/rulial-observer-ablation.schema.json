@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "entropy-rulial-observer-ablation/1.0.0",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "source", "design", "fullObserver", "featureEffects", "pairInteractions", "diagnostic", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-observer-ablation/1.0.0"},
+    "experimentId": {"const": "RUL-016"},
+    "source": {"type": "object", "required": ["newUniqueSimulationRunCount", "replayedDeterministicRunCount"]},
+    "design": {"type": "object", "required": ["featureCount", "nonEmptyObserverSubsetCount", "pairInteractionCount"]},
+    "fullObserver": {"type": "object"},
+    "featureEffects": {"type": "array", "minItems": 6, "maxItems": 6},
+    "pairInteractions": {"type": "array", "minItems": 15, "maxItems": 15},
+    "diagnostic": {"type": "object", "required": ["nonAdditiveGeometryInteractionPresent", "strongestGeometryInteraction"]},
+    "interpretationBoundary": {"type": "array", "minItems": 1}
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "experimentId": "RUL-016",
+  "source": {
+    "experimentId": "RUL-015",
+    "designPointCount": 56,
+    "seedPools": {
+      "A": [
+        101003,
+        101019,
+        101041,
+        101063
+      ],
+      "B": [
+        102001,
+        102023,
+        102047,
+        102071
+      ]
+    },
+    "newUniqueSimulationRunCount": 0,
+    "replayedDeterministicRunCount": 448
+  },
+  "design": {
+    "featureCount": 6,
+    "nonEmptyObserverSubsetCount": 63,
+    "pairInteractionCount": 15,
+    "localNeighborK": 4,
+    "interactionMagnitudeDiagnostic": 0.05
+  },
+  "fullObserver": {
+    "features": [
+      "OBS-POLARIZATION",
+      "OBS-HEADING-ENTROPY",
+      "OBS-SPATIAL",
+      "OBS-SPEED-VARIANCE",
+      "OBS-TRANSITION-RATE",
+      "OBS-METASTABLE-DWELL"
+    ],
+    "geometryStabilitySpearman": 0.8425090191916145,
+    "localEdgeStabilitySpearman": 0.8698786994502344,
+    "top10LocalEdgeJaccard": 0.5238095238095238
+  },
+  "featureEffects": [
+    {
+      "featureId": "OBS-POLARIZATION",
+      "geometryShapley": 0.24075305058526297,
+      "localShapley": 0.2035294623092453,
+      "jaccardShapley": 0.11927665012333205,
+      "removeFromFullGeometryDelta": -0.001082277960640976,
+      "removeFromFullLocalDelta": 0.0011749457050403977,
+      "removeFromFullJaccardDelta": -0.0692640692640693,
+      "isRegimeCoordinate": false
+    },
+    {
+      "featureId": "OBS-HEADING-ENTROPY",
+      "geometryShapley": 0.20082987386281487,
+      "localShapley": 0.12465707700235919,
+      "jaccardShapley": 0.11886471999057809,
+      "removeFromFullGeometryDelta": -0.00978103987646528,
+      "removeFromFullLocalDelta": 0.02545174724490873,
+      "removeFromFullJaccardDelta": -0.13250517598343686,
+      "isRegimeCoordinate": false
+    },
+    {
+      "featureId": "OBS-SPATIAL",
+      "geometryShapley": 0.24300670462540247,
+      "localShapley": 0.20084078609654957,
+      "jaccardShapley": 0.06253500681875966,
+      "removeFromFullGeometryDelta": -0.04008307772216446,
+      "removeFromFullLocalDelta": -0.023167696148270744,
+      "removeFromFullJaccardDelta": -0.13250517598343686,
+      "isRegimeCoordinate": false
+    },
+    {
+      "featureId": "OBS-SPEED-VARIANCE",
+      "geometryShapley": 0.23958511154931966,
+      "localShapley": 0.2589767847643746,
+      "jaccardShapley": 0.17848535700251955,
+      "removeFromFullGeometryDelta": -0.0302556316499194,
+      "removeFromFullLocalDelta": -0.07082415906560235,
+      "removeFromFullJaccardDelta": -0.13250517598343686,
+      "isRegimeCoordinate": false
+    },
+    {
+      "featureId": "OBS-TRANSITION-RATE",
+      "geometryShapley": -0.04059518641798284,
+      "localShapley": 0.04112714769098655,
+      "jaccardShapley": 0.022323894937167237,
+      "removeFromFullGeometryDelta": 0.00013576926931069266,
+      "removeFromFullLocalDelta": 0.0004837315471059034,
+      "removeFromFullJaccardDelta": 0.0,
+      "isRegimeCoordinate": true
+    },
+    {
+      "featureId": "OBS-METASTABLE-DWELL",
+      "geometryShapley": -0.04107053501320281,
+      "localShapley": 0.04074744158671925,
+      "jaccardShapley": 0.022323894937167237,
+      "removeFromFullGeometryDelta": 0.0002314396313293221,
+      "removeFromFullLocalDelta": 0.0005751786033183492,
+      "removeFromFullJaccardDelta": 0.0,
+      "isRegimeCoordinate": true
+    }
+  ],
+  "pairInteractions": [
+    {
+      "featureA": "OBS-POLARIZATION",
+      "featureB": "OBS-HEADING-ENTROPY",
+      "geometryInteraction": -0.2887952739360198,
+      "localInteraction": -0.22576542867765978,
+      "jaccardInteraction": -0.07219476006661361,
+      "containsRegimeCoordinate": false
+    },
+    {
+      "featureA": "OBS-POLARIZATION",
+      "featureB": "OBS-SPATIAL",
+      "geometryInteraction": -0.28128525263345094,
+      "localInteraction": -0.2354030472427964,
+      "jaccardInteraction": -0.003411691283544826,
+      "containsRegimeCoordinate": false
+    },
+    {
+      "featureA": "OBS-POLARIZATION",
+      "featureB": "OBS-SPEED-VARIANCE",
+      "geometryInteraction": -0.2981495397817649,
+      "localInteraction": -0.2495479572205707,
+      "jaccardInteraction": -0.04978850287774771,
+      "containsRegimeCoordinate": false
+    },
+    {
+      "featureA": "OBS-POLARIZATION",
+      "featureB": "OBS-TRANSITION-RATE",
+      "geometryInteraction": -0.026615099786813277,
+      "localInteraction": -0.07219980534843774,
+      "jaccardInteraction": -0.16457525015877422,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-POLARIZATION",
+      "featureB": "OBS-METASTABLE-DWELL",
+      "geometryInteraction": -0.026934348260011325,
+      "localInteraction": -0.07276550400888347,
+      "jaccardInteraction": -0.16457525015877422,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-HEADING-ENTROPY",
+      "featureB": "OBS-SPATIAL",
+      "geometryInteraction": -0.2236963462898435,
+      "localInteraction": -0.17495440666719475,
+      "jaccardInteraction": 0.007383676582761251,
+      "containsRegimeCoordinate": false
+    },
+    {
+      "featureA": "OBS-HEADING-ENTROPY",
+      "featureB": "OBS-SPEED-VARIANCE",
+      "geometryInteraction": -0.24868107925115646,
+      "localInteraction": -0.19576141758503945,
+      "jaccardInteraction": -0.05725292590281144,
+      "containsRegimeCoordinate": false
+    },
+    {
+      "featureA": "OBS-HEADING-ENTROPY",
+      "featureB": "OBS-TRANSITION-RATE",
+      "geometryInteraction": -0.008358220615845515,
+      "localInteraction": -0.05291912457824931,
+      "jaccardInteraction": -0.1346201692197116,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-HEADING-ENTROPY",
+      "featureB": "OBS-METASTABLE-DWELL",
+      "geometryInteraction": -0.008029646361995334,
+      "localInteraction": -0.052900446069982565,
+      "jaccardInteraction": -0.1346201692197116,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-SPATIAL",
+      "featureB": "OBS-SPEED-VARIANCE",
+      "geometryInteraction": -0.26479002939069657,
+      "localInteraction": -0.24127936060805807,
+      "jaccardInteraction": -0.006381302399609028,
+      "containsRegimeCoordinate": false
+    },
+    {
+      "featureA": "OBS-SPATIAL",
+      "featureB": "OBS-TRANSITION-RATE",
+      "geometryInteraction": -0.028243916716726637,
+      "localInteraction": -0.05351798633574913,
+      "jaccardInteraction": -0.09920942012475194,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-SPATIAL",
+      "featureB": "OBS-METASTABLE-DWELL",
+      "geometryInteraction": -0.028646067879236164,
+      "localInteraction": -0.0538699045315664,
+      "jaccardInteraction": -0.09920942012475194,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-SPEED-VARIANCE",
+      "featureB": "OBS-TRANSITION-RATE",
+      "geometryInteraction": -0.0005840739121923253,
+      "localInteraction": -0.055214203251150354,
+      "jaccardInteraction": -0.1770360464181975,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-SPEED-VARIANCE",
+      "featureB": "OBS-METASTABLE-DWELL",
+      "geometryInteraction": -0.00028691889235356105,
+      "localInteraction": -0.054406711959366534,
+      "jaccardInteraction": -0.1770360464181975,
+      "containsRegimeCoordinate": true
+    },
+    {
+      "featureA": "OBS-TRANSITION-RATE",
+      "featureB": "OBS-METASTABLE-DWELL",
+      "geometryInteraction": 0.08911262877545953,
+      "localInteraction": -0.044273519747418374,
+      "jaccardInteraction": 0.05163136211191131,
+      "containsRegimeCoordinate": true
+    }
+  ],
+  "diagnostic": {
+    "nonAdditiveGeometryInteractionPresent": true,
+    "strongestGeometryInteraction": {
+      "featureA": "OBS-POLARIZATION",
+      "featureB": "OBS-SPEED-VARIANCE",
+      "geometryInteraction": -0.2981495397817649,
+      "localInteraction": -0.2495479572205707,
+      "jaccardInteraction": -0.04978850287774771,
+      "containsRegimeCoordinate": false
+    },
+    "bothRegimeRemovalsImproveGeometry": true,
+    "bothRegimeRemovalsImproveLocal": true
+  }
+}
