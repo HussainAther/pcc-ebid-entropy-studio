@@ -74,3 +74,8 @@ RUL-023 adds `OBS-CONTRASTIVE-FITNESS-GRADIENT-ALIGNMENT`, the cosine between re
 ### RUL-026 temporal lineage observables
 
 `OBS-CUMULATIVE-LINEAGE-TURNOVER` sums total-variation changes in founder-lineage abundance across adjacent post-shock snapshots. `OBS-REWEIGHTING-PATH-TORTUOSITY` compares cumulative interval reweighting distance with the net reweighting vector, exposing cancellation and sequential redirection hidden by endpoint summaries. Both depend on the frozen recording cadence and are descriptive rather than causal.
+
+### RUL-028 multiscale flux robustness
+
+`OBS-RULIAL-FLUX-RESOLUTION-ROBUSTNESS` counts how many of the four frozen resolutions `b in {3,4,5,6}` preserve each original RUL-027 qualitative threshold. A criterion is treated as multiscale-robust only when at least three resolutions pass. It is explicitly a finite observer-family diagnostic rather than a claim of continuum or scale invariance.
+

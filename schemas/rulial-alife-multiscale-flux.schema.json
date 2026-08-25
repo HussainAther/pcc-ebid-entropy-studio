@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-alife-multiscale-flux.schema.json",
+  "title": "RUL-028 ALife multiscale rulial flux robustness report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "source", "design", "results", "primaryTest", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-alife-multiscale-flux/1.0.0"},
+    "experimentId": {"const": "RUL-028"},
+    "ruleSpaceId": {"const": "RSPACE-ALIFE-001"},
+    "observerId": {"const": "OBSERVER-ALIFE-MULTISCALE-FLUX"},
+    "source": {"type": "object"},
+    "design": {
+      "type": "object",
+      "required": ["binsPerDimensionFamily", "robustnessRule", "primaryThresholds"],
+      "properties": {
+        "binsPerDimensionFamily": {"const": [3, 4, 5, 6]},
+        "robustnessRule": {"type": "string"},
+        "primaryThresholds": {"type": "object"}
+      }
+    },
+    "results": {"type": "object"},
+    "primaryTest": {
+      "type": "object",
+      "required": ["criteria", "criteriaPassed", "criteriaTotal", "pilotSupported"],
+      "properties": {
+        "criteria": {"type": "object"},
+        "criteriaPassed": {"type": "integer"},
+        "criteriaTotal": {"const": 6},
+        "pilotSupported": {"type": "boolean"}
+      }
+    },
+    "interpretationBoundary": {"type": "string"}
+  }
+}

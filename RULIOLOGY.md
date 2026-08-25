@@ -460,3 +460,11 @@ Scarcity occupies 29 flux-bearing cells and 78 directed coarse edges. The top 20
 
 The result supports a coarse transport-network description in this engineered ALife model: lineage rule motion is not uniformly distributed through rule space, and scarcity changes where transport and abundance turnover are allocated. These cells and edges are observer-dependent summaries, not literal physical currents, and the result does not by itself establish adaptive selection.
 
+## RUL-028 — Multiscale robustness of rulial flux channels
+
+RUL-028 tests whether the RUL-027 coarse-flux result is an artifact of choosing exactly four bins per normalized rule coordinate. It performs **zero new simulations** and reuses the exact committed RUL-027 lineage segment coordinates. Before inspecting the new multiscale outcomes, the resolution family was frozen to `b in {3,4,5,6}` and each original qualitative RUL-027 threshold was declared robust only if it passed at least three of the four resolutions. The committed `b=4` metrics must also reproduce RUL-027 exactly.
+
+The result is supported under that contract. Channel concentration passes at `4/4` scales, seed-half top-channel recurrence at `4/4`, flux-weighted directional persistence at `4/4`, and scarcity-versus-neutral cell-flux Jensen-Shannon divergence at `4/4`. Abundance-turnover profile divergence passes at `3/4`: the coarsest `b=3` grid gives `0.028` bits, while `b=4,5,6` give `0.055`, `0.088`, and `0.117` bits. Channel concentration ranges from `0.578` to `0.751`; recurrence from `0.286` to `1.000`; directional persistence from `0.253` to `0.423`; and cell-flux divergence from `0.070` to `0.233` bits.
+
+All six frozen RUL-028 criteria pass. The result reduces concern that RUL-027's qualitative transport-channel picture is unique to a single `4^4` grid, but it does **not** establish a grid-free continuum current, scale invariance over arbitrary resolutions, adaptive selection, or observer independence. The analysis is intentionally a small-family multiscale robustness test.
+

@@ -280,6 +280,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-ALIFE-MULTISCALE-FLUX",
+    name: "ALife multiscale rulial flux observer",
+    description: "RUL-028 observer family that reapplies the same lineage transport segments to four frozen equal-width rule-space resolutions and evaluates which RUL-027 qualitative flux findings persist across coarse-graining scale.",
+    observableIds: ["OBS-RULIAL-FLUX-RESOLUTION-ROBUSTNESS", "OBS-RULIAL-FLUX-CHANNEL-CONCENTRATION", "OBS-RULIAL-FLUX-DIRECTIONAL-PERSISTENCE", "OBS-RULIAL-FLUX-PROFILE-DIVERGENCE"],
+    coarseGraining: "Prespecified equal-width grids with 3, 4, 5, and 6 bins per normalized rule coordinate; original RUL-027 thresholds are unchanged and a result is robust when it passes at least three resolutions.",
+    temporalResolution: "Exact committed RUL-027 five-step lineage transport segments; no temporal resampling.",
+    spatialResolution: "Observer family spanning 81, 256, 625, and 1296 possible four-dimensional rule-space cells.",
+    projectId,
+  },
+  {
     id: "OBSERVER-ALIFE-RULIAL-FLUX-NETWORK",
     name: "ALife coarse-grained rulial flux-network observer",
     description: "RUL-027 observer coarse-graining time-resolved founder-lineage rule motion into fixed four-dimensional rule-space cells, directed transport edges, local flux persistence, and abundance-turnover source/sink profiles.",

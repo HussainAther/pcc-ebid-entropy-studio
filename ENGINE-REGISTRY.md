@@ -71,3 +71,8 @@ Registry status distinguishes metadata availability from actual validation. A re
 ### RUL-026 time-resolved lineage transport
 
 `ENGINE-LOCAL-ALIFE` supports interval-by-interval founder-lineage transport analysis via deterministic replay with `record_lineages`. Entrypoint: `python3 scripts/run-rulial-alife-lineage-transport.py`. The runner introduces no new seed/parameter conditions and verifies exact replay against RUL-021 before interpreting time-resolved lineage flow.
+
+### RUL-028 multiscale flux analysis
+
+`ENGINE-LOCAL-ALIFE` is not rerun for RUL-028. The analysis entrypoint `python3 scripts/analyze-rulial-alife-multiscale-flux.py` reuses the exact committed RUL-027 lineage flux segments and reapplies only the observer-side equal-width rule-space binning at `b = 3, 4, 5, 6`. This is an analysis-layer robustness test, not a new engine condition.
+

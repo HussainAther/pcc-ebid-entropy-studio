@@ -35,7 +35,8 @@
     "ruliology:alife:invasion-gradient": "python3 scripts/run-rulial-alife-invasion-gradient.py",
     "ruliology:alife:lineage-motion": "python3 scripts/run-rulial-alife-lineage-motion.py",
     "ruliology:alife:lineage-transport": "python3 scripts/run-rulial-alife-lineage-transport.py",
-    "ruliology:alife:flux-network": "python3 scripts/run-rulial-alife-flux-network.py"
+    "ruliology:alife:flux-network": "python3 scripts/run-rulial-alife-flux-network.py",
+    "ruliology:alife:multiscale-flux": "python3 scripts/analyze-rulial-alife-multiscale-flux.py"
   },
   "dependencies": {
     "next": "16.2.6",

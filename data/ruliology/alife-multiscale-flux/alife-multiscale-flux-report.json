@@ -1,0 +1,159 @@
+{
+  "design": {
+    "binning": "equal-width bins independently reapplied to the same committed RUL-027 segment coordinates at b in {3,4,5,6}",
+    "binsPerDimensionFamily": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "conditions": [
+      "scarcity_mutable",
+      "neutral_bottleneck_mutable"
+    ],
+    "primaryThresholds": {
+      "cellFluxJensenShannonBits": 0.05,
+      "channelConcentration": 0.5,
+      "channelRecurrence": 0.25,
+      "directionalPersistence": 0.2,
+      "fourBinReproductionTolerance": 1e-12,
+      "minimumPassingResolutions": 3,
+      "turnoverJensenShannonBits": 0.05
+    },
+    "robustnessRule": "an original RUL-027 qualitative threshold is multiscale-robust when it passes at >=3 of 4 frozen resolutions",
+    "ruleDimensions": [
+      "forage_weight",
+      "hazard_avoidance",
+      "exploration",
+      "reproduction_threshold"
+    ],
+    "seeds": [
+      14003,
+      14011,
+      14029,
+      14041,
+      14057,
+      14071,
+      14087,
+      14101,
+      14119,
+      14137,
+      14153,
+      14173
+    ],
+    "topCellFraction": 0.2
+  },
+  "experimentId": "RUL-028",
+  "interpretationBoundary": "RUL-028 tests whether the qualitative RUL-027 coarse-flux findings survive a small prespecified family of grid resolutions. Persistence across b={3,4,5,6} reduces, but does not eliminate, observer-resolution dependence; it does not establish a grid-free continuum current, adaptation, or universality.",
+  "observerId": "OBSERVER-ALIFE-MULTISCALE-FLUX",
+  "primaryTest": {
+    "criteria": {
+      "cellFluxDivergenceRobustAcrossScales": true,
+      "channelConcentrationRobustAcrossScales": true,
+      "channelRecurrenceRobustAcrossScales": true,
+      "directionalPersistenceRobustAcrossScales": true,
+      "reproducesCommittedRUL027AtFourBins": true,
+      "turnoverDivergenceRobustAcrossScales": true
+    },
+    "criteriaPassed": 6,
+    "criteriaTotal": 6,
+    "pilotSupported": true
+  },
+  "results": {
+    "metricRanges": {
+      "cellFluxDivergence": [
+        0.06955139923564393,
+        0.23264761155424724
+      ],
+      "channelConcentration": [
+        0.5782125569323223,
+        0.7507689580760596
+      ],
+      "channelRecurrence": [
+        0.2857142857142857,
+        1.0
+      ],
+      "directionalPersistence": [
+        0.2531370925752185,
+        0.42288148184439933
+      ],
+      "turnoverDivergence": [
+        0.0281919051205341,
+        0.11736931523677264
+      ]
+    },
+    "passesByMetric": {
+      "cellFluxDivergence": 4,
+      "channelConcentration": 4,
+      "channelRecurrence": 4,
+      "directionalPersistence": 4,
+      "turnoverDivergence": 3
+    },
+    "rul027FourBinReproductionErrors": {
+      "cellFluxJensenShannon": 0.0,
+      "concentration": 0.0,
+      "directionalPersistence": 0.0,
+      "seedHalfJaccard": 0.0,
+      "turnoverJensenShannon": 0.0
+    },
+    "scales": [
+      {
+        "binsPerDimension": 3,
+        "maximumPossibleCells": 81,
+        "neutralOccupiedFluxCells": 14,
+        "scarcityFluxWeightedDirectionalPersistence": 0.2531370925752185,
+        "scarcityOccupiedFluxCells": 17,
+        "scarcitySeedHalfTop20Jaccard": 1.0,
+        "scarcityTop20FluxConcentration": 0.7364928441352437,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.0281919051205341,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.06955139923564393,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.12884277415314876
+      },
+      {
+        "binsPerDimension": 4,
+        "maximumPossibleCells": 256,
+        "neutralOccupiedFluxCells": 26,
+        "scarcityFluxWeightedDirectionalPersistence": 0.2815512034434108,
+        "scarcityOccupiedFluxCells": 29,
+        "scarcitySeedHalfTop20Jaccard": 0.6666666666666666,
+        "scarcityTop20FluxConcentration": 0.7507689580760596,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.05510336938042295,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.144060977521547,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.23019108646402664
+      },
+      {
+        "binsPerDimension": 5,
+        "maximumPossibleCells": 625,
+        "neutralOccupiedFluxCells": 31,
+        "scarcityFluxWeightedDirectionalPersistence": 0.39080215409035934,
+        "scarcityOccupiedFluxCells": 42,
+        "scarcitySeedHalfTop20Jaccard": 0.3,
+        "scarcityTop20FluxConcentration": 0.5860737390177967,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.08838528434234766,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.1794769237635631,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.29808350577965304
+      },
+      {
+        "binsPerDimension": 6,
+        "maximumPossibleCells": 1296,
+        "neutralOccupiedFluxCells": 45,
+        "scarcityFluxWeightedDirectionalPersistence": 0.42288148184439933,
+        "scarcityOccupiedFluxCells": 55,
+        "scarcitySeedHalfTop20Jaccard": 0.2857142857142857,
+        "scarcityTop20FluxConcentration": 0.5782125569323223,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.11736931523677264,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.23264761155424724,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.40254017284096927
+      }
+    ]
+  },
+  "ruleSpaceId": "RSPACE-ALIFE-001",
+  "schemaVersion": "entropy-rulial-alife-multiscale-flux/1.0.0",
+  "source": {
+    "newSimulationRuns": 0,
+    "newUniqueSimulationConditions": 0,
+    "reusesCommittedFluxSegments": true,
+    "sourceArtifact": "data/ruliology/alife-flux-network/flux-segments.csv",
+    "sourceExperimentId": "RUL-027"
+  }
+}

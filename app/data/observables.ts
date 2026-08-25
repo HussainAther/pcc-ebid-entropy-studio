@@ -376,6 +376,17 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       implementationStatus: "implemented", implementationPath: "scripts/run-rulial-alife-lineage-transport.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-026"], tags: ["ruliology", "ALife", "lineage", "tortuosity"], projectId,
     },
     {
+      id: "OBS-RULIAL-FLUX-RESOLUTION-ROBUSTNESS", slug: "rulial-flux-resolution-robustness", name: "Rulial flux resolution robustness", symbol: "R_J", category: "stability",
+      description: "Count of prespecified rule-space resolutions at which a frozen qualitative RUL-027 flux criterion remains above its original threshold.",
+      formula: "R_J(m) = sum_{b in {3,4,5,6}} 1[m_b >= tau_m]",
+      interpretation: "Values of at least three indicate that a qualitative coarse-flux finding is not confined to one chosen grid resolution within the frozen multiscale family.",
+      requiredInputs: ["committed RUL-027 lineage flux segments", "frozen resolution family", "frozen RUL-027 thresholds"], output: "integer count from 0 to 4 per diagnostic",
+      estimator: "Re-bin identical lineage segments independently at b=3,4,5,6, recompute each RUL-027 diagnostic, and count resolutions clearing the unchanged threshold.",
+      validWhen: ["all resolutions use identical source segments", "thresholds and resolution family are frozen before outcomes"],
+      failureModes: ["Only tests a small nearby scale family", "Grid alignment remains fixed", "Passing does not imply a continuum or observer-independent structure"],
+      implementationStatus: "implemented", implementationPath: "scripts/analyze-rulial-alife-multiscale-flux.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-028"], tags: ["ruliology", "ALife", "flux", "multiscale", "robustness"], projectId,
+    },
+    {
       id: "OBS-RULIAL-FLUX-CHANNEL-CONCENTRATION", slug: "rulial-flux-channel-concentration", name: "Rulial flux channel concentration", symbol: "C_J", category: "complexity",
       description: "Fraction of total lineage advective rule-motion magnitude carried by the top 20% of occupied coarse rule-space cells.",
       formula: "C_J = sum_{c in top20%} Phi_c / sum_c Phi_c, with Phi_c = sum_segments ||0.5(p0+p1) Delta_mu||",
