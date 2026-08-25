@@ -1,4 +1,4 @@
-# PCC / EBID Research Studio
+# PCC / EBID Research Studio 
 
 An interactive computational laboratory for structured instability, adaptation, state transitions, information dynamics, and resilience.
 
