@@ -1,0 +1,119 @@
+{
+  "design": {
+    "abundanceTurnover": "absolute lineage abundance change |p_l,t+1-p_l,t| assigned to the midpoint cell",
+    "binning": "fixed equal-width bins in each normalized rule coordinate; frozen before RUL-027 outcomes",
+    "binsPerDimension": 4,
+    "cellAssignment": "lineage segment midpoint cell",
+    "channelRecurrence": "Jaccard overlap of top-20%-by-flux occupied cells between the first and second six-seed halves",
+    "conditions": [
+      "scarcity_mutable",
+      "neutral_bottleneck_mutable"
+    ],
+    "maximumPossibleCells": 256,
+    "primaryCriteria": {
+      "deterministicReplayMatchesRUL021": "post-shock deltas match within 1e-12 and all final populations match",
+      "exactFluxAccounting": "aggregated lineage segment flux vectors reconstruct every RUL-026 within-lineage interval vector within 1e-9",
+      "scarcityAndNeutralHaveDifferentTurnoverProfiles": "abundance-turnover Jensen-Shannon divergence >= 0.05 bits",
+      "scarcityAndNeutralOccupyDifferentFluxProfiles": "cell-flux Jensen-Shannon divergence >= 0.05 bits",
+      "scarcityFluxHasLocalDirectionalPersistence": "flux-weighted within-cell directional persistence >= 0.20",
+      "scarcityFluxIsChannelConcentrated": "top 20% of occupied scarcity cells carry >= 0.50 of total advective flux magnitude",
+      "scarcityHasRecurringHighFluxCells": "top-20% high-flux cell Jaccard between frozen seed halves >= 0.25"
+    },
+    "ruleDimensions": [
+      "forage_weight",
+      "hazard_avoidance",
+      "exploration",
+      "reproduction_threshold"
+    ],
+    "seedHalves": {
+      "A": [
+        14003,
+        14011,
+        14029,
+        14041,
+        14057,
+        14071
+      ],
+      "B": [
+        14087,
+        14101,
+        14119,
+        14137,
+        14153,
+        14173
+      ]
+    },
+    "seeds": [
+      14003,
+      14011,
+      14029,
+      14041,
+      14057,
+      14071,
+      14087,
+      14101,
+      14119,
+      14137,
+      14153,
+      14173
+    ],
+    "segmentFlux": "J_l,t = 0.5*(p_l,t+p_l,t+1)*(mu_l,t+1-mu_l,t)"
+  },
+  "experimentId": "RUL-027",
+  "interpretationBoundary": "RUL-027 is a coarse-grained descriptive flux-network analysis. Fixed bins summarize founder-lineage advective rule motion and abundance turnover; recurring or condition-specific channels do not establish adaptive selection, optimality, or a continuous physical conservation law.",
+  "observerId": "OBSERVER-ALIFE-RULIAL-FLUX-NETWORK",
+  "primaryTest": {
+    "criteria": {
+      "deterministicReplayMatchesRUL021": true,
+      "exactFluxAccounting": true,
+      "scarcityAndNeutralHaveDifferentTurnoverProfiles": true,
+      "scarcityAndNeutralOccupyDifferentFluxProfiles": true,
+      "scarcityFluxHasLocalDirectionalPersistence": true,
+      "scarcityFluxIsChannelConcentrated": true,
+      "scarcityHasRecurringHighFluxCells": true
+    },
+    "criteriaPassed": 7,
+    "criteriaTotal": 7,
+    "pilotSupported": true
+  },
+  "results": {
+    "allReplayFinalPopulationsMatch": true,
+    "maxIntervalFluxVectorReconstructionErrorVsRUL026": 0.0,
+    "maxReplayPostShockDeltaAbsError": 0.0,
+    "neutral": {
+      "cellBoundaryCrossingFluxFraction": 0.15919853257830024,
+      "condition": "neutral_bottleneck_mutable",
+      "directedEdges": 70,
+      "fluxWeightedDirectionalPersistence": 0.2883160224255175,
+      "occupiedFluxCells": 26,
+      "segmentCount": 2039,
+      "top20PercentCellFluxConcentration": 0.6598956841036698,
+      "top20PercentCellHalfSplitJaccard": 0.3333333333333333,
+      "totalAdvectiveFluxMagnitude": 1.6671902157995517
+    },
+    "scarcity": {
+      "cellBoundaryCrossingFluxFraction": 0.16656502248588415,
+      "condition": "scarcity_mutable",
+      "directedEdges": 78,
+      "fluxWeightedDirectionalPersistence": 0.2815512034434108,
+      "occupiedFluxCells": 29,
+      "segmentCount": 5993,
+      "top20PercentCellFluxConcentration": 0.7507689580760596,
+      "top20PercentCellHalfSplitJaccard": 0.6666666666666666,
+      "totalAdvectiveFluxMagnitude": 0.9625453343968708
+    },
+    "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.05510336938042295,
+    "scarcityVsNeutralCellFluxJensenShannon": 0.144060977521547,
+    "scarcityVsNeutralEdgeFluxJensenShannon": 0.23019108646402664
+  },
+  "ruleSpaceId": "RSPACE-ALIFE-001",
+  "schemaVersion": "entropy-rulial-alife-flux-network/1.0.0",
+  "source": {
+    "deterministicReplayRuns": 24,
+    "motionExperimentId": "RUL-021",
+    "newUniqueSimulationConditions": 0,
+    "sourceArtifact": "data/ruliology/alife-selection-control/alife-selection-control-report.json",
+    "transportArtifact": "data/ruliology/alife-lineage-transport/interval-transport.csv",
+    "transportExperimentId": "RUL-026"
+  }
+}

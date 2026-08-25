@@ -280,6 +280,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-ALIFE-RULIAL-FLUX-NETWORK",
+    name: "ALife coarse-grained rulial flux-network observer",
+    description: "RUL-027 observer coarse-graining time-resolved founder-lineage rule motion into fixed four-dimensional rule-space cells, directed transport edges, local flux persistence, and abundance-turnover source/sink profiles.",
+    observableIds: ["OBS-RULIAL-FLUX-CHANNEL-CONCENTRATION", "OBS-RULIAL-FLUX-DIRECTIONAL-PERSISTENCE", "OBS-RULIAL-FLUX-PROFILE-DIVERGENCE", "OBS-CUMULATIVE-LINEAGE-TURNOVER"],
+    coarseGraining: "Four equal-width bins per normalized rule coordinate (256 possible cells); lineage transport segments are assigned to midpoint cells and source-to-target cell edges.",
+    temporalResolution: "Every five simulation steps across deterministic RUL-021 scarcity and neutral replays, matching RUL-026.",
+    spatialResolution: "Founder-lineage probability mass transported through a fixed 4D coarse rule-space grid.",
+    projectId,
+  },
+  {
     id: "OBSERVER-NETWORK-RULIAL-CORE",
     name: "Network rulial core observer",
     description: "Frozen RUL-008 observer combining network activity, state entropy, edge agreement, node switching, and operational macrostate residence summaries.",

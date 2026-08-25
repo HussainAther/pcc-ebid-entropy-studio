@@ -368,3 +368,12 @@ RUL-026 extends the RUL-025 endpoint decomposition to every adjacent recorded po
 Each interval is decomposed exactly into within-lineage rule-centroid motion and between-lineage abundance reweighting. The primary time-resolved observables are cumulative lineage total-variation turnover, cumulative reweighting path share, reweighting path tortuosity, and dominant-lineage switches. All six frozen criteria pass: scarcity has median cumulative reweighting share `0.839`, median reweighting tortuosity `4.12`, 11/12 runs switch dominant lineage, and paired scarcity-minus-neutral cumulative turnover is `+0.201`. These are transport descriptors, not proof of adaptive selection.
 
 Run with `npm run ruliology:alife:lineage-transport`. Outputs are written to `data/ruliology/alife-lineage-transport/`.
+
+## RUL-027 — Coarse-grained rulial flux network
+
+RUL-027 takes the time-resolved founder-lineage transport from RUL-026 and projects it onto a fixed four-dimensional grid with four equal-width bins per normalized rule coordinate (`4^4 = 256` possible cells). A lineage segment contributes `J_l,t = 0.5(p0+p1)(mu1-mu0)` to its midpoint cell and a directed source-to-target cell edge; absolute abundance change is tracked separately as local turnover mass. The grid, five-step cadence, seed halves, and seven pilot criteria are frozen before the RUL-027 outcomes. No new seed/parameter conditions are added: 24 deterministic RUL-021 replays are used only to recover lineage-resolved segment geometry.
+
+Scarcity occupies 29 flux-bearing cells and 78 directed coarse edges. The top 20% of occupied cells carry `0.751` of total advective flux, flux-weighted local directional persistence is `0.282`, and the top-flux cells recur across the two frozen six-seed halves with Jaccard `0.667`. Scarcity and matched neutral bottlenecks differ in their cell-flux profile (`JSD = 0.144` bits), abundance-turnover profile (`JSD = 0.055` bits), and directed edge-flux profile (`JSD = 0.230` bits). All seven frozen pilot criteria pass, with exact interval reconstruction against RUL-026 and exact RUL-021 replay.
+
+The result supports a coarse transport-network description in this engineered ALife model: lineage rule motion is not uniformly distributed through rule space, and scarcity changes where transport and abundance turnover are allocated. These cells and edges are observer-dependent summaries, not literal physical currents, and the result does not by itself establish adaptive selection.
+

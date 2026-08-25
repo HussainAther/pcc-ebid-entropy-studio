@@ -724,3 +724,39 @@ test("committed RUL-026 preserves the supported temporal-transport result", () =
   assert.ok(summary.results.medianScarcityMinusNeutralCumulativeTurnover >= 0.10);
   assert.equal(summary.results.maxReplayPostShockDeltaAbsError, 0);
 });
+
+
+test("RUL-027 registers a coarse-grained ALife rulial flux network", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const spaces = readFileSync(new URL("../app/data/ruleSpaces.ts", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  const studio = readFileSync(new URL("../app/studio.tsx", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/run-rulial-alife-flux-network.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-027/);
+  assert.match(research, /RUL-027/);
+  assert.match(spaces, /OBSERVER-ALIFE-RULIAL-FLUX-NETWORK/);
+  assert.match(observables, /OBS-RULIAL-FLUX-CHANNEL-CONCENTRATION/);
+  assert.match(observables, /OBS-RULIAL-FLUX-DIRECTIONAL-PERSISTENCE/);
+  assert.match(observables, /OBS-RULIAL-FLUX-PROFILE-DIVERGENCE/);
+  assert.match(script, /BINS_PER_DIM = 4/);
+  assert.match(studio, /RUL-027 coarse-grained rulial flux network/);
+});
+
+test("committed RUL-027 preserves the supported coarse-flux result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-flux-network/alife-flux-network-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-027");
+  assert.equal(summary.source.newUniqueSimulationConditions, 0);
+  assert.equal(summary.source.deterministicReplayRuns, 24);
+  assert.equal(summary.design.binsPerDimension, 4);
+  assert.equal(summary.design.maximumPossibleCells, 256);
+  assert.equal(summary.primaryTest.criteriaPassed, 7);
+  assert.equal(summary.primaryTest.criteriaTotal, 7);
+  assert.equal(summary.primaryTest.pilotSupported, true);
+  assert.ok(summary.results.scarcity.top20PercentCellFluxConcentration >= 0.50);
+  assert.ok(summary.results.scarcity.top20PercentCellHalfSplitJaccard >= 0.25);
+  assert.ok(summary.results.scarcity.fluxWeightedDirectionalPersistence >= 0.20);
+  assert.ok(summary.results.scarcityVsNeutralCellFluxJensenShannon >= 0.05);
+  assert.ok(summary.results.scarcityVsNeutralAbundanceTurnoverJensenShannon >= 0.05);
+  assert.equal(summary.results.maxIntervalFluxVectorReconstructionErrorVsRUL026, 0);
+  assert.equal(summary.results.maxReplayPostShockDeltaAbsError, 0);
+});

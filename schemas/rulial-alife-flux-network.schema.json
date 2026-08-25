@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-alife-flux-network.schema.json",
+  "title": "RUL-027 ALife coarse-grained rulial flux network report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "source", "design", "results", "primaryTest", "interpretationBoundary", "conditionProfiles"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-alife-flux-network/1.0.0"},
+    "experimentId": {"const": "RUL-027"},
+    "ruleSpaceId": {"const": "RSPACE-ALIFE-001"},
+    "observerId": {"const": "OBSERVER-ALIFE-RULIAL-FLUX-NETWORK"},
+    "source": {"type": "object"},
+    "design": {"type": "object"},
+    "results": {"type": "object"},
+    "primaryTest": {
+      "type": "object",
+      "required": ["criteria", "criteriaPassed", "criteriaTotal", "pilotSupported"],
+      "properties": {
+        "criteria": {"type": "object"},
+        "criteriaPassed": {"type": "integer"},
+        "criteriaTotal": {"const": 7},
+        "pilotSupported": {"type": "boolean"}
+      }
+    },
+    "interpretationBoundary": {"type": "string"},
+    "conditionProfiles": {"type": "object"}
+  }
+}
