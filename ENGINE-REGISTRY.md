@@ -76,3 +76,7 @@ Registry status distinguishes metadata availability from actual validation. A re
 
 `ENGINE-LOCAL-ALIFE` is not rerun for RUL-028. The analysis entrypoint `python3 scripts/analyze-rulial-alife-multiscale-flux.py` reuses the exact committed RUL-027 lineage flux segments and reapplies only the observer-side equal-width rule-space binning at `b = 3, 4, 5, 6`. This is an analysis-layer robustness test, not a new engine condition.
 
+
+### RUL-029 temporal flux analysis
+
+`ENGINE-LOCAL-ALIFE` is not rerun for RUL-029. `python3 scripts/analyze-rulial-alife-temporal-flux.py` reconstructs lineage snapshot states from committed RUL-027 segment endpoints and rebuilds the observer-side flux network at `dt = 5, 10, 20, 40` while keeping the RUL-027 four-bin spatial grid fixed.

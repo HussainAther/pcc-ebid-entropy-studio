@@ -79,3 +79,7 @@ RUL-023 adds `OBS-CONTRASTIVE-FITNESS-GRADIENT-ALIGNMENT`, the cosine between re
 
 `OBS-RULIAL-FLUX-RESOLUTION-ROBUSTNESS` counts how many of the four frozen resolutions `b in {3,4,5,6}` preserve each original RUL-027 qualitative threshold. A criterion is treated as multiscale-robust only when at least three resolutions pass. It is explicitly a finite observer-family diagnostic rather than a claim of continuum or scale invariance.
 
+
+### RUL-029 temporal flux robustness
+
+- `OBS-RULIAL-FLUX-TEMPORAL-ROBUSTNESS`: count of frozen temporal cadences `dt in {5,10,20,40}` at which each original RUL-027 qualitative diagnostic remains above its unchanged threshold; `>=3/4` is the preregistered robustness rule.

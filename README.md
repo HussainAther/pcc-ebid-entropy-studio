@@ -385,3 +385,9 @@ The result is supported under that contract. Channel concentration passes at `4/
 
 All six frozen RUL-028 criteria pass. The result reduces concern that RUL-027's qualitative transport-channel picture is unique to a single `4^4` grid, but it does **not** establish a grid-free continuum current, scale invariance over arbitrary resolutions, adaptive selection, or observer independence. The analysis is intentionally a small-family multiscale robustness test.
 
+
+## RUL-029 — Temporal robustness of rulial flux channels
+
+RUL-029 tests whether the RUL-027 coarse-flux result depends on the original five-step lineage sampling cadence. It performs **zero new simulations**. Per-lineage snapshot states are reconstructed from the exact committed RUL-027 segments, the four-bin-per-coordinate spatial observer is held fixed, and transport segments are rebuilt at the frozen cadence family `dt in {5,10,20,40}` while always retaining the 179->180 intervention boundary and the final endpoint. The original RUL-027 thresholds are unchanged; a qualitative finding is declared temporally robust only when it clears its threshold at at least three of four cadences.
+
+All six frozen criteria pass. Channel concentration, seed-half recurrence, directional persistence, and scarcity-vs-neutral cell-flux divergence pass at all four cadences; abundance-turnover divergence passes at three of four, missing only at `dt=20` (`0.0492` bits versus the frozen `0.05` threshold). The five-step projection reproduces RUL-027 exactly. Total measured scarcity advective flux decreases from about `0.963` at `dt=5` to `0.753` at `dt=40`, which is consistent with coarse temporal sampling compressing reversals and path length rather than preserving every transient. The result supports robustness over this declared cadence family, not continuum-time invariance, arbitrary temporal renormalization, adaptive selection, or observer independence.

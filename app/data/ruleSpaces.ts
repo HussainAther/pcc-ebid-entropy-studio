@@ -280,6 +280,16 @@ export const observers: ObserverDefinition[] = [
     projectId,
   },
   {
+    id: "OBSERVER-ALIFE-TEMPORAL-FLUX",
+    name: "ALife temporal rulial flux observer",
+    description: "RUL-029 observer family that holds the four-bin RUL-027 rule-space grid fixed while rebuilding lineage transport at four frozen temporal sampling cadences.",
+    observableIds: ["OBS-RULIAL-FLUX-TEMPORAL-ROBUSTNESS", "OBS-RULIAL-FLUX-CHANNEL-CONCENTRATION", "OBS-RULIAL-FLUX-DIRECTIONAL-PERSISTENCE", "OBS-RULIAL-FLUX-PROFILE-DIVERGENCE"],
+    coarseGraining: "Fixed four-bin-per-coordinate spatial grid with temporal cadence dt in {5,10,20,40}; original RUL-027 thresholds are unchanged and a result is robust when it passes at least three cadences.",
+    temporalResolution: "Prespecified cadence family 5, 10, 20, and 40 simulation steps, retaining the intervention boundary and final endpoint.",
+    spatialResolution: "Fixed 4^4 = 256 possible normalized rule-space cells from RUL-027.",
+    projectId,
+  },
+  {
     id: "OBSERVER-ALIFE-MULTISCALE-FLUX",
     name: "ALife multiscale rulial flux observer",
     description: "RUL-028 observer family that reapplies the same lineage transport segments to four frozen equal-width rule-space resolutions and evaluates which RUL-027 qualitative flux findings persist across coarse-graining scale.",

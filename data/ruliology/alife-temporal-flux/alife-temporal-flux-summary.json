@@ -1,0 +1,142 @@
+{
+  "design": {
+    "binsPerDimension": 4,
+    "cadenceFamilySteps": [
+      5,
+      10,
+      20,
+      40
+    ],
+    "conditions": [
+      "scarcity_mutable",
+      "neutral_bottleneck_mutable"
+    ],
+    "primaryThresholds": {
+      "cellFluxJensenShannonBits": 0.05,
+      "channelConcentration": 0.5,
+      "channelRecurrence": 0.25,
+      "directionalPersistence": 0.2,
+      "fiveStepReproductionTolerance": 1e-12,
+      "minimumPassingCadences": 3,
+      "turnoverJensenShannonBits": 0.05
+    },
+    "robustnessRule": "an original RUL-027 qualitative threshold is temporally robust when it passes at >=3 of 4 frozen cadences",
+    "ruleDimensions": [
+      "forage_weight",
+      "hazard_avoidance",
+      "exploration",
+      "reproduction_threshold"
+    ],
+    "seeds": [
+      14003,
+      14011,
+      14029,
+      14041,
+      14057,
+      14071,
+      14087,
+      14101,
+      14119,
+      14137,
+      14153,
+      14173
+    ],
+    "temporalCoarseGraining": "retain the 179->180 intervention boundary, then subsample post-shock lineage snapshots at cadence dt in {5,10,20,40}, always retaining the final committed endpoint",
+    "topCellFraction": 0.2
+  },
+  "experimentId": "RUL-029",
+  "interpretationBoundary": "RUL-029 tests a frozen family of temporal sampling cadences at the fixed four-bin RUL-027 spatial observer. Robustness across these cadences does not establish continuum-time invariance, arbitrary-scale renormalization, adaptive selection, or observer independence.",
+  "observerId": "OBSERVER-ALIFE-TEMPORAL-FLUX",
+  "primaryTest": {
+    "criteria": {
+      "cellFluxDivergenceRobustAcrossCadences": true,
+      "channelConcentrationRobustAcrossCadences": true,
+      "channelRecurrenceRobustAcrossCadences": true,
+      "directionalPersistenceRobustAcrossCadences": true,
+      "reproducesCommittedRUL027AtFiveStepCadence": true,
+      "turnoverDivergenceRobustAcrossCadences": true
+    },
+    "criteriaPassed": 6,
+    "criteriaTotal": 6,
+    "pilotSupported": true
+  },
+  "results": {
+    "cadences": [
+      {
+        "cadenceSteps": 5,
+        "neutralSegmentCount": 2313,
+        "scarcityFluxWeightedDirectionalPersistence": 0.2815512034434108,
+        "scarcityOccupiedFluxCells": 29,
+        "scarcitySeedHalfTop20Jaccard": 0.6666666666666666,
+        "scarcitySegmentCount": 6266,
+        "scarcityTop20FluxConcentration": 0.7507689580760596,
+        "scarcityTotalAdvectiveFluxMagnitude": 0.9625453343968708,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.05510336938042295,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.144060977521547,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.23019108646402664
+      },
+      {
+        "cadenceSteps": 10,
+        "neutralSegmentCount": 1457,
+        "scarcityFluxWeightedDirectionalPersistence": 0.28814502992450575,
+        "scarcityOccupiedFluxCells": 29,
+        "scarcitySeedHalfTop20Jaccard": 0.6666666666666666,
+        "scarcitySegmentCount": 3361,
+        "scarcityTop20FluxConcentration": 0.7496037156816462,
+        "scarcityTotalAdvectiveFluxMagnitude": 0.9342356719861371,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.05404230013827234,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.143450635200132,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.23530973443657865
+      },
+      {
+        "cadenceSteps": 20,
+        "neutralSegmentCount": 1029,
+        "scarcityFluxWeightedDirectionalPersistence": 0.3099363329009465,
+        "scarcityOccupiedFluxCells": 28,
+        "scarcitySeedHalfTop20Jaccard": 0.5,
+        "scarcitySegmentCount": 1914,
+        "scarcityTop20FluxConcentration": 0.7622256693408208,
+        "scarcityTotalAdvectiveFluxMagnitude": 0.8716183921081476,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.049238700448426764,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.1549612940797374,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.257095435621284
+      },
+      {
+        "cadenceSteps": 40,
+        "neutralSegmentCount": 815,
+        "scarcityFluxWeightedDirectionalPersistence": 0.34867746557618684,
+        "scarcityOccupiedFluxCells": 26,
+        "scarcitySeedHalfTop20Jaccard": 0.5,
+        "scarcitySegmentCount": 1187,
+        "scarcityTop20FluxConcentration": 0.7484382888722872,
+        "scarcityTotalAdvectiveFluxMagnitude": 0.7529558676964043,
+        "scarcityVsNeutralAbundanceTurnoverJensenShannon": 0.05004252660349227,
+        "scarcityVsNeutralCellFluxJensenShannon": 0.12790628568064427,
+        "scarcityVsNeutralEdgeFluxJensenShannon": 0.2537186578237016
+      }
+    ],
+    "passesByMetric": {
+      "cellFluxDivergence": 4,
+      "channelConcentration": 4,
+      "channelRecurrence": 4,
+      "directionalPersistence": 4,
+      "turnoverDivergence": 3
+    },
+    "rul027FiveStepReproductionErrors": {
+      "cellFluxJensenShannon": 0.0,
+      "concentration": 0.0,
+      "directionalPersistence": 0.0,
+      "seedHalfJaccard": 0.0,
+      "turnoverJensenShannon": 0.0
+    }
+  },
+  "ruleSpaceId": "RSPACE-ALIFE-001",
+  "schemaVersion": "entropy-rulial-alife-temporal-flux/1.0.0",
+  "source": {
+    "newSimulationRuns": 0,
+    "newUniqueSimulationConditions": 0,
+    "reconstructsLineageSnapshotsFromCommittedSegments": true,
+    "sourceArtifact": "data/ruliology/alife-flux-network/flux-segments.csv",
+    "sourceExperimentId": "RUL-027"
+  }
+}

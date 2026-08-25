@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://entropy.studio/schemas/rulial-alife-temporal-flux.schema.json",
+  "title": "RUL-029 ALife temporal coarse-graining robustness report",
+  "type": "object",
+  "required": ["schemaVersion", "experimentId", "ruleSpaceId", "observerId", "source", "design", "results", "primaryTest", "interpretationBoundary"],
+  "properties": {
+    "schemaVersion": {"const": "entropy-rulial-alife-temporal-flux/1.0.0"},
+    "experimentId": {"const": "RUL-029"},
+    "ruleSpaceId": {"const": "RSPACE-ALIFE-001"},
+    "observerId": {"const": "OBSERVER-ALIFE-TEMPORAL-FLUX"},
+    "source": {"type": "object"},
+    "design": {"type": "object", "required": ["cadenceFamilySteps", "binsPerDimension", "robustnessRule", "primaryThresholds"], "properties": {"cadenceFamilySteps": {"const": [5,10,20,40]}, "binsPerDimension": {"const": 4}, "robustnessRule": {"type": "string"}, "primaryThresholds": {"type": "object"}}},
+    "results": {"type": "object"},
+    "primaryTest": {"type": "object", "required": ["criteria", "criteriaPassed", "criteriaTotal", "pilotSupported"], "properties": {"criteria": {"type": "object"}, "criteriaPassed": {"type": "integer"}, "criteriaTotal": {"const": 6}, "pilotSupported": {"type": "boolean"}}},
+    "interpretationBoundary": {"type": "string"}
+  }
+}

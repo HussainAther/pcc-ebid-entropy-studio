@@ -41,6 +41,7 @@ import alifeLineageMotion from "../data/ruliology/alife-lineage-motion/alife-lin
 import alifeLineageTransport from "../data/ruliology/alife-lineage-transport/alife-lineage-transport-summary.json";
 import alifeFluxNetwork from "../data/ruliology/alife-flux-network/alife-flux-network-summary.json";
 import alifeMultiscaleFlux from "../data/ruliology/alife-multiscale-flux/alife-multiscale-flux-summary.json";
+import alifeTemporalFlux from "../data/ruliology/alife-temporal-flux/alife-temporal-flux-summary.json";
 
 const WorkspaceContext = createContext<ResearchWorkspace | null>(null);
 const RunContext = createContext<{ runs: ExperimentRun[]; addRun: (run: ExperimentRun) => void; addRuns: (runs: ExperimentRun[]) => void }>({ runs: [], addRun: () => undefined, addRuns: () => undefined });
@@ -485,6 +486,12 @@ function RulialAtlas() {
       <p>RUL-028 reuses the exact committed RUL-027 lineage flux segments and reprojects them onto four prespecified equal-width grids with 3, 4, 5, and 6 bins per normalized rule coordinate. No ALife simulations are rerun; the question is whether the qualitative RUL-027 findings survive observer resolution.</p>
       <div className="stats compact"><Stat label="Concentration robust scales" value={`${alifeMultiscaleFlux.results.passesByMetric.channelConcentration}/4`} foot="threshold ≥ 0.50"/><Stat label="Recurrence robust scales" value={`${alifeMultiscaleFlux.results.passesByMetric.channelRecurrence}/4`} foot="Jaccard ≥ 0.25"/><Stat label="Flux-divergence scales" value={`${alifeMultiscaleFlux.results.passesByMetric.cellFluxDivergence}/4`} foot="JSD ≥ 0.05 bits"/><Stat label="Frozen criteria" value={`${alifeMultiscaleFlux.primaryTest.criteriaPassed}/${alifeMultiscaleFlux.primaryTest.criteriaTotal}`} foot={alifeMultiscaleFlux.primaryTest.pilotSupported ? "supported" : "challenged"}/></div>
       <Notice title="Robust across nearby grids, not grid-free">Channel concentration, seed-half recurrence, local directional persistence, and cell-flux divergence clear their original RUL-027 thresholds at all four frozen resolutions. Turnover-profile divergence clears the threshold at three of four resolutions, failing only at the coarsest b=3 grid. The result supports multiscale robustness over this declared family, not an observer-independent continuum current.</Notice>
+    </section>
+    <section className="paper">
+      <SectionHead eyebrow="RUL-029 temporal rulial flux robustness" title="The coarse transport structure survives a frozen family of temporal sampling cadences"/>
+      <p>RUL-029 reconstructs lineage snapshot states from the committed RUL-027 segments, holds the four-bin spatial observer fixed, and rebuilds transport at prespecified cadences of 5, 10, 20, and 40 simulation steps. No ALife simulations are rerun.</p>
+      <div className="stats compact"><Stat label="Concentration robust cadences" value={`${alifeTemporalFlux.results.passesByMetric.channelConcentration}/4`} foot="threshold ≥ 0.50"/><Stat label="Recurrence robust cadences" value={`${alifeTemporalFlux.results.passesByMetric.channelRecurrence}/4`} foot="Jaccard ≥ 0.25"/><Stat label="Flux-divergence cadences" value={`${alifeTemporalFlux.results.passesByMetric.cellFluxDivergence}/4`} foot="JSD ≥ 0.05 bits"/><Stat label="Frozen criteria" value={`${alifeTemporalFlux.primaryTest.criteriaPassed}/${alifeTemporalFlux.primaryTest.criteriaTotal}`} foot={alifeTemporalFlux.primaryTest.pilotSupported ? "supported" : "challenged"}/></div>
+      <Notice title="Robust across sampled cadences, not continuum-time invariant">Channel concentration, seed-half recurrence, local directional persistence, and cell-flux divergence clear their RUL-027 thresholds at all four frozen cadences. Turnover-profile divergence clears three of four, dipping just below threshold at 20 steps. Coarser sampling also reduces total measured advective path length, as expected when transient motion is compressed.</Notice>
     </section>
     <section className="paper">
       <SectionHead eyebrow="Calibration-only preview" title="Centered-cell signatures"/>

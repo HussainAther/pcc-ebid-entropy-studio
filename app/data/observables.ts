@@ -376,6 +376,17 @@ export function createPccObservables(projectId: string): ObservableDefinition[] 
       implementationStatus: "implemented", implementationPath: "scripts/run-rulial-alife-lineage-transport.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-026"], tags: ["ruliology", "ALife", "lineage", "tortuosity"], projectId,
     },
     {
+      id: "OBS-RULIAL-FLUX-TEMPORAL-ROBUSTNESS", slug: "rulial-flux-temporal-robustness", name: "Rulial flux temporal robustness", symbol: "R_dt", category: "stability",
+      description: "Count of prespecified temporal sampling cadences at which a frozen qualitative RUL-027 flux criterion remains above its original threshold.",
+      formula: "R_dt(m) = sum_{dt in {5,10,20,40}} 1[m_dt >= tau_m]",
+      interpretation: "Values of at least three indicate that a qualitative coarse-flux finding is not confined to the original five-step sampling cadence within the frozen temporal family.",
+      requiredInputs: ["committed RUL-027 lineage segment endpoints", "frozen cadence family", "frozen RUL-027 thresholds"], output: "integer count from 0 to 4 per diagnostic",
+      estimator: "Reconstruct lineage snapshot states, rebuild longer endpoint-to-endpoint transport segments at dt=5,10,20,40, recompute each RUL-027 diagnostic, and count cadences clearing the unchanged threshold.",
+      validWhen: ["all cadences use identical source trajectories", "thresholds and cadence family are frozen before outcomes"],
+      failureModes: ["Only tests a small cadence family", "Long cadences can hide transient reversals", "Passing does not imply continuum-time invariance"],
+      implementationStatus: "implemented", implementationPath: "scripts/analyze-rulial-alife-temporal-flux.py", sourceIds: ["SRC-README"], relatedClaimIds: [], relatedHypothesisIds: ["H-RUL-029"], tags: ["ruliology", "ALife", "flux", "temporal", "robustness"], projectId,
+    },
+    {
       id: "OBS-RULIAL-FLUX-RESOLUTION-ROBUSTNESS", slug: "rulial-flux-resolution-robustness", name: "Rulial flux resolution robustness", symbol: "R_J", category: "stability",
       description: "Count of prespecified rule-space resolutions at which a frozen qualitative RUL-027 flux criterion remains above its original threshold.",
       formula: "R_J(m) = sum_{b in {3,4,5,6}} 1[m_b >= tau_m]",

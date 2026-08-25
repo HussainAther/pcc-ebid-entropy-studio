@@ -791,3 +791,36 @@ test("committed RUL-028 preserves the supported multiscale-flux result", () => {
   assert.equal(summary.results.passesByMetric.turnoverDivergence, 3);
   assert.equal(Math.max(...Object.values(summary.results.rul027FourBinReproductionErrors)), 0);
 });
+
+
+test("RUL-029 registers temporal ALife rulial flux robustness", () => {
+  const research = readFileSync(new URL("../app/data/research.ts", import.meta.url), "utf8");
+  const spaces = readFileSync(new URL("../app/data/ruleSpaces.ts", import.meta.url), "utf8");
+  const observables = readFileSync(new URL("../app/data/observables.ts", import.meta.url), "utf8");
+  const studio = readFileSync(new URL("../app/studio.tsx", import.meta.url), "utf8");
+  const script = readFileSync(new URL("../scripts/analyze-rulial-alife-temporal-flux.py", import.meta.url), "utf8");
+  assert.match(research, /H-RUL-029/);
+  assert.match(research, /RUL-029/);
+  assert.match(spaces, /OBSERVER-ALIFE-TEMPORAL-FLUX/);
+  assert.match(observables, /OBS-RULIAL-FLUX-TEMPORAL-ROBUSTNESS/);
+  assert.match(script, /CADENCES = \[5, 10, 20, 40\]/);
+  assert.match(script, /minimumPassingCadences/);
+  assert.match(studio, /RUL-029 temporal rulial flux robustness/);
+});
+
+test("committed RUL-029 preserves the supported temporal-flux result", () => {
+  const summary = JSON.parse(readFileSync(new URL("../data/ruliology/alife-temporal-flux/alife-temporal-flux-summary.json", import.meta.url), "utf8"));
+  assert.equal(summary.experimentId, "RUL-029");
+  assert.equal(summary.source.newSimulationRuns, 0);
+  assert.deepEqual(summary.design.cadenceFamilySteps, [5, 10, 20, 40]);
+  assert.equal(summary.design.binsPerDimension, 4);
+  assert.equal(summary.primaryTest.criteriaPassed, 6);
+  assert.equal(summary.primaryTest.criteriaTotal, 6);
+  assert.equal(summary.primaryTest.pilotSupported, true);
+  assert.equal(summary.results.passesByMetric.channelConcentration, 4);
+  assert.equal(summary.results.passesByMetric.channelRecurrence, 4);
+  assert.equal(summary.results.passesByMetric.directionalPersistence, 4);
+  assert.equal(summary.results.passesByMetric.cellFluxDivergence, 4);
+  assert.equal(summary.results.passesByMetric.turnoverDivergence, 3);
+  assert.equal(Math.max(...Object.values(summary.results.rul027FiveStepReproductionErrors)), 0);
+});
